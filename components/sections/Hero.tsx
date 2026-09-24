@@ -40,7 +40,7 @@ export function Hero({ variants }: { variants: Product[] }) {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/productos" className="rounded-full bg-white px-6 py-3.5 text-sm font-medium text-ink transition hover:bg-white/85">Explorar productos</Link>
-            <Link href="#iphone" className="flex items-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-sm font-medium transition hover:border-white/60">
+            <Link href="#tienda" className="flex items-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-sm font-medium transition hover:border-white/60">
               Ver iPhone <ArrowIcon />
             </Link>
           </div>
