@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* Tokens de marca iPhone Vita: blanco, negro, grises y un acento verde "vita" muy sutil. */
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+
+  --color-ink: #0b0b0c;
+  --color-ink-2: #151517;
+  --color-ink-3: #1e1e21;
+  --color-paper: #ffffff;
+  --color-mist: #f4f4f2;
+  --color-fog: #e8e8e5;
+  --color-line: #e2e2de;
+  --color-line-dark: #2a2a2e;
+  --color-muted: #6c6c71;
+  --color-muted-dark: #9a9aa1;
+  --color-vita: #3f7a67;
+  --color-vita-soft: #e6efeb;
+
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-vita);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-vita);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Reveal al hacer scroll: el contenido es visible por defecto;
+   sólo se anima cuando JS marcó la página como lista. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease-soft), transform 0.9s var(--ease-soft);
+}
+.reveal-ready [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float-soft 7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal-ready [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .animate-float { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+.tabular { font-variant-numeric: tabular-nums; }
