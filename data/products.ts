@@ -131,6 +131,12 @@ const IMG = {
   semiBlack: "/images/semi-black.jpg",
   semiWhite: "/images/semi-white.jpg",
   semiGrey: "/images/semi-grey.jpg",
+  macbookAir: "/images/macbook-air.jpg",
+  ipadPro: "/images/ipad-pro.jpg",
+  appleWatch: "/images/apple-watch.jpg",
+  jbl: "/images/jbl-boombox.jpg",
+  ps5: "/images/ps5-joystick.jpg",
+  anker: "/images/anker-powerbank.jpg",
 };
 
 const HEX = {
@@ -203,14 +209,14 @@ export const products: Product[] = [
   ]),
 
   /* MacBook */
-  p({ name: "MacBook Air 13\"", model: "macbook-air-13", category: "mac", size: "13 pulgadas", storage: "512GB SSD", color: "Sky Blue", colorHex: HEX.skyBlue, price: 1489, stockLevel: "medio", specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "8 núcleos", Memoria: "16GB" }, description: "MacBook Air de 13 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
+  p({ name: "MacBook Air 13\"", model: "macbook-air-13", category: "mac", size: "13 pulgadas", storage: "512GB SSD", color: "Sky Blue", colorHex: HEX.skyBlue, price: 1489, stockLevel: "medio", image: IMG.macbookAir, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "8 núcleos", Memoria: "16GB" }, description: "MacBook Air de 13 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
   ...(
     [
       ["Silver", HEX.silver, "medio"],
       ["Sky Blue", HEX.skyBlue, "alto"],
     ] as const
   ).map(([color, hex, stock]) =>
-    p({ name: "MacBook Air 15\"", model: "macbook-air-15", category: "mac", size: "15 pulgadas", storage: "512GB SSD", color, colorHex: hex, price: 1641, stockLevel: stock, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "10 núcleos", Memoria: "16GB" }, description: "MacBook Air de 15 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
+    p({ name: "MacBook Air 15\"", model: "macbook-air-15", category: "mac", size: "15 pulgadas", storage: "512GB SSD", color, colorHex: hex, price: 1641, stockLevel: stock, image: IMG.macbookAir, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "10 núcleos", Memoria: "16GB" }, description: "MacBook Air de 15 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
   ),
   ...(
     [
@@ -233,16 +239,16 @@ export const products: Product[] = [
   ).map(([color, hex, stock]) =>
     p({ name: "iPad A16", model: "ipad-a16", category: "ipad", size: "11 pulgadas", storage: "128GB", color, colorHex: hex, price: 497, stockLevel: stock, specifications: { Chip: "A16", Conectividad: "Wi-Fi" }, description: "iPad de 11 pulgadas con chip A16, Wi-Fi y 128GB." }),
   ),
-  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "11 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1188, stockLevel: "medio", specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 11 pulgadas con chip M5, Wi-Fi y 256GB." }),
-  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "13 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1376, stockLevel: "medio", specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 13 pulgadas con chip M5, Wi-Fi y 256GB." }),
+  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "11 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1188, stockLevel: "medio", image: IMG.ipadPro, specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 11 pulgadas con chip M5, Wi-Fi y 256GB." }),
+  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "13 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1376, stockLevel: "medio", image: IMG.ipadPro, specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 13 pulgadas con chip M5, Wi-Fi y 256GB." }),
 
   /* Apple Watch Series 11 */
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Silver · Purple Fog", colorHex: HEX.silver, bandSize: "M/L", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm, caja de aluminio Silver con Sport Band Purple Fog." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Jet Black", colorHex: HEX.jetBlack, bandSize: "S/M", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm Jet Black con Sport Band Black." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, bandSize: "M/L", price: 403, stockLevel: "medio", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, bandSize: "S/M", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Rose Gold · Light Blush", colorHex: HEX.roseGold, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Rose Gold", Malla: "Sport Band Light Blush", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Rose Gold con Sport Band Light Blush." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Silver · Purple Fog", colorHex: HEX.silver, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Silver con Sport Band Purple Fog." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Silver · Purple Fog", colorHex: HEX.silver, image: IMG.appleWatch, bandSize: "M/L", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm, caja de aluminio Silver con Sport Band Purple Fog." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.appleWatch, bandSize: "S/M", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm Jet Black con Sport Band Black." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.appleWatch, bandSize: "M/L", price: 403, stockLevel: "medio", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.appleWatch, bandSize: "S/M", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Rose Gold · Light Blush", colorHex: HEX.roseGold, image: IMG.appleWatch, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Rose Gold", Malla: "Sport Band Light Blush", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Rose Gold con Sport Band Light Blush." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Silver · Purple Fog", colorHex: HEX.silver, image: IMG.appleWatch, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Silver con Sport Band Purple Fog." }),
 
   /* AirPods y accesorios Apple */
   p({ name: "AirPods 4", category: "airpods", price: 133, stockLevel: "alto", image: IMG.airpods, description: "AirPods 4." }),
@@ -300,10 +306,10 @@ export const products: Product[] = [
   p({ name: "EarPods USB-C originales", category: "accesorios", subcategory: "auriculares", stockLevel: "bajo", wholesale: true, description: "EarPods USB-C originales. Venta mayorista." }),
 
   /* Otras marcas */
-  p({ name: "JBL Boombox 4", brand: "JBL", category: "audio", color: "Black", colorHex: HEX.black, price: 620, stockLevel: "medio", specifications: { Resistencia: "Waterproof" }, description: "Parlante JBL Boombox 4 Waterproof, color Black." }),
-  p({ name: "Joystick PS5", brand: "PlayStation", category: "gaming", color: "White", colorHex: HEX.white, price: 90, stockLevel: "alto", description: "Joystick para PlayStation 5, color White." }),
+  p({ name: "JBL Boombox 4", brand: "JBL", category: "audio", color: "Black", colorHex: HEX.black, price: 620, stockLevel: "medio", image: IMG.jbl, specifications: { Resistencia: "Waterproof" }, description: "Parlante JBL Boombox 4 Waterproof, color Black." }),
+  p({ name: "Joystick PS5", brand: "PlayStation", category: "gaming", color: "White", colorHex: HEX.white, price: 90, stockLevel: "alto", image: IMG.ps5, description: "Joystick para PlayStation 5, color White." }),
   p({ name: "DJI Mic Mini", brand: "DJI", category: "camaras-creators", price: 150, stockLevel: "medio", description: "Micrófono inalámbrico DJI Mic Mini." }),
-  p({ name: "Anker Power Bank 10K mAh", brand: "Anker", category: "accesorios", subcategory: "cargadores", price: 41, stockLevel: "bajo", specifications: { Capacidad: "10.000 mAh" }, description: "Batería portátil Anker de 10.000 mAh." }),
+  p({ name: "Anker Power Bank 10K mAh", brand: "Anker", category: "accesorios", subcategory: "cargadores", price: 41, stockLevel: "bajo", image: IMG.anker, specifications: { Capacidad: "10.000 mAh" }, description: "Batería portátil Anker de 10.000 mAh." }),
 
   /* Casio */
   ...(

@@ -14,3 +14,9 @@ semi-white.jpg: Thai Nguyen / unsplash AtYWWis5ZDM
 lifestyle-lineup.jpg: Daniel Romero / unsplash Ie-ZZ2WcXIw
 semi-grey.jpg: Pascal Brändle / unsplash grb8x5v1wcY
 iphone-pro-blue-box.jpg: Sophia Stark / unsplash hOqqZAftlSo
+macbook-air.jpg: Kari Shea / unsplash 1SAnrIxw5OY
+ipad-pro.jpg: Sunil kumar / unsplash nb-yAvXS8rM
+apple-watch.jpg: Simon Daoudi / unsplash 2wFoa040m8g
+jbl-boombox.jpg: Nejc Soklič / unsplash g5Y5kjOwGwQ
+ps5-joystick.jpg: Kerde Severin / unsplash NVD_32BBZFE
+anker-powerbank.jpg: Markus Winkler / unsplash UP_RojtnvTU
