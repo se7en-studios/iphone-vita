@@ -2,7 +2,9 @@
 
 /* Tokens de marca iPhone Vita: Midnight Luxury & Champagne Gold */
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
   --font-serif: var(--font-serif), "Cinzel", "Playfair Display", Georgia, serif;
 
@@ -34,8 +36,12 @@
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -51,12 +57,14 @@ html {
 }
 
 body {
-  background: #050b18;
+  background: #000000;
   color: #ffffff;
   font-family: var(--font-sans);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   text-wrap: balance;
 }
 
@@ -76,7 +84,9 @@ h1, h2, h3 {
 .reveal-ready [data-reveal] {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.9s var(--ease-soft), transform 0.9s var(--ease-soft);
+  transition:
+    opacity 0.9s var(--ease-soft),
+    transform 0.9s var(--ease-soft);
 }
 .reveal-ready [data-reveal].is-in {
   opacity: 1;
@@ -84,19 +94,42 @@ h1, h2, h3 {
 }
 
 @keyframes float-soft {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
-.animate-float { animation: float-soft 7s ease-in-out infinite; }
+.animate-float {
+  animation: float-soft 7s ease-in-out infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .reveal-ready [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .animate-float { animation: none; }
-  * { transition-duration: 0.01ms !important; }
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.no-scrollbar { scrollbar-width: none; }
-.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
-.tabular { font-variant-numeric: tabular-nums; }
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

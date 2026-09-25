@@ -11,7 +11,7 @@ export function ProductCard({ product: p, compact = false, dark = true }: { prod
       href={`/producto/${p.slug}`}
       className={`group flex h-full flex-col overflow-hidden rounded-[28px] transition duration-500 hover:-translate-y-1 ${
         dark
-          ? "bg-[#081226] text-white ring-1 ring-white/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_16px_40px_rgba(0,0,0,0.6)]"
+          ? "bg-[#0a0a0a] text-white ring-1 ring-white/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_16px_40px_rgba(0,0,0,0.6)]"
           : "bg-mist hover:shadow-[0_24px_60px_-30px_rgba(0,0,0,0.35)]"
       }`}
     >

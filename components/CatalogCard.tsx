@@ -20,7 +20,7 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
   return (
     <Link
       href={`/producto/${active.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[28px] bg-[#081226] text-white ring-1 ring-white/10 transition duration-500 hover:-translate-y-1 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+      className="group flex h-full flex-col overflow-hidden rounded-[28px] bg-[#0a0a0a] text-white ring-1 ring-white/10 transition duration-500 hover:-translate-y-1 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
     >
       <ProductVisual product={active} className="aspect-[4/5]" sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw" />
       <div className="flex flex-1 flex-col gap-3 p-4 md:p-5">

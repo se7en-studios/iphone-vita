@@ -34,25 +34,47 @@ interface Props {
 }
 
 /** Tienda en pestañas: una sola sección, sin scroll infinito por categoría. */
-export function ShopTabs({ iphoneGroups, macGroups, ipadGroups, watch, accessories, semi }: Props) {
+export function ShopTabs({
+  iphoneGroups,
+  macGroups,
+  ipadGroups,
+  watch,
+  accessories,
+  semi,
+}: Props) {
   const [tab, setTab] = useState<TabKey>("iphone");
 
   return (
-    <section id="tienda" className="scroll-mt-16 border-t border-white/10 bg-[#050b18] py-16 text-white md:py-20">
+    <section
+      id="tienda"
+      className="scroll-mt-16 border-t border-white/10 bg-black py-16 text-white md:py-20"
+    >
       <div className="mx-auto max-w-7xl space-y-8 px-4 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="space-y-2">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]/80">Catálogo Oficial</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]/80">
+              Catálogo Oficial
+            </p>
             <h2 className="text-[clamp(2rem,4.6vw,3.2rem)] font-semibold tracking-[-0.04em]">
-              <span className="font-serif-luxury text-[#ebd7be]">Elegí tu categoría</span> Apple.
+              <span className="font-serif-luxury text-[#ebd7be]">
+                Elegí tu categoría
+              </span>{" "}
+              Apple.
             </h2>
           </div>
-          <Link href="/productos" className="text-sm font-medium text-[#ebd7be] hover:underline">
+          <Link
+            href="/productos"
+            className="text-sm font-medium text-[#ebd7be] hover:underline"
+          >
             Ver catálogo completo →
           </Link>
         </div>
 
-        <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0" role="tablist" aria-label="Categorías">
+        <div
+          className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0"
+          role="tablist"
+          aria-label="Categorías"
+        >
           {TABS.map((t) => (
             <button
               key={t.key}
@@ -86,11 +108,16 @@ export function ShopTabs({ iphoneGroups, macGroups, ipadGroups, watch, accessori
 
 function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
   const [filter, setFilter] = useState<string>("todos");
-  const shown = filter === "todos" ? groups : groups.filter((g) => g.model === filter);
+  const shown =
+    filter === "todos" ? groups : groups.filter((g) => g.model === filter);
 
   return (
     <div className="space-y-6">
-      <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0" role="tablist" aria-label="Filtrar por modelo">
+      <div
+        className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0"
+        role="tablist"
+        aria-label="Filtrar por modelo"
+      >
         {[{ model: "todos", name: "Todos" }, ...groups].map((g) => (
           <button
             key={g.model}
@@ -151,17 +178,24 @@ function SemiGrid({ items }: { items: Product[] }) {
 function WatchConfigurator({ variants }: { variants: Product[] }) {
   const sizes = [...new Set(variants.map((v) => v.size!))];
   const [size, setSize] = useState(sizes[sizes.length - 1]);
-  const bySize = useMemo(() => variants.filter((v) => v.size === size), [variants, size]);
+  const bySize = useMemo(
+    () => variants.filter((v) => v.size === size),
+    [variants, size],
+  );
   const colors = uniqueColors(bySize);
   const [color, setColor] = useState(colors[0].color);
   const byColor = bySize.filter((v) => v.color === color);
-  const current = byColor.length ? byColor : bySize.filter((v) => v.color === colors[0].color);
+  const current = byColor.length
+    ? byColor
+    : bySize.filter((v) => v.color === colors[0].color);
   const [band, setBand] = useState(current[0].bandSize);
   const active = current.find((v) => v.bandSize === band) ?? current[0];
 
   const pickSize = (s: string) => {
     setSize(s);
-    const first = variants.find((v) => v.size === s && v.color === color) ?? variants.find((v) => v.size === s)!;
+    const first =
+      variants.find((v) => v.size === s && v.color === color) ??
+      variants.find((v) => v.size === s)!;
     setColor(first.color);
     setBand(first.bandSize);
   };
@@ -171,10 +205,18 @@ function WatchConfigurator({ variants }: { variants: Product[] }) {
       <div className="order-2 space-y-7 lg:order-1">
         <div className="space-y-6">
           <fieldset className="space-y-3">
-            <legend className="mb-3 text-sm text-white/50">Tamaño de caja</legend>
+            <legend className="mb-3 text-sm text-white/50">
+              Tamaño de caja
+            </legend>
             <div className="flex gap-2">
               {sizes.map((s) => (
-                <button key={s} type="button" onClick={() => pickSize(s)} aria-pressed={s === size} className={`rounded-full px-5 py-2.5 text-sm transition ${s === size ? "bg-white text-ink" : "bg-white/[0.07] hover:bg-white/15"}`}>
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => pickSize(s)}
+                  aria-pressed={s === size}
+                  className={`rounded-full px-5 py-2.5 text-sm transition ${s === size ? "bg-white text-ink" : "bg-white/[0.07] hover:bg-white/15"}`}
+                >
                   {s}
                 </button>
               ))}
@@ -184,13 +226,30 @@ function WatchConfigurator({ variants }: { variants: Product[] }) {
             <legend className="mb-3 text-sm text-white/50">
               Color · <span className="text-white">{active.color}</span>
             </legend>
-            <ColorDots variants={colors} activeSlug={colors.find((c) => c.color === active.color)?.slug} onSelect={(v) => { setColor(v.color); setBand(v.bandSize); }} size="md" dark />
+            <ColorDots
+              variants={colors}
+              activeSlug={colors.find((c) => c.color === active.color)?.slug}
+              onSelect={(v) => {
+                setColor(v.color);
+                setBand(v.bandSize);
+              }}
+              size="md"
+              dark
+            />
           </fieldset>
           <fieldset>
-            <legend className="mb-3 text-sm text-white/50">Talle de malla</legend>
+            <legend className="mb-3 text-sm text-white/50">
+              Talle de malla
+            </legend>
             <div className="flex gap-2">
               {current.map((v) => (
-                <button key={v.slug} type="button" onClick={() => setBand(v.bandSize)} aria-pressed={v.slug === active.slug} className={`rounded-full px-4 py-2 text-sm transition ${v.slug === active.slug ? "bg-white text-ink" : "bg-white/[0.07] hover:bg-white/15"}`}>
+                <button
+                  key={v.slug}
+                  type="button"
+                  onClick={() => setBand(v.bandSize)}
+                  aria-pressed={v.slug === active.slug}
+                  className={`rounded-full px-4 py-2 text-sm transition ${v.slug === active.slug ? "bg-white text-ink" : "bg-white/[0.07] hover:bg-white/15"}`}
+                >
                   {v.bandSize}
                 </button>
               ))}
@@ -201,20 +260,34 @@ function WatchConfigurator({ variants }: { variants: Product[] }) {
         <div className="flex items-end justify-between gap-4 border-t border-line-dark pt-6">
           <div className="space-y-1">
             <div className="flex items-baseline gap-2.5">
-              <p className="tabular font-serif-luxury text-3xl font-bold tracking-tight text-[#ebd7be]">{formatUSD(active.price ?? 0)}</p>
+              <p className="tabular font-serif-luxury text-3xl font-bold tracking-tight text-[#ebd7be]">
+                {formatUSD(active.price ?? 0)}
+              </p>
               {active.price && (
-                <span className="tabular text-xs text-white/50">≈ {formatARS(active.price)} ARS</span>
+                <span className="tabular text-xs text-white/50">
+                  ≈ {formatARS(active.price)} ARS
+                </span>
               )}
             </div>
             <StockNote product={active} dark />
           </div>
-          <Link href={`/producto/${active.slug}`} className="text-xs font-semibold text-[#ebd7be] underline-offset-4 hover:underline">Ver detalle →</Link>
+          <Link
+            href={`/producto/${active.slug}`}
+            className="text-xs font-semibold text-[#ebd7be] underline-offset-4 hover:underline"
+          >
+            Ver detalle →
+          </Link>
         </div>
         <BuyButtons product={active} layout="compact" dark />
       </div>
 
       <div className="order-1 lg:order-2">
-        <ProductVisual product={active} tone="dark" className="aspect-square rounded-[44px]" sizes="(max-width: 1024px) 100vw, 50vw" />
+        <ProductVisual
+          product={active}
+          tone="dark"
+          className="aspect-square rounded-[44px]"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ export function ModelCard({ group, size = "lg", dark = true, stretch = false }: 
       href={`/producto/${active.slug}`}
       className={`group flex h-full flex-col overflow-hidden rounded-[32px] transition duration-500 hover:-translate-y-1 ${
         dark
-          ? "bg-[#081226] text-white ring-1 ring-white/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
+          ? "bg-[#0a0a0a] text-white ring-1 ring-white/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
           : "bg-mist"
       }`}
     >
