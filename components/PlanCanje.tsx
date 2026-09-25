@@ -52,35 +52,30 @@ export function PlanCanje() {
   return (
     <section
       id="plan-canje"
-      className="relative isolate overflow-hidden border-t border-white/10 bg-black py-20 text-white md:py-28"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
     >
-      {/* Resplandor de fondo */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#3877ff]/10 blur-[130px]" />
-
-      <div className="relative mx-auto max-w-7xl px-4 md:px-8">
-        <div className="mx-auto max-w-3xl text-center space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#ebd7be]/30 bg-[#ebd7be]/10 px-4 py-1.5 text-xs font-semibold text-[#ebd7be]">
-            <span>🔄</span> Plan Canje Oficial iPhone Vita
-          </div>
-          <h2 className="text-[clamp(2.2rem,5vw,3.6rem)] font-bold tracking-tight">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div data-reveal className="mx-auto max-w-[980px] space-y-5 text-center">
+          <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">Plan Canje</p>
+          <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
             Entregá tu iPhone usado. <br />
-            <span className="font-serif-luxury text-[#ebd7be]">
+            <span className="text-[#ebd7be]">
               Llevate el último modelo.
             </span>
           </h2>
-          <p className="text-base text-white/70 md:text-lg">
+          <p className="mx-auto max-w-[60ch] text-lg text-white/60 md:text-xl">
             Tomamos tu equipo actual en parte de pago al mejor valor del
             mercado. Calculá tu diferencia en segundos:
           </p>
         </div>
 
         {/* Card interactiva */}
-        <div className="mx-auto mt-12 max-w-4xl rounded-[36px] border border-white/10 bg-[#0a0a0a]/90 p-6 backdrop-blur-xl shadow-2xl md:p-10">
+        <div data-reveal className="mx-auto mt-16 max-w-4xl rounded-[28px] bg-[#0a0a0a] p-6 ring-1 ring-white/10 md:p-10">
           <div className="grid gap-8 md:grid-cols-2 md:gap-12">
             {/* Columna Izquierda: Lo que entregás */}
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-xs uppercase tracking-wider text-[#ebd7be]/80 font-mono">
+                <span className="text-xs text-[#ebd7be]/80 font-semibold">
                   Paso 1: Tu equipo actual
                 </span>
                 <span className="text-xs text-white/50">iPhone usado</span>
@@ -147,7 +142,7 @@ export function PlanCanje() {
                 <span className="block text-xs text-white/50">
                   Valor estimado de toma:
                 </span>
-                <span className="text-2xl font-serif-luxury font-bold text-[#ebd7be]">
+                <span className="text-2xl font-bold text-[#ebd7be]">
                   ~ {formatUSD(estimatedTradeIn)}
                 </span>
               </div>
@@ -157,7 +152,7 @@ export function PlanCanje() {
             <div className="flex flex-col justify-between space-y-6">
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span className="text-xs uppercase tracking-wider text-[#ebd7be]/80 font-mono">
+                  <span className="text-xs text-[#ebd7be]/80 font-semibold">
                     Paso 2: Tu nuevo iPhone
                   </span>
                   <span className="text-xs text-white/50">
@@ -182,25 +177,21 @@ export function PlanCanje() {
                   </select>
                 </div>
 
-                <div className="mt-4 flex items-center gap-2 text-xs text-[#ebd7be]">
-                  <span>🎁</span>
-                  <span>
-                    Incluye <strong>Funda + Templado de Regalo</strong>
-                  </span>
-                </div>
+                <p className="mt-4 text-xs text-[#ebd7be]">
+                  Incluye funda y templado de regalo.
+                </p>
               </div>
 
               {/* Resultado del cálculo */}
-              <div className="rounded-3xl border border-[#ebd7be]/30 bg-gradient-to-br from-[#ebd7be]/15 to-[#3877ff]/10 p-6 text-center">
-                <span className="block text-xs uppercase tracking-wider text-white/60">
+              <div className="rounded-3xl bg-white/[0.04] p-6 text-center ring-1 ring-white/10">
+                <span className="block text-sm text-white/60">
                   Diferencia estimada a pagar
                 </span>
                 <div className="mt-1 flex items-baseline justify-center gap-2">
-                  <span className="text-4xl font-serif-luxury font-bold text-[#ebd7be] md:text-5xl">
+                  <span className="text-4xl font-bold text-[#ebd7be] md:text-5xl">
                     {formatUSD(difference)}
                   </span>
-                  <span className="text-sm text-white/70">USD</span>
-                </div>
+                                  </div>
                 <span className="mt-1 block text-xs text-white/50">
                   (O abonás el equivalente en Pesos al cambio del día)
                 </span>
@@ -209,7 +200,7 @@ export function PlanCanje() {
                   href={waLink(whatsappMessage)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#ebd7be] py-4 text-sm font-bold text-[#050b18] shadow-lg shadow-[#ebd7be]/20 transition hover:bg-[#f7ede0]"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#ebd7be] py-4 text-sm font-bold text-black transition hover:bg-white"
                 >
                   <ChatIcon className="size-4" /> Cotizar mi Plan Canje en
                   WhatsApp

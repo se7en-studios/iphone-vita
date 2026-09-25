@@ -47,26 +47,26 @@ export function ShopTabs({
   return (
     <section
       id="tienda"
-      className="scroll-mt-16 border-t border-white/10 bg-black py-16 text-white md:py-20"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
     >
-      <div className="mx-auto max-w-7xl space-y-8 px-4 md:px-8">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-2">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]/80">
-              Catálogo Oficial
+      <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-8">
+        <div
+          data-reveal
+          className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+        >
+          <div className="space-y-3">
+            <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">
+              Tienda
             </p>
-            <h2 className="text-[clamp(2rem,4.6vw,3.2rem)] font-semibold tracking-[-0.04em]">
-              <span className="font-serif-luxury text-[#ebd7be]">
-                Elegí tu categoría
-              </span>{" "}
-              Apple.
+            <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+              Elegí tu próximo equipo.
             </h2>
           </div>
           <Link
             href="/productos"
-            className="text-sm font-medium text-[#ebd7be] hover:underline"
+            className="inline-flex shrink-0 items-center text-base text-[#ebd7be] hover:underline"
           >
-            Ver catálogo completo →
+            Ver catálogo completo ›
           </Link>
         </div>
 
@@ -84,8 +84,8 @@ export function ShopTabs({
               onClick={() => setTab(t.key)}
               className={`shrink-0 rounded-full px-5 py-2.5 text-sm font-medium transition ${
                 tab === t.key
-                  ? "bg-[#ebd7be] text-[#050b18] shadow-lg shadow-[#ebd7be]/20 font-semibold"
-                  : "border border-white/10 bg-white/5 text-white/70 hover:bg-white/15 hover:text-white"
+                  ? "bg-white text-black font-semibold"
+                  : "bg-white/[0.08] text-white/70 hover:bg-white/15 hover:text-white"
               }`}
             >
               {t.label}
@@ -127,8 +127,8 @@ function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
             onClick={() => setFilter(g.model)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm transition ${
               filter === g.model
-                ? "bg-[#ebd7be] text-[#050b18] font-medium"
-                : "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+                ? "bg-white/20 text-white font-medium"
+                : "text-white/60 hover:text-white"
             }`}
           >
             {g.name}
@@ -260,7 +260,7 @@ function WatchConfigurator({ variants }: { variants: Product[] }) {
         <div className="flex items-end justify-between gap-4 border-t border-line-dark pt-6">
           <div className="space-y-1">
             <div className="flex items-baseline gap-2.5">
-              <p className="tabular font-serif-luxury text-3xl font-bold tracking-tight text-[#ebd7be]">
+              <p className="tabular text-3xl font-bold tracking-tight text-[#ebd7be]">
                 {formatUSD(active.price ?? 0)}
               </p>
               {active.price && (

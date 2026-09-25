@@ -3,35 +3,26 @@ import { ChatIcon } from "../ui/Icons";
 
 export function WhatsAppCTA() {
   return (
-    <section className="border-t border-white/10 bg-black py-20 text-white md:py-28">
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div
-          data-reveal
-          className="relative overflow-hidden rounded-[44px] bg-[#0a0a0a] px-6 py-16 text-center text-white ring-1 ring-white/10 md:px-16 md:py-24"
+    <section className="border-t border-white/10 bg-black py-28 text-white md:py-40">
+      <div
+        data-reveal
+        className="mx-auto max-w-[980px] space-y-6 px-4 text-center md:px-8"
+      >
+        <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+          ¿Dudas? <span className="text-[#ebd7be]">Hablemos.</span>
+        </h2>
+        <p className="mx-auto max-w-[52ch] text-lg text-white/60 md:text-xl">
+          Stock, colores, cotización en pesos o el equipo que estás buscando. Te
+          asesoramos directo por WhatsApp.
+        </p>
+        <a
+          href={waLink(GENERAL_MESSAGE)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-[#ebd7be] px-7 py-3 text-sm font-semibold text-black transition hover:bg-white"
         >
-          <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[70%] -translate-x-1/2 rounded-full bg-[#3877ff]/20 blur-3xl" />
-          <div className="relative mx-auto max-w-2xl space-y-6">
-            <h2 className="text-[clamp(2.2rem,5.4vw,4.2rem)] font-semibold leading-[1] tracking-[-0.045em]">
-              ¿Dudas?{" "}
-              <span className="font-serif-luxury text-[#ebd7be]">
-                Hablemos.
-              </span>
-            </h2>
-            <p className="text-lg text-white/70">
-              Stock, colores, cotización en pesos o el equipo que estás
-              buscando. Te asesoramos directo por WhatsApp con atención
-              personalizada.
-            </p>
-            <a
-              href={waLink(GENERAL_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ebd7be] px-8 py-4 text-sm font-semibold text-[#050b18] shadow-lg shadow-[#ebd7be]/20 transition hover:bg-[#f7ede0]"
-            >
-              <ChatIcon className="size-4" /> Consultar por WhatsApp
-            </a>
-          </div>
-        </div>
+          <ChatIcon className="size-4" /> Consultar por WhatsApp
+        </a>
       </div>
     </section>
   );

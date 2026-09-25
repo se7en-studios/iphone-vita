@@ -34,12 +34,12 @@ export function Lookbook() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div data-reveal className="mb-10 flex items-end justify-between gap-6">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]">
+            <p className="font-semibold text-base text-[#ebd7be]">
               Lookbook
             </p>
             <h2 className="mt-3 text-[clamp(2rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
               La tienda en{" "}
-              <span className="font-serif-luxury text-[#ebd7be]">
+              <span className="text-[#ebd7be]">
                 imágenes.
               </span>
             </h2>
@@ -64,21 +64,21 @@ export function Lookbook() {
         >
           <Image
             src="/images/lifestyle-hand-pro.jpg"
-            alt="iPhone 17 Pro en mano"
+            alt="iPhone en mano"
             fill
             sizes="100vw"
             className="object-cover transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.03]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/10 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-6 md:p-10">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]">
-              iPhone 17 Pro
+            <p className="font-semibold text-base text-[#ebd7be]">
+              iPhone
             </p>
-            <h3 className="font-serif-luxury text-2xl font-bold text-white md:text-4xl">
-              Titanio. Cámara Pro. Sellado.
+            <h3 className="text-2xl font-bold text-white md:text-4xl">
+              Toda la línea, sellada.
             </h3>
             <span className="mt-1 inline-flex w-fit items-center gap-2 text-sm font-medium text-white/80 transition group-hover:text-[#ebd7be]">
-              Ver iPhone 17 Pro <ArrowIcon />
+              Ver todos los iPhone <ArrowIcon />
             </span>
           </div>
         </Link>
@@ -103,14 +103,14 @@ function Tile({ tile, className = "" }: { tile: Tile; className?: string }) {
       <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/5 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 md:p-7">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#ebd7be]">
+          <p className="font-semibold text-xs text-[#ebd7be]">
             {tile.eyebrow}
           </p>
-          <h3 className="mt-1 font-serif-luxury text-xl font-bold text-white md:text-2xl">
+          <h3 className="mt-1 text-xl font-bold text-white md:text-2xl">
             {tile.title}
           </h3>
         </div>
-        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/10 text-white transition group-hover:translate-x-1 group-hover:bg-[#ebd7be] group-hover:text-[#000000]">
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/10 text-white transition group-hover:translate-x-1 group-hover:bg-[#ebd7be] group-hover:text-black">
           <ArrowIcon />
         </span>
       </div>

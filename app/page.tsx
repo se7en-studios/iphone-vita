@@ -1,12 +1,21 @@
+import { notFound } from "next/navigation";
 import { getProducts, groupByModel } from "@/lib/products";
 import { Hero } from "@/components/sections/Hero";
+import { ProductSubnav } from "@/components/sections/ProductSubnav";
 import { Highlights } from "@/components/sections/Highlights";
+import { CameraSection } from "@/components/sections/CameraSection";
+import { IntelligenceSection } from "@/components/sections/IntelligenceSection";
+import { ColorPicker } from "@/components/sections/ColorPicker";
 import { Lookbook } from "@/components/sections/Lookbook";
 import { ShopTabs } from "@/components/sections/ShopTabs";
+import { CompareSection } from "@/components/sections/CompareSection";
 import { PlanCanje } from "@/components/PlanCanje";
 import { Trust } from "@/components/sections/Trust";
 import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
 
+const FEATURED_MODEL = "iphone-18-pro";
+const COLORS_MODEL = "iphone-17-pro";
+const COMPARE_MODELS = ["iphone-17-pro", "iphone-17-pro-max", "iphone-18-pro"];
 const IPHONE_ORDER = [
   "iphone-17-pro",
   "iphone-17-pro-max",
@@ -31,6 +40,9 @@ export default async function Home() {
   const nuevos = products.filter((p) => p.condition === "nuevo");
   const byModel = (m: string) => nuevos.filter((p) => p.model === m);
 
+  const featured = byModel(FEATURED_MODEL)[0];
+  if (!featured) notFound();
+
   const iphoneGroups = groupByModel(
     nuevos.filter((p) => p.category === "iphone"),
   ).sort(
@@ -45,12 +57,18 @@ export default async function Home() {
   const accessories = ACCESSORY_MODELS.map((m) =>
     nuevos.find((p) => p.model === m),
   ).filter((p) => p != null);
+  const compare = COMPARE_MODELS.map((m) => byModel(m)[0]).filter(
+    (p) => p != null,
+  );
 
   return (
     <>
-      <Hero variants={byModel("iphone-17-pro")} />
+      <Hero product={featured} />
+      <ProductSubnav name={featured.name} />
       <Highlights />
-      <Lookbook />
+      <CameraSection />
+      <IntelligenceSection />
+      <ColorPicker variants={byModel(COLORS_MODEL)} />
       <ShopTabs
         iphoneGroups={iphoneGroups}
         macGroups={macGroups}
@@ -59,6 +77,8 @@ export default async function Home() {
         accessories={accessories}
         semi={semi}
       />
+      <Lookbook />
+      <CompareSection models={compare} />
       <PlanCanje />
       <Trust />
       <WhatsAppCTA />
