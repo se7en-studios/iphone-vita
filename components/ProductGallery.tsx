@@ -13,16 +13,34 @@ export function ProductGallery({ product }: { product: Product }) {
   if (!images.length) {
     return <ProductVisual product={product} className="aspect-square rounded-[36px]" priority sizes="(max-width: 1024px) 100vw, 55vw" />;
   }
+  const isShowcase = images[i]?.includes("/showcase/");
+
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-[36px] bg-mist">
-        <Image key={images[i]} src={images[i]} alt={product.name} fill priority sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover" />
+      <div className={`relative aspect-[4/5] overflow-hidden rounded-[36px] ${isShowcase ? "bg-[#071026]" : "bg-mist"}`}>
+        <Image
+          key={images[i]}
+          src={images[i]}
+          alt={product.name}
+          fill
+          priority
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          className={isShowcase ? "object-contain p-2" : "object-cover"}
+        />
       </div>
       {images.length > 1 && (
         <div className="flex gap-3">
           {images.map((src, idx) => (
-            <button key={src} type="button" onClick={() => setI(idx)} aria-label={`Ver imagen ${idx + 1}`} className={`relative size-20 overflow-hidden rounded-2xl ring-2 transition ${idx === i ? "ring-ink" : "ring-transparent hover:ring-line"}`}>
-              <Image src={src} alt="" fill sizes="80px" className="object-cover" />
+            <button
+              key={src}
+              type="button"
+              onClick={() => setI(idx)}
+              aria-label={`Ver imagen ${idx + 1}`}
+              className={`relative size-20 overflow-hidden rounded-2xl ring-2 transition ${
+                src.includes("/showcase/") ? "bg-[#071026]" : "bg-mist"
+              } ${idx === i ? "ring-ink" : "ring-transparent hover:ring-line"}`}
+            >
+              <Image src={src} alt="" fill sizes="80px" className={src.includes("/showcase/") ? "object-contain p-1" : "object-cover"} />
             </button>
           ))}
         </div>

@@ -10,12 +10,15 @@ export function waLink(message: string): string {
 
 export function productMessage(p: Product): string {
   if (p.condition === "semi-nuevo") {
-    return `Hola! Estoy interesado en el ${p.name} ${p.storage ?? ""} ${p.color ?? ""} ${p.batteryHealth}% de batería.`.replace(/\s+/g, " ");
+    return `Hola iPhone Vita! Me interesa el ${p.name} Semi Nuevo (${p.storage ?? ""} - ${p.color ?? ""}, ${p.batteryHealth ? `${p.batteryHealth}% de batería` : "impecable"}). ¿Sigue disponible y me confirman la cotización en pesos y dólares?`.replace(/\s+/g, " ");
   }
   if (p.wholesale) {
-    return `Hola! Quiero consultar precio mayorista del ${fullName(p)}.`;
+    return `Hola iPhone Vita! Quiero consultar precio mayorista y disponibilidad para: ${fullName(p)}.`;
   }
-  return `Hola! Estoy interesado en el ${fullName(p)}. ¿Me pueden pasar disponibilidad y precio?`;
+  const priceInfo = p.price ? ` ($${p.price} USD)` : "";
+  const isIphone = p.category === "iphone";
+  const giftPromo = isIphone ? " ¿Me confirman si incluye la Funda de silicona + Vidrio templado de REGALO?" : "";
+  return `Hola iPhone Vita! Estoy interesado en el ${fullName(p)}${priceInfo}.${giftPromo} ¿Tienen stock y cómo sería el pago en pesos o dólares?`.replace(/\s+/g, " ");
 }
 
 export interface CartLine {

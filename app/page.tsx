@@ -1,6 +1,7 @@
 import { getProducts, groupByModel } from "@/lib/products";
 import { Hero } from "@/components/sections/Hero";
 import { ShopTabs } from "@/components/sections/ShopTabs";
+import { PlanCanje } from "@/components/PlanCanje";
 import { Trust } from "@/components/sections/Trust";
 import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
 
@@ -33,6 +34,7 @@ export default async function Home() {
     <>
       <Hero variants={byModel("iphone-17-pro")} />
       <ShopTabs iphoneGroups={iphoneGroups} macGroups={macGroups} ipadGroups={ipadGroups} watch={watch} accessories={accessories} semi={semi} />
+      <PlanCanje />
       <Trust />
       <WhatsAppCTA />
     </>

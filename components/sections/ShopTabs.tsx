@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import type { Product } from "@/types";
 import type { ModelGroup } from "@/lib/products";
 import { uniqueColors } from "@/lib/products";
-import { formatUSD } from "@/lib/format";
+import { formatUSD, formatARS } from "@/lib/format";
 import { ModelCard } from "../ModelCard";
 import { ProductCard } from "../ProductCard";
 import { ProductVisual } from "../ProductVisual";
@@ -36,17 +36,18 @@ interface Props {
 /** Tienda en pestañas: una sola sección, sin scroll infinito por categoría. */
 export function ShopTabs({ iphoneGroups, macGroups, ipadGroups, watch, accessories, semi }: Props) {
   const [tab, setTab] = useState<TabKey>("iphone");
-  const dark = tab === "watch" || tab === "semi";
 
   return (
-    <section id="tienda" className={`scroll-mt-16 py-16 transition-colors md:py-20 ${dark ? "bg-ink text-white" : "bg-paper"}`}>
+    <section id="tienda" className="scroll-mt-16 border-t border-white/10 bg-[#050b18] py-16 text-white md:py-20">
       <div className="mx-auto max-w-7xl space-y-8 px-4 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="space-y-2">
-            <p className={`font-mono text-[11px] uppercase tracking-[0.2em] ${dark ? "text-white/45" : "text-muted"}`}>Comprar</p>
-            <h2 className="text-[clamp(2rem,4.6vw,3.2rem)] font-semibold tracking-[-0.04em]">Elegí tu categoría.</h2>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]/80">Catálogo Oficial</p>
+            <h2 className="text-[clamp(2rem,4.6vw,3.2rem)] font-semibold tracking-[-0.04em]">
+              <span className="font-serif-luxury text-[#ebd7be]">Elegí tu categoría</span> Apple.
+            </h2>
           </div>
-          <Link href="/productos" className={`text-sm font-medium hover:underline ${dark ? "text-white/70 hover:text-white" : "text-vita"}`}>
+          <Link href="/productos" className="text-sm font-medium text-[#ebd7be] hover:underline">
             Ver catálogo completo →
           </Link>
         </div>
@@ -61,12 +62,8 @@ export function ShopTabs({ iphoneGroups, macGroups, ipadGroups, watch, accessori
               onClick={() => setTab(t.key)}
               className={`shrink-0 rounded-full px-5 py-2.5 text-sm font-medium transition ${
                 tab === t.key
-                  ? dark
-                    ? "bg-white text-ink"
-                    : "bg-ink text-white"
-                  : dark
-                    ? "bg-white/10 text-white/70 hover:bg-white/15"
-                    : "bg-mist text-ink/70 hover:bg-fog"
+                  ? "bg-[#ebd7be] text-[#050b18] shadow-lg shadow-[#ebd7be]/20 font-semibold"
+                  : "border border-white/10 bg-white/5 text-white/70 hover:bg-white/15 hover:text-white"
               }`}
             >
               {t.label}
@@ -101,7 +98,11 @@ function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
             role="tab"
             aria-selected={filter === g.model}
             onClick={() => setFilter(g.model)}
-            className={`shrink-0 rounded-full px-4 py-2 text-sm transition ${filter === g.model ? "bg-ink text-white" : "bg-mist text-ink/75 hover:bg-fog"}`}
+            className={`shrink-0 rounded-full px-4 py-2 text-sm transition ${
+              filter === g.model
+                ? "bg-[#ebd7be] text-[#050b18] font-medium"
+                : "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+            }`}
           >
             {g.name}
           </button>
@@ -109,7 +110,7 @@ function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
       </div>
       <div className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
         {shown.map((g) => (
-          <ModelCard key={g.model} group={g} size="md" />
+          <ModelCard key={g.model} group={g} size="md" dark />
         ))}
       </div>
     </div>
@@ -120,7 +121,7 @@ function SimpleGrid({ groups }: { groups: ModelGroup[] }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
       {groups.map((g) => (
-        <ModelCard key={g.model} group={g} size="md" />
+        <ModelCard key={g.model} group={g} size="md" dark />
       ))}
     </div>
   );
@@ -130,7 +131,7 @@ function AccessoryGrid({ items }: { items: Product[] }) {
   return (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
       {items.map((p) => (
-        <ProductCard key={p.slug} product={p} compact />
+        <ProductCard key={p.slug} product={p} compact dark />
       ))}
     </div>
   );
@@ -199,10 +200,15 @@ function WatchConfigurator({ variants }: { variants: Product[] }) {
 
         <div className="flex items-end justify-between gap-4 border-t border-line-dark pt-6">
           <div className="space-y-1">
-            <p className="tabular text-3xl font-semibold tracking-tight">{formatUSD(active.price ?? 0)}</p>
+            <div className="flex items-baseline gap-2.5">
+              <p className="tabular font-serif-luxury text-3xl font-bold tracking-tight text-[#ebd7be]">{formatUSD(active.price ?? 0)}</p>
+              {active.price && (
+                <span className="tabular text-xs text-white/50">≈ {formatARS(active.price)} ARS</span>
+              )}
+            </div>
             <StockNote product={active} dark />
           </div>
-          <Link href={`/producto/${active.slug}`} className="text-sm text-white/60 underline-offset-4 hover:text-white hover:underline">Ver detalle</Link>
+          <Link href={`/producto/${active.slug}`} className="text-xs font-semibold text-[#ebd7be] underline-offset-4 hover:underline">Ver detalle →</Link>
         </div>
         <BuyButtons product={active} layout="compact" dark />
       </div>

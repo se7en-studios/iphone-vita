@@ -1,11 +1,22 @@
 import type { Product, StockLevel } from "@/types";
 
+export const DEFAULT_ARS_RATE = 1380; // Cotización referencial de mercado
+
 export function formatUSD(value: number): string {
   return `USD ${value.toLocaleString("es-AR", { maximumFractionDigits: 0 })}`;
 }
 
+export function formatARS(usdValue: number, rate = DEFAULT_ARS_RATE): string {
+  const ars = Math.round(usdValue * rate);
+  return `$ ${ars.toLocaleString("es-AR", { maximumFractionDigits: 0 })}`;
+}
+
 export function priceLabel(p: Pick<Product, "price" | "priceType">): string {
   return p.priceType === "consultar" || p.price == null ? "Consultar precio" : formatUSD(p.price);
+}
+
+export function priceLabelARS(p: Pick<Product, "price" | "priceType">, rate = DEFAULT_ARS_RATE): string | null {
+  return p.priceType === "consultar" || p.price == null ? null : formatARS(p.price, rate);
 }
 
 export const STOCK_LABEL: Record<StockLevel, string> = {

@@ -1,24 +1,48 @@
 @import "tailwindcss";
 
-/* Tokens de marca iPhone Vita: blanco, negro, grises y un acento verde "vita" muy sutil. */
+/* Tokens de marca iPhone Vita: Midnight Luxury & Champagne Gold */
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+  --font-serif: var(--font-serif), "Cinzel", "Playfair Display", Georgia, serif;
 
-  --color-ink: #0b0b0c;
-  --color-ink-2: #151517;
-  --color-ink-3: #1e1e21;
-  --color-paper: #ffffff;
-  --color-mist: #f4f4f2;
-  --color-fog: #e8e8e5;
-  --color-line: #e2e2de;
-  --color-line-dark: #2a2a2e;
-  --color-muted: #6c6c71;
-  --color-muted-dark: #9a9aa1;
-  --color-vita: #3f7a67;
-  --color-vita-soft: #e6efeb;
+  --color-ink: #050b18;
+  --color-ink-2: #091224;
+  --color-ink-3: #101c36;
+  --color-paper: #091224;
+  --color-mist: #0c1833;
+  --color-fog: #152238;
+  --color-line: rgba(255, 255, 255, 0.1);
+  --color-line-dark: rgba(255, 255, 255, 0.1);
+  --color-muted: #94a3b8;
+  --color-muted-dark: #94a3b8;
+  --color-vita: #3877ff;
+  --color-vita-soft: #0d1e3d;
+
+  --color-navy: #050b18;
+  --color-navy-light: #091224;
+  --color-champagne: #ebd7be;
+  --color-champagne-light: #f7ede0;
+  --color-champagne-dark: #cbb092;
+  --color-accent-blue: #3877ff;
 
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.font-serif-luxury {
+  font-family: var(--font-serif);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 html {
@@ -27,8 +51,8 @@ html {
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: #050b18;
+  color: #ffffff;
   font-family: var(--font-sans);
 }
 

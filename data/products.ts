@@ -119,6 +119,19 @@ function p(i: Input): Product {
 }
 
 const IMG = {
+  // Flyers oficiales / showcase iPhone Vita
+  showcaseIphone16: "/images/showcase/iphone-16.jpg",
+  showcaseIphone17: "/images/showcase/iphone-17.jpg",
+  showcaseIphone17Pro: "/images/showcase/iphone-17-pro.jpg",
+  showcaseIphone18Pro: "/images/showcase/iphone-18-pro.jpg",
+  showcaseIpadA16: "/images/showcase/ipad-a16.jpg",
+  showcaseIpadProM5: "/images/showcase/ipad-pro-m5.jpg",
+  showcaseMacbookNeo: "/images/showcase/macbook-neo.jpg",
+  showcaseMacbookAir: "/images/showcase/macbook-air.jpg",
+  showcaseAppleWatch: "/images/showcase/apple-watch-11.jpg",
+  showcaseAirpods: "/images/showcase/airpods-4.jpg",
+  showcaseSemi: "/images/showcase/iphone-16-pro-semi.jpg",
+
   orange: "/images/iphone-pro-cosmic-orange.jpg",
   silver: "/images/iphone-pro-silver.jpg",
   blueBox: "/images/iphone-pro-blue-box.jpg",
@@ -166,93 +179,93 @@ const HEX = {
 };
 
 const nuevoIphone = (name: string, color: string) =>
-  `${name} en color ${color}. Equipo nuevo.`;
+  `${name} en color ${color}. Equipo nuevo sellado con garantía. Incluye funda + templado de regalo.`;
 
 /* ---------- catálogo ---------- */
 
 export const products: Product[] = [
   /* iPhone nuevos */
-  p({ name: "iPhone 18 Pro", category: "iphone", storage: "256GB", color: "Silver", colorHex: HEX.silver, price: 1605, stockLevel: "bajo", image: IMG.natural, description: nuevoIphone("iPhone 18 Pro de 256GB", "Silver"), createdAt: "2026-09-20", featured: true }),
+  p({ name: "iPhone 18 Pro", category: "iphone", storage: "256GB", color: "Silver", colorHex: HEX.silver, price: 1605, stockLevel: "bajo", image: IMG.showcaseIphone18Pro, description: nuevoIphone("iPhone 18 Pro de 256GB", "Silver"), createdAt: "2026-09-20", featured: true }),
 
   ...(
     [
+      ["White", HEX.white, "alto", IMG.showcaseIphone16],
       ["Black", HEX.black, "alto", null],
       ["Pink", HEX.pink, "medio", IMG.pink],
       ["Teal", HEX.teal, "alto", null],
       ["Ultramarine", HEX.ultramarine, "bajo", IMG.blueHand],
-      ["White", HEX.white, "alto", null],
     ] as const
   ).map(([color, hex, stock, img]) =>
-    p({ name: "iPhone 16", category: "iphone", storage: "128GB", color, colorHex: hex, price: 812, stockLevel: stock, image: img ?? IMG.pink, description: nuevoIphone("iPhone 16 de 128GB", color) }),
+    p({ name: "iPhone 16", category: "iphone", storage: "128GB", color, colorHex: hex, price: 890, stockLevel: stock, image: img ?? IMG.showcaseIphone16, description: nuevoIphone("iPhone 16 de 128GB", color) }),
   ),
 
   ...(
     [
-      ["Black", HEX.black, "medio"],
-      ["Mist Blue", HEX.mistBlue, "bajo"],
-      ["Sage", HEX.sage, "medio"],
-      ["White", HEX.white, "bajo"],
+      ["White", HEX.white, "bajo", IMG.showcaseIphone17],
+      ["Black", HEX.black, "medio", null],
+      ["Mist Blue", HEX.mistBlue, "bajo", null],
+      ["Sage", HEX.sage, "medio", null],
     ] as const
-  ).map(([color, hex, stock]) =>
-    p({ name: "iPhone 17", category: "iphone", storage: "256GB", color, colorHex: hex, price: 972, stockLevel: stock, image: IMG.blueHand, description: nuevoIphone("iPhone 17 de 256GB", color), createdAt: "2026-09-10" }),
+  ).map(([color, hex, stock, img]) =>
+    p({ name: "iPhone 17", category: "iphone", storage: "256GB", color, colorHex: hex, price: 1090, stockLevel: stock, image: img ?? IMG.showcaseIphone17, description: nuevoIphone("iPhone 17 de 256GB", color), createdAt: "2026-09-10" }),
   ),
 
   ...(
     [
+      ["Silver", HEX.silver, "alto", IMG.showcaseIphone17Pro],
       ["Cosmic Orange", HEX.cosmicOrange, "medio", IMG.orange],
       ["Deep Blue", HEX.deepBlue, "alto", IMG.blueBox],
-      ["Silver", HEX.silver, "alto", IMG.silver],
     ] as const
   ).flatMap(([color, hex, stock, img]) => [
-    p({ name: "iPhone 17 Pro", category: "iphone", storage: "256GB", color, colorHex: hex, price: 1212, stockLevel: stock, image: img, description: nuevoIphone("iPhone 17 Pro de 256GB", color), featured: true, createdAt: "2026-09-12" }),
-    p({ name: "iPhone 17 Pro Max", category: "iphone", storage: "256GB", color, colorHex: hex, price: 1286, stockLevel: stock === "medio" ? "medio" : "alto", image: img, description: nuevoIphone("iPhone 17 Pro Max de 256GB", color), featured: true, createdAt: "2026-09-12" }),
+    p({ name: "iPhone 17 Pro", category: "iphone", storage: "256GB", color, colorHex: hex, price: 1290, stockLevel: stock, image: img, description: nuevoIphone("iPhone 17 Pro de 256GB", color), featured: true, createdAt: "2026-09-12" }),
+    p({ name: "iPhone 17 Pro Max", category: "iphone", storage: "256GB", color, colorHex: hex, price: 1390, stockLevel: stock === "medio" ? "medio" : "alto", image: img, description: nuevoIphone("iPhone 17 Pro Max de 256GB", color), featured: true, createdAt: "2026-09-12" }),
   ]),
 
   /* MacBook */
-  p({ name: "MacBook Air 13\"", model: "macbook-air-13", category: "mac", size: "13 pulgadas", storage: "512GB SSD", color: "Sky Blue", colorHex: HEX.skyBlue, price: 1489, stockLevel: "medio", image: IMG.macbookAir, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "8 núcleos", Memoria: "16GB" }, description: "MacBook Air de 13 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
+  p({ name: "MacBook Air 13\"", model: "macbook-air-13", category: "mac", size: "13 pulgadas", storage: "512GB SSD", color: "Midnight", colorHex: HEX.spaceBlack, price: 1489, stockLevel: "medio", image: IMG.showcaseMacbookAir, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "8 núcleos", Memoria: "16GB" }, description: "MacBook Air de 13 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
   ...(
     [
       ["Silver", HEX.silver, "medio"],
       ["Sky Blue", HEX.skyBlue, "alto"],
     ] as const
   ).map(([color, hex, stock]) =>
-    p({ name: "MacBook Air 15\"", model: "macbook-air-15", category: "mac", size: "15 pulgadas", storage: "512GB SSD", color, colorHex: hex, price: 1641, stockLevel: stock, image: IMG.macbookAir, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "10 núcleos", Memoria: "16GB" }, description: "MacBook Air de 15 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
+    p({ name: "MacBook Air 15\"", model: "macbook-air-15", category: "mac", size: "15 pulgadas", storage: "512GB SSD", color, colorHex: hex, price: 1641, stockLevel: stock, image: IMG.showcaseMacbookAir, specifications: { Chip: "Apple M5", CPU: "10 núcleos", GPU: "10 núcleos", Memoria: "16GB" }, description: "MacBook Air de 15 pulgadas con chip Apple M5, 16GB de memoria y 512GB SSD." }),
   ),
   ...(
     [
-      ["Blush", HEX.blush, "bajo"],
-      ["Indigo", HEX.indigo, "alto"],
-      ["Silver", HEX.silver, "alto"],
+      ["Silver", HEX.silver, "alto", IMG.showcaseMacbookNeo],
+      ["Blush", HEX.blush, "bajo", null],
+      ["Indigo", HEX.indigo, "alto", null],
     ] as const
-  ).map(([color, hex, stock]) =>
-    p({ name: "MacBook Neo", model: "macbook-neo", category: "mac", size: "13 pulgadas", storage: "512GB", color, colorHex: hex, price: 927, stockLevel: stock, specifications: { Chip: "Apple A18 Pro", Memoria: "8GB", Seguridad: "Touch ID" }, description: "MacBook Neo de 13 pulgadas con chip Apple A18 Pro, 8GB de memoria, 512GB y Touch ID." }),
+  ).map(([color, hex, stock, img]) =>
+    p({ name: "MacBook Neo", model: "macbook-neo", category: "mac", size: "13 pulgadas", storage: "512GB", color, colorHex: hex, price: 1050, stockLevel: stock, image: img ?? IMG.showcaseMacbookNeo, specifications: { Chip: "Apple A18 Pro", Memoria: "8GB", Seguridad: "Touch ID" }, description: "MacBook Neo de 13 pulgadas con chip Apple A18 Pro, 8GB de memoria, 512GB y Touch ID." }),
   ),
 
   /* iPad */
   ...(
     [
-      ["Blue", HEX.blue, "alto"],
-      ["Pink", HEX.pink, "medio"],
-      ["Silver", HEX.silver, "alto"],
-      ["Yellow", HEX.yellow, "alto"],
+      ["Silver", HEX.silver, "alto", IMG.showcaseIpadA16],
+      ["Blue", HEX.blue, "alto", null],
+      ["Pink", HEX.pink, "medio", null],
+      ["Yellow", HEX.yellow, "alto", null],
     ] as const
-  ).map(([color, hex, stock]) =>
-    p({ name: "iPad A16", model: "ipad-a16", category: "ipad", size: "11 pulgadas", storage: "128GB", color, colorHex: hex, price: 497, stockLevel: stock, specifications: { Chip: "A16", Conectividad: "Wi-Fi" }, description: "iPad de 11 pulgadas con chip A16, Wi-Fi y 128GB." }),
+  ).map(([color, hex, stock, img]) =>
+    p({ name: "iPad A16", model: "ipad-a16", category: "ipad", size: "11 pulgadas", storage: "128GB", color, colorHex: hex, price: 580, stockLevel: stock, image: img ?? IMG.showcaseIpadA16, specifications: { Chip: "A16", Conectividad: "Wi-Fi" }, description: "iPad de 11 pulgadas con chip A16, Wi-Fi y 128GB." }),
   ),
-  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "11 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1188, stockLevel: "medio", image: IMG.ipadPro, specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 11 pulgadas con chip M5, Wi-Fi y 256GB." }),
-  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "13 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1376, stockLevel: "medio", image: IMG.ipadPro, specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 13 pulgadas con chip M5, Wi-Fi y 256GB." }),
+  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "11 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1188, stockLevel: "medio", image: IMG.showcaseIpadProM5, specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 11 pulgadas con chip M5, Wi-Fi y 256GB." }),
+  p({ name: "iPad Pro M5", model: "ipad-pro-m5", category: "ipad", size: "13 pulgadas", storage: "256GB", color: "Space Black", colorHex: HEX.spaceBlack, price: 1376, stockLevel: "medio", image: IMG.showcaseIpadProM5, specifications: { Chip: "M5", Conectividad: "Wi-Fi" }, description: "iPad Pro de 13 pulgadas con chip M5, Wi-Fi y 256GB." }),
 
   /* Apple Watch Series 11 */
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Silver · Purple Fog", colorHex: HEX.silver, image: IMG.appleWatch, bandSize: "M/L", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm, caja de aluminio Silver con Sport Band Purple Fog." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.appleWatch, bandSize: "S/M", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm Jet Black con Sport Band Black." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.appleWatch, bandSize: "M/L", price: 403, stockLevel: "medio", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.appleWatch, bandSize: "S/M", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Rose Gold · Light Blush", colorHex: HEX.roseGold, image: IMG.appleWatch, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Rose Gold", Malla: "Sport Band Light Blush", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Rose Gold con Sport Band Light Blush." }),
-  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Silver · Purple Fog", colorHex: HEX.silver, image: IMG.appleWatch, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Silver con Sport Band Purple Fog." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.showcaseAppleWatch, bandSize: "M/L", price: 403, stockLevel: "medio", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Silver · Purple Fog", colorHex: HEX.silver, image: IMG.showcaseAppleWatch, bandSize: "M/L", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm, caja de aluminio Silver con Sport Band Purple Fog." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "42mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.showcaseAppleWatch, bandSize: "S/M", price: 372, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 42mm Jet Black con Sport Band Black." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Jet Black", colorHex: HEX.jetBlack, image: IMG.showcaseAppleWatch, bandSize: "S/M", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Jet Black", Malla: "Sport Band Black", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Jet Black con Sport Band Black." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Rose Gold · Light Blush", colorHex: HEX.roseGold, image: IMG.showcaseAppleWatch, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Rose Gold", Malla: "Sport Band Light Blush", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Rose Gold con Sport Band Light Blush." }),
+  p({ name: "Apple Watch Series 11", model: "apple-watch-series-11", category: "apple-watch", size: "46mm", color: "Silver · Purple Fog", colorHex: HEX.silver, image: IMG.showcaseAppleWatch, bandSize: "M/L", price: 403, stockLevel: "bajo", specifications: { Caja: "Aluminio Silver", Malla: "Sport Band Purple Fog", Conectividad: "GPS" }, description: "Apple Watch Series 11 GPS de 46mm, caja de aluminio Silver con Sport Band Purple Fog." }),
 
   /* AirPods y accesorios Apple */
-  p({ name: "AirPods 4", category: "airpods", price: 133, stockLevel: "alto", image: IMG.airpods, description: "AirPods 4." }),
-  p({ name: "AirPods 4 con cancelación activa de ruido", model: "airpods-4-anc", category: "airpods", price: 184, stockLevel: "alto", image: IMG.airpods, description: "AirPods 4 con cancelación activa de ruido." }),
+  p({ name: "AirPods 4", category: "airpods", price: 133, stockLevel: "alto", image: IMG.showcaseAirpods, description: "AirPods 4." }),
+  p({ name: "AirPods 4 con cancelación activa de ruido", model: "airpods-4-anc", category: "airpods", price: 184, stockLevel: "alto", image: IMG.showcaseAirpods, description: "AirPods 4 con cancelación activa de ruido." }),
   p({ name: "AirTag", category: "accesorios", subcategory: "airtags", price: 38, stockLevel: "bajo", specifications: { Unidades: "1" }, description: "Apple AirTag, pack de una unidad." }),
   p({ name: "Apple Pencil Pro", category: "accesorios", subcategory: "apple-pencil", price: 145, stockLevel: "bajo", description: "Apple Pencil Pro." }),
   p({ name: "Apple Pencil USB-C", category: "accesorios", subcategory: "apple-pencil", price: 101, stockLevel: "medio", description: "Apple Pencil USB-C." }),
@@ -260,16 +273,16 @@ export const products: Product[] = [
   /* iPhone semi nuevos — precio a consultar, 1 unidad */
   ...(
     [
-      ["iPhone 13", "128GB", "Midnight", HEX.midnight, 87, IMG.dark],
-      ["iPhone 13 Pro", "128GB", "Graphite", HEX.graphite, 86, IMG.semiGrey],
-      ["iPhone 14 Pro Max", "256GB", "Black", HEX.black, 84, IMG.dark],
-      ["iPhone 15 Pro", "512GB", "White", HEX.white, 87, IMG.semiWhite],
-      ["iPhone 16 Pro", "128GB", "White", HEX.white, 89, IMG.semiWhite],
-      ["iPhone 16 Pro", "256GB", "Desert Titanium", HEX.desert, 89, IMG.semiDesert],
-      ["iPhone 16 Pro", "256GB", "Black Titanium", HEX.blackTitanium, 90, IMG.semiBlack],
-      ["iPhone 16 Pro", "128GB", "Black Titanium", HEX.blackTitanium, 91, IMG.semiBlack],
-      ["iPhone 16 Pro Max", "256GB", "White Titanium", HEX.whiteTitanium, 92, IMG.semiWhite],
-      ["iPhone 16 Pro Max", "256GB", "Black Titanium", HEX.blackTitanium, 90, IMG.dark],
+      ["iPhone 13", "128GB", "Midnight", HEX.midnight, 87, IMG.showcaseSemi],
+      ["iPhone 13 Pro", "128GB", "Graphite", HEX.graphite, 86, IMG.showcaseSemi],
+      ["iPhone 14 Pro Max", "256GB", "Black", HEX.black, 84, IMG.showcaseSemi],
+      ["iPhone 15 Pro", "512GB", "White", HEX.white, 87, IMG.showcaseSemi],
+      ["iPhone 16 Pro", "128GB", "White", HEX.white, 89, IMG.showcaseSemi],
+      ["iPhone 16 Pro", "256GB", "Desert Titanium", HEX.desert, 89, IMG.showcaseSemi],
+      ["iPhone 16 Pro", "256GB", "Black Titanium", HEX.blackTitanium, 90, IMG.showcaseSemi],
+      ["iPhone 16 Pro", "128GB", "Black Titanium", HEX.blackTitanium, 91, IMG.showcaseSemi],
+      ["iPhone 16 Pro Max", "256GB", "White Titanium", HEX.whiteTitanium, 92, IMG.showcaseSemi],
+      ["iPhone 16 Pro Max", "256GB", "Black Titanium", HEX.blackTitanium, 90, IMG.showcaseSemi],
     ] as const
   ).map(([name, storage, color, hex, battery, img]) =>
     p({
