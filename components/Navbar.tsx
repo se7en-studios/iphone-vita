@@ -51,14 +51,14 @@ export function Navbar() {
             <Wordmark dark />
           </Link>
           <nav
-            className="hidden flex-1 justify-center gap-7 text-[13px] text-white/70 lg:flex"
+            className="hidden flex-1 justify-center gap-7 text-xs text-white/80 lg:flex"
             aria-label="Principal"
           >
             {NAV.map((n) => (
               <Link
                 key={n.label}
                 href={n.href}
-                className="transition hover:text-[#ebd7be]"
+                className="transition hover:text-white"
               >
                 {n.label}
               </Link>
@@ -67,13 +67,9 @@ export function Navbar() {
           <div className="ml-auto flex items-center gap-1 lg:ml-0">
             <Link
               href="/encontra-tu-iphone"
-              className="mr-2 hidden items-center gap-1.5 rounded-full border border-[#ebd7be]/30 bg-[#ebd7be]/10 px-3.5 py-1.5 text-[12.5px] font-medium text-[#ebd7be] transition hover:bg-[#ebd7be]/20 xl:flex"
+              className="mr-3 hidden items-center gap-1 text-xs text-[#ebd7be] transition hover:text-white xl:flex"
             >
-              ¿Buscás un iPhone?{" "}
-              <span className="underline underline-offset-2">
-                Encontrá el tuyo
-              </span>{" "}
-              <ArrowIcon className="size-3.5" />
+              Encontrá tu iPhone <ArrowIcon className="size-3" />
             </Link>
             <button
               type="button"
@@ -91,7 +87,7 @@ export function Navbar() {
             >
               <BagIcon />
               {count > 0 && (
-                <span className="tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-[#3877ff] px-1 text-[10px] font-semibold leading-4 text-white">
+                <span className="tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-[#ebd7be] px-1 text-[10px] font-semibold leading-4 text-black">
                   {count}
                 </span>
               )}
@@ -130,7 +126,7 @@ export function Navbar() {
               key={n.label}
               href={n.href}
               onClick={() => setMenu(false)}
-              className={`border-b border-white/10 py-3.5 font-serif-luxury text-2xl font-bold tracking-wide transition-all duration-300 hover:text-[#ebd7be] ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+              className={`border-b border-white/10 py-3.5 text-2xl font-bold transition-all duration-300 hover:text-[#ebd7be] ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
               style={{ transitionDelay: menu ? `${i * 30}ms` : "0ms" }}
             >
               {n.label}
@@ -139,13 +135,13 @@ export function Navbar() {
           <Link
             href="/encontra-tu-iphone"
             onClick={() => setMenu(false)}
-            className="mt-6 flex items-center justify-between rounded-2xl border border-[#ebd7be]/30 bg-[#091224] p-5 text-white transition hover:border-[#ebd7be]"
+            className="mt-6 flex items-center justify-between rounded-2xl border border-white/10 bg-[#0a0a0a] p-5 text-white transition hover:border-[#ebd7be]"
           >
             <span>
-              <span className="block text-xs uppercase tracking-widest text-[#ebd7be]">
+              <span className="block text-sm font-semibold text-[#ebd7be]">
                 Recomendador inteligente
               </span>
-              <span className="font-serif-luxury text-lg font-bold">
+              <span className="text-lg font-bold">
                 Encontrá tu iPhone ideal
               </span>
             </span>

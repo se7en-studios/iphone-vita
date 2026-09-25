@@ -7,6 +7,7 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { ProductBadges, StockNote } from "@/components/ui/Badges";
 import { BuyButtons } from "@/components/cart/AddToCart";
 import { ProductCard } from "@/components/ProductCard";
+import { ShieldIcon, SwapIcon, TruckIcon } from "@/components/ui/Icons";
 
 type Params = Promise<{ slug: string }>;
 
@@ -49,7 +50,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       aria-current={active ? "true" : undefined}
       className={`flex items-center gap-2.5 rounded-full border px-4 py-2 text-sm transition ${
         active
-          ? "border-[#ebd7be] bg-[#ebd7be] text-[#050b18] font-semibold shadow-md shadow-[#ebd7be]/20"
+          ? "border-[#ebd7be] bg-white/5 text-white font-semibold ring-1 ring-[#ebd7be]"
           : "border-white/15 bg-white/5 text-white/80 hover:border-white/40 hover:text-white"
       }`}
     >
@@ -59,7 +60,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   );
 
   return (
-    <div className="bg-[#050b18] text-white min-h-screen">
+    <div className="bg-black text-white min-h-screen">
       <div className="mx-auto max-w-7xl px-4 pt-6 md:px-8">
         <nav aria-label="Ruta" className="flex flex-wrap gap-2 text-xs text-white/50">
           <Link href="/" className="hover:text-[#ebd7be]">Inicio</Link> <span>/</span>
@@ -75,13 +76,13 @@ export default async function ProductPage({ params }: { params: Params }) {
           <div className="space-y-4">
             <ProductBadges product={p} dark />
             <div>
-              <p className="text-xs uppercase tracking-widest text-[#ebd7be] font-mono">{p.brand} · {categoryName(p.category)}</p>
-              <h1 className="mt-1 font-serif-luxury text-3xl font-bold uppercase tracking-wide text-white md:text-4xl">{p.name}</h1>
+              <p className="text-xs text-[#ebd7be] font-semibold">{p.brand} · {categoryName(p.category)}</p>
+              <h1 className="mt-1 text-4xl font-bold tracking-[-0.03em] text-white md:text-5xl">{p.name}</h1>
               <p className="mt-2 text-sm text-white/60">{[p.size, p.storage, p.color].filter(Boolean).join(" · ")}</p>
             </div>
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-baseline gap-3">
-                <p className="tabular font-serif-luxury text-3xl font-bold tracking-tight text-[#ebd7be] md:text-4xl">{priceLabel(p)}</p>
+                <p className="tabular text-3xl font-bold tracking-tight text-[#ebd7be] md:text-4xl">{priceLabel(p)}</p>
                 {p.price && (
                   <span className="tabular text-sm font-medium text-white/60">
                     ≈ {formatARS(p.price)} ARS
@@ -89,8 +90,8 @@ export default async function ProductPage({ params }: { params: Params }) {
                 )}
               </div>
               {p.price && (
-                <p className="text-xs text-[#3877ff] font-medium flex items-center gap-1.5">
-                  <span>💵</span> Se aceptan pesos al cambio del día (Dólar Blue) o transferencias
+                <p className="text-xs text-[#ebd7be]">
+                  Se aceptan pesos al cambio del día (Dólar Blue) o transferencias
                 </p>
               )}
             </div>
@@ -98,18 +99,17 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
 
           {p.category === "iphone" && p.condition === "nuevo" && (
-            <div className="flex items-center gap-3.5 rounded-2xl border border-[#ebd7be]/30 bg-[#ebd7be]/10 p-4 text-xs text-[#ebd7be]">
-              <span className="text-2xl">🎁</span>
+            <div className="rounded-2xl bg-white/[0.04] p-4 text-xs ring-1 ring-white/10">
               <div>
-                <p className="font-bold text-sm">Promo Exclusiva: Funda + Templado de Regalo</p>
-                <p className="text-white/70">Con la compra de este equipo sellado te llevás funda de silicona y vidrio templado instalados sin costo.</p>
+                <p className="text-sm font-semibold text-[#ebd7be]">Funda y templado de regalo</p>
+                <p className="mt-1 text-white/60">Con la compra de este equipo sellado te llevás funda de silicona y vidrio templado instalados sin costo.</p>
               </div>
             </div>
           )}
 
           {uniqueByColor.length > 1 && (
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-wider text-white/50 font-mono">Color · <span className="text-white font-sans">{p.color}</span></p>
+              <p className="text-xs text-white/50 font-semibold">Color · <span className="text-white font-sans">{p.color}</span></p>
               <div className="flex flex-wrap gap-2">
                 {uniqueByColor.map((v) => <Option key={v.slug} href={`/producto/${v.slug}`} label={v.color ?? ""} active={v.color === p.color} swatch={v.colorHex} />)}
               </div>
@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           )}
           {p.storage && (
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-wider text-white/50 font-mono">Capacidad</p>
+              <p className="text-xs text-white/50 font-semibold">Capacidad</p>
               <div className="flex flex-wrap gap-2">
                 {storageOptions.map((v) => <Option key={v.slug} href={`/producto/${v.slug}`} label={v.storage ?? ""} active={v.slug === p.slug} />)}
               </div>
@@ -125,7 +125,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           )}
           {sizeOptions.length > 1 && (
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-wider text-white/50 font-mono">Tamaño</p>
+              <p className="text-xs text-white/50 font-semibold">Tamaño</p>
               <div className="flex flex-wrap gap-2">
                 {sizeOptions.map((v) => <Option key={v.slug} href={`/producto/${v.slug}`} label={v.size ?? ""} active={v.size === p.size} />)}
               </div>
@@ -133,7 +133,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           )}
           {bandOptions.length > 1 && (
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-wider text-white/50 font-mono">Talle de malla</p>
+              <p className="text-xs text-white/50 font-semibold">Talle de malla</p>
               <div className="flex flex-wrap gap-2">
                 {bandOptions.map((v) => <Option key={v.slug} href={`/producto/${v.slug}`} label={v.bandSize ?? ""} active={v.slug === p.slug} />)}
               </div>
@@ -144,18 +144,18 @@ export default async function ProductPage({ params }: { params: Params }) {
 
           {/* Reassurance Trust Pills */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
-            <div className="rounded-xl border border-white/10 bg-[#091224] p-3 text-center">
-              <span className="block text-base mb-1">🛡️</span>
+            <div className="rounded-xl border border-white/10 bg-[#0a0a0a] p-3 text-center">
+              <ShieldIcon className="mx-auto mb-1.5 size-5 text-[#ebd7be]" />
               <p className="text-xs font-semibold text-white">Garantía Oficial</p>
               <p className="text-[11px] text-white/50">{p.condition === "nuevo" ? "1 Año Apple" : "90 Días Vita"}</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-[#091224] p-3 text-center">
-              <span className="block text-base mb-1">🚚</span>
+            <div className="rounded-xl border border-white/10 bg-[#0a0a0a] p-3 text-center">
+              <TruckIcon className="mx-auto mb-1.5 size-5 text-[#ebd7be]" />
               <p className="text-xs font-semibold text-white">Envíos Seguros</p>
               <p className="text-[11px] text-white/50">A todo el país</p>
             </div>
-            <Link href="/#plan-canje" className="rounded-xl border border-[#ebd7be]/30 bg-[#ebd7be]/5 p-3 text-center hover:bg-[#ebd7be]/15 transition">
-              <span className="block text-base mb-1">🔄</span>
+            <Link href="/#plan-canje" className="rounded-xl border border-white/10 bg-[#0a0a0a] p-3 text-center transition hover:border-[#ebd7be]/50">
+              <SwapIcon className="mx-auto mb-1.5 size-5 text-[#ebd7be]" />
               <p className="text-xs font-semibold text-[#ebd7be]">Plan Canje</p>
               <p className="text-[11px] text-white/60">Entregá tu usado</p>
             </Link>
@@ -174,9 +174,9 @@ export default async function ProductPage({ params }: { params: Params }) {
       </section>
 
       {related.length > 0 && (
-        <section className="border-t border-white/10 bg-[#050b18] py-20 text-white">
+        <section className="border-t border-white/10 bg-black py-20 text-white">
           <div className="mx-auto max-w-7xl space-y-8 px-4 md:px-8">
-            <h2 className="font-serif-luxury text-2xl font-bold tracking-wide text-white md:text-3xl">También te puede interesar</h2>
+            <h2 className="text-3xl font-bold tracking-[-0.03em] text-white md:text-4xl">También te puede interesar.</h2>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
               {related.map((r) => <ProductCard key={r.slug} product={r} compact dark />)}
             </div>

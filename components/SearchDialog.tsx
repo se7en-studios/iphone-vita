@@ -43,7 +43,7 @@ export function SearchDialog({ products, open, onClose }: { products: Product[];
   return (
     <div className="fixed inset-0 z-[70]" role="dialog" aria-label="Buscar productos">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
-      <div className="relative mx-auto mt-[8vh] w-[min(680px,calc(100%-32px))] overflow-hidden rounded-3xl border border-white/10 bg-[#071026] text-white shadow-2xl">
+      <div className="relative mx-auto mt-[8vh] w-[min(680px,calc(100%-32px))] overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a] text-white shadow-2xl">
         <div className="flex items-center gap-3 border-b border-white/10 px-5">
           <SearchIcon className="size-5 text-white/50" />
           <input
@@ -59,7 +59,7 @@ export function SearchDialog({ products, open, onClose }: { products: Product[];
         <div className="max-h-[60vh] overflow-y-auto p-4">
           {!q && (
             <div className="p-3">
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[#ebd7be]">Búsquedas frecuentes</p>
+              <p className="mb-3 font-semibold text-base text-[#ebd7be]">Búsquedas frecuentes</p>
               <div className="flex flex-wrap gap-2">
                 {suggestions.map((s) => (
                   <button key={s} type="button" onClick={() => setQ(s)} className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs text-white/80 hover:border-[#ebd7be] hover:text-[#ebd7be] transition">{s}</button>
@@ -72,14 +72,14 @@ export function SearchDialog({ products, open, onClose }: { products: Product[];
             {results.map((p) => (
               <li key={p.slug}>
                 <Link href={`/producto/${p.slug}`} onClick={onClose} className="group flex items-center gap-4 rounded-2xl p-2.5 hover:bg-white/5 transition">
-                  <div className="size-14 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#050b18] p-1">
+                  <div className="size-14 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black p-1">
                     <ProductVisual product={p} className="size-full" sizes="56px" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-white group-hover:text-[#ebd7be] transition">{p.name}</p>
                     <p className="truncate text-xs text-white/50">{[p.brand, p.size, p.storage, p.color, p.batteryHealth ? `${p.batteryHealth}% batería` : ""].filter(Boolean).join(" · ")}</p>
                   </div>
-                  <span className="tabular shrink-0 font-serif-luxury font-bold text-sm text-[#ebd7be]">{priceLabel(p)}</span>
+                  <span className="tabular shrink-0 font-bold text-sm text-[#ebd7be]">{priceLabel(p)}</span>
                 </Link>
               </li>
             ))}

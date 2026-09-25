@@ -1,57 +1,33 @@
 @import "tailwindcss";
 
-/* Tokens de marca iPhone Vita: Midnight Luxury & Champagne Gold */
+/* Tokens iPhone Vita: negro absoluto + un solo acento champagne */
 @theme {
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
-  --font-serif: var(--font-serif), "Cinzel", "Playfair Display", Georgia, serif;
 
-  --color-ink: #050b18;
-  --color-ink-2: #091224;
-  --color-ink-3: #101c36;
-  --color-paper: #091224;
-  --color-mist: #0c1833;
-  --color-fog: #152238;
+  --color-ink: #000000;
+  --color-ink-2: #0a0a0a;
+  --color-ink-3: #1d1d1f;
+  --color-paper: #0a0a0a;
+  --color-mist: #111111;
+  --color-fog: #1d1d1f;
   --color-line: rgba(255, 255, 255, 0.1);
   --color-line-dark: rgba(255, 255, 255, 0.1);
-  --color-muted: #94a3b8;
-  --color-muted-dark: #94a3b8;
-  --color-vita: #3877ff;
-  --color-vita-soft: #0d1e3d;
+  --color-muted: #86868b;
+  --color-muted-dark: #86868b;
+  --color-vita: #ebd7be;
+  --color-vita-soft: rgba(235, 215, 190, 0.12);
 
-  --color-navy: #050b18;
-  --color-navy-light: #091224;
   --color-champagne: #ebd7be;
   --color-champagne-light: #f7ede0;
-  --color-champagne-dark: #cbb092;
-  --color-accent-blue: #3877ff;
 
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.font-serif-luxury {
-  font-family: var(--font-serif);
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 32s linear infinite;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
 html {
+  color-scheme: dark;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
 }
@@ -69,12 +45,12 @@ h3 {
 }
 
 ::selection {
-  background: var(--color-vita);
-  color: white;
+  background: var(--color-champagne);
+  color: #000;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-vita);
+  outline: 2px solid var(--color-champagne);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -83,27 +59,23 @@ h3 {
    sólo se anima cuando JS marcó la página como lista. */
 .reveal-ready [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(12px);
   transition:
-    opacity 0.9s var(--ease-soft),
-    transform 0.9s var(--ease-soft);
+    opacity 0.8s var(--ease-soft),
+    transform 0.8s var(--ease-soft);
 }
 .reveal-ready [data-reveal].is-in {
   opacity: 1;
   transform: none;
 }
 
-@keyframes float-soft {
-  0%,
-  100% {
-    transform: translateY(0);
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
-  50% {
-    transform: translateY(-10px);
+  to {
+    opacity: 1;
   }
-}
-.animate-float {
-  animation: float-soft 7s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -114,9 +86,6 @@ h3 {
     opacity: 1;
     transform: none;
     transition: none;
-  }
-  .animate-float {
-    animation: none;
   }
   * {
     transition-duration: 0.01ms !important;

@@ -12,7 +12,7 @@ export function CartLines() {
     <ul className="divide-y divide-white/10">
       {lines.map(({ product: p, quantity }) => (
         <li key={p.slug} className="flex gap-4 py-5">
-          <Link href={`/producto/${p.slug}`} onClick={() => setOpen(false)} className="group block size-20 shrink-0 overflow-hidden rounded-2xl bg-[#050b18] border border-white/10 p-1">
+          <Link href={`/producto/${p.slug}`} onClick={() => setOpen(false)} className="group block size-20 shrink-0 overflow-hidden rounded-2xl bg-black border border-white/10 p-1">
             <ProductVisual product={p} className="size-full" sizes="80px" />
           </Link>
           <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -21,7 +21,7 @@ export function CartLines() {
                 <p className="truncate text-sm font-semibold text-white">{p.name}</p>
                 <p className="truncate text-xs text-white/50">{[p.size, p.storage, p.color].filter(Boolean).join(" · ")}</p>
               </div>
-              <p className="tabular shrink-0 text-sm font-serif-luxury font-bold text-[#ebd7be]">{formatUSD((p.price ?? 0) * quantity)}</p>
+              <p className="tabular shrink-0 text-sm font-bold text-[#ebd7be]">{formatUSD((p.price ?? 0) * quantity)}</p>
             </div>
             <div className="mt-auto flex items-center justify-between pt-2">
               <div className="flex items-center rounded-full border border-white/15 bg-white/5">

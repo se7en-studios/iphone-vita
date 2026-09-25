@@ -53,7 +53,7 @@ export function ProductVisual({
           subcategory={product.subcategory}
         />
       </div>
-      <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.18em] text-[#ebd7be]/40">
+      <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap font-semibold text-xs text-[#ebd7be]/40">
         Foto próximamente
       </span>
     </div>

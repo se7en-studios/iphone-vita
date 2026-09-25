@@ -15,11 +15,11 @@ export function IphoneFinder({ products }: { products: Product[] }) {
   const q = QUESTIONS[Math.min(step, QUESTIONS.length - 1)];
 
   return (
-    <section className="bg-[#050b18] text-white min-h-screen">
+    <section className="bg-black text-white min-h-screen">
       <div className="mx-auto min-h-[calc(100svh-56px)] max-w-5xl px-4 pb-24 pt-16 md:px-8 md:pt-24">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]">Concierge Digital</p>
-        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[0.95] tracking-tight">
-          ¿Qué iPhone <span className="font-serif-luxury text-[#ebd7be]">estás buscando?</span>
+        <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">Encontrá tu iPhone</p>
+        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+          ¿Qué iPhone <span className="text-[#ebd7be]">estás buscando?</span>
         </h1>
 
         {/* progreso */}
@@ -31,7 +31,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
 
         {!done ? (
           <div key={step} className="mt-12 space-y-8">
-            <p className="text-xs uppercase tracking-wider text-white/50 font-mono">Paso {step + 1} de {QUESTIONS.length}</p>
+            <p className="text-xs text-white/50 font-semibold">Paso {step + 1} de {QUESTIONS.length}</p>
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-white">{q.title}</h2>
             <div className="grid gap-3 md:grid-cols-3">
               {q.options.map((o) => {
@@ -46,7 +46,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                     }}
                     className={`group flex items-center justify-between rounded-3xl p-6 text-left text-base font-medium transition ${
                       selected
-                        ? "bg-[#ebd7be] text-[#050b18] font-semibold shadow-lg shadow-[#ebd7be]/20"
+                        ? "bg-[#ebd7be] text-black font-semibold"
                         : "bg-white/[0.04] ring-1 ring-white/10 hover:bg-white/10 text-white hover:ring-[#ebd7be]/40"
                     }`}
                   >
@@ -63,7 +63,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
         ) : (
           <div className="mt-12 space-y-8">
             <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="font-serif-luxury text-2xl font-bold tracking-wide text-white md:text-3xl">
+              <h2 className="text-2xl font-bold text-white md:text-3xl">
                 {results.length ? "Modelos recomendados para vos:" : "No encontramos una coincidencia exacta."}
               </h2>
               <button type="button" onClick={() => { setAnswers({}); setStep(0); }} className="text-sm text-white/55 underline-offset-4 hover:text-[#ebd7be] hover:underline">Empezar de nuevo</button>
@@ -79,7 +79,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               href={waLink(results[0] ? `${productMessage(results[0])} También quiero que me asesoren según las respuestas del test.` : "Hola iPhone Vita! Hice el test en la web y quiero que me ayuden a elegir un iPhone.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ebd7be] px-7 py-4 text-sm font-bold text-[#050b18] shadow-lg shadow-[#ebd7be]/20 transition hover:bg-[#f7ede0]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#ebd7be] px-7 py-4 text-sm font-bold text-black transition hover:bg-white"
             >
               Hablar con un asesor por WhatsApp
             </a>

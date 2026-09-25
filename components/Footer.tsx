@@ -64,11 +64,11 @@ const pretty = (n: string) =>
 export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-20 md:px-8">
+      <div className="mx-auto max-w-[980px] px-4 pb-10 pt-16 md:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="space-y-4">
             <Wordmark dark className="text-2xl" />
-            <p className="max-w-xs text-sm text-white/55">
+            <p className="max-w-xs text-xs leading-relaxed text-white/55">
               Apple, accesorios y tecnología premium. Equipos sellados en caja y
               semi nuevos seleccionados.
             </p>
@@ -78,10 +78,10 @@ export function Footer() {
           </div>
           {cols.map((c) => (
             <div key={c.title}>
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[#ebd7be]">
+              <p className="mb-3 text-xs font-semibold text-white/90">
                 {c.title}
               </p>
-              <ul className="space-y-2.5 text-sm text-white/70">
+              <ul className="space-y-2 text-xs text-white/60">
                 {c.links.map((l) => (
                   <li key={l.label}>
                     {"external" in l && l.external ? (
@@ -89,14 +89,14 @@ export function Footer() {
                         href={l.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="transition hover:text-[#ebd7be]"
+                        className="transition hover:text-white hover:underline"
                       >
                         {l.label}
                       </a>
                     ) : (
                       <Link
                         href={l.href}
-                        className="transition hover:text-[#ebd7be]"
+                        className="transition hover:text-white hover:underline"
                       >
                         {l.label}
                       </Link>
@@ -114,7 +114,7 @@ export function Footer() {
             transferencias.
           </p>
           <p className="text-white/40">
-            Funda + Vidrio templado de regalo con tu nuevo iPhone
+            Funda y templado de regalo con tu iPhone nuevo.
           </p>
         </div>
       </div>

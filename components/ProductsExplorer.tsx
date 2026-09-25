@@ -125,11 +125,11 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 md:px-8">
-      <div className="sticky top-14 z-30 -mx-4 flex items-center justify-between gap-3 border-b border-line bg-white/85 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
+      <div className="sticky top-14 z-30 -mx-4 flex items-center justify-between gap-3 border-b border-line bg-black/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
         <p className="tabular text-sm text-muted">{filtered.length} productos</p>
         <div className="flex items-center gap-2">
           <label htmlFor="orden" className="sr-only">Ordenar</label>
-          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="rounded-full border border-line bg-paper px-4 py-2 text-sm outline-none focus:border-ink">
+          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="rounded-full border border-line bg-paper px-4 py-2 text-sm outline-none focus:border-[#ebd7be]">
             <option value="destacados">Destacados</option>
             <option value="precio-asc">Precio menor</option>
             <option value="precio-desc">Precio mayor</option>
@@ -171,7 +171,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
             <button type="button" onClick={() => setDrawer(false)} aria-label="Cerrar filtros" className="grid size-9 place-items-center rounded-full hover:bg-mist"><CloseIcon /></button>
           </div>
           {panel}
-          <button type="button" onClick={() => setDrawer(false)} className="mt-8 w-full rounded-full bg-ink py-3.5 text-sm font-medium text-white">
+          <button type="button" onClick={() => setDrawer(false)} className="mt-8 w-full rounded-full bg-[#ebd7be] py-3.5 text-sm font-semibold text-black">
             Ver {filtered.length} productos
           </button>
         </div>
@@ -183,7 +183,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset>
-      <legend className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">{title}</legend>
+      <legend className="mb-3 text-sm font-semibold text-white/80">{title}</legend>
       <div className="space-y-1">{children}</div>
     </fieldset>
   );

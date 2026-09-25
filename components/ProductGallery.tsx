@@ -17,7 +17,7 @@ export function ProductGallery({ product }: { product: Product }) {
 
   return (
     <div className="space-y-3">
-      <div className={`relative aspect-[4/5] overflow-hidden rounded-[36px] ${isShowcase ? "bg-[#071026]" : "bg-mist"}`}>
+      <div className={`relative aspect-[4/5] overflow-hidden rounded-[36px] ${isShowcase ? "bg-[#0a0a0a]" : "bg-mist"}`}>
         <Image
           key={images[i]}
           src={images[i]}
@@ -37,7 +37,7 @@ export function ProductGallery({ product }: { product: Product }) {
               onClick={() => setI(idx)}
               aria-label={`Ver imagen ${idx + 1}`}
               className={`relative size-20 overflow-hidden rounded-2xl ring-2 transition ${
-                src.includes("/showcase/") ? "bg-[#071026]" : "bg-mist"
+                src.includes("/showcase/") ? "bg-[#0a0a0a]" : "bg-mist"
               } ${idx === i ? "ring-ink" : "ring-transparent hover:ring-line"}`}
             >
               <Image src={src} alt="" fill sizes="80px" className={src.includes("/showcase/") ? "object-contain p-1" : "object-cover"} />

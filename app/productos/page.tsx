@@ -25,11 +25,11 @@ export default async function ProductosPage({ searchParams }: { searchParams: Pr
   };
 
   return (
-    <div className="bg-[#050b18] text-white min-h-screen">
+    <div className="bg-black text-white min-h-screen">
       <section className="mx-auto max-w-7xl px-4 pb-10 pt-16 md:px-8 md:pt-24">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#ebd7be]">Catálogo Completo</p>
-        <h1 className="mt-3 text-[clamp(2.6rem,6vw,4.8rem)] font-bold leading-[0.95] tracking-tight">
-          Todos los <span className="font-serif-luxury text-[#ebd7be]">productos.</span>
+        <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">Catálogo</p>
+        <h1 className="mt-3 text-[clamp(2.6rem,6vw,4.8rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+          Todos los productos.
         </h1>
       </section>
       <ProductsExplorer key={JSON.stringify(initial)} products={products} categories={categories} initial={initial} />

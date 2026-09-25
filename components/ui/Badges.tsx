@@ -7,7 +7,7 @@ export function ProductBadges({ product, dark = false }: { product: Product; dar
       {badgesFor(product).map((b) => (
         <span
           key={b}
-          className={`rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-[0.12em] ${
+          className={`rounded-full px-2.5 py-1 font-semibold text-xs ${
             b === "SEMI NUEVO"
               ? "bg-vita-soft text-vita"
               : dark
@@ -15,7 +15,7 @@ export function ProductBadges({ product, dark = false }: { product: Product; dar
                 : "bg-mist text-ink/70"
           }`}
         >
-          {b}
+          {b.charAt(0) + b.slice(1).toLowerCase()}
         </span>
       ))}
     </div>

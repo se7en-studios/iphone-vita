@@ -20,7 +20,7 @@ export function ProductCard({ product: p, compact = false, dark = true }: { prod
         <ProductBadges product={p} dark={dark} />
         <div>
           <p className={`text-xs ${dark ? "text-white/45" : "text-muted"}`}>{p.brand}</p>
-          <h3 className={`${compact ? "text-[14px]" : "text-base"} font-serif-luxury font-bold uppercase tracking-wide leading-snug group-hover:text-[#ebd7be] transition`}>
+          <h3 className={`${compact ? "text-[14px]" : "text-base"} font-semibold tracking-tight leading-snug group-hover:text-[#ebd7be] transition`}>
             {p.name}
           </h3>
           <p className={`mt-0.5 text-xs ${dark ? "text-white/55" : "text-muted"}`}>
@@ -29,7 +29,7 @@ export function ProductCard({ product: p, compact = false, dark = true }: { prod
         </div>
         <div className={`mt-auto flex flex-wrap items-end justify-between gap-x-3 gap-y-1 border-t pt-3 ${dark ? "border-white/10" : "border-black/5"}`}>
           <StockNote product={p} dark={dark} />
-          <span className={`tabular whitespace-nowrap text-right ${p.priceType === "consultar" ? "text-xs text-[#ebd7be]" : "text-sm font-serif-luxury font-bold text-[#ebd7be]"}`}>
+          <span className={`tabular whitespace-nowrap text-right ${p.priceType === "consultar" ? "text-xs text-[#ebd7be]" : "text-sm font-semibold text-[#ebd7be]"}`}>
             {priceLabel(p)}
           </span>
         </div>

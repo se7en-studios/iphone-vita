@@ -27,7 +27,7 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
         <ProductBadges product={active} dark />
         <div>
           <p className="text-xs text-white/50">{active.brand}</p>
-          <h3 className="font-serif-luxury font-bold uppercase tracking-wide text-[14px] leading-snug md:text-base group-hover:text-[#ebd7be] transition">
+          <h3 className="font-bold text-[14px] leading-snug md:text-base group-hover:text-[#ebd7be] transition">
             {active.name}
           </h3>
           <p className="mt-0.5 text-xs text-white/60">
@@ -37,7 +37,7 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
         {colors.length > 1 && <ColorDots variants={colors} activeSlug={active.slug} onSelect={setActive} dark />}
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2 border-t border-white/10 pt-3">
           <StockNote product={active} dark />
-          <span className="tabular font-serif-luxury font-bold whitespace-nowrap text-right text-[15px] text-[#ebd7be]">
+          <span className="tabular font-bold whitespace-nowrap text-right text-[15px] text-[#ebd7be]">
             {min != null && varies ? `Desde ${formatUSD(min)}` : priceLabel(active)}
           </span>
         </div>
