@@ -5,42 +5,63 @@ import { useState } from "react";
 import type { Product } from "@/types";
 import { ProductVisual } from "./ProductVisual";
 
+const isShowcase = (src: string) => src.includes("/showcase/");
+
 /** Galería: imagen principal + miniaturas (image + gallery). */
 export function ProductGallery({ product }: { product: Product }) {
-  const images = [product.image, ...product.gallery].filter((x): x is string => !!x);
+  const images = [product.image, ...product.gallery].filter(
+    (x): x is string => !!x,
+  );
   const [i, setI] = useState(0);
 
   if (!images.length) {
-    return <ProductVisual product={product} className="aspect-square rounded-[36px]" priority sizes="(max-width: 1024px) 100vw, 55vw" />;
+    return (
+      <ProductVisual
+        product={product}
+        className="aspect-square rounded-[28px]"
+        priority
+        sizes="(max-width: 1024px) 100vw, 55vw"
+      />
+    );
   }
-  const isShowcase = images[i]?.includes("/showcase/");
 
   return (
-    <div className="space-y-3">
-      <div className={`relative aspect-[4/5] overflow-hidden rounded-[36px] ${isShowcase ? "bg-[#0a0a0a]" : "bg-mist"}`}>
+    <div className="space-y-4">
+      <div className="relative aspect-square overflow-hidden rounded-[28px] bg-[#0a0a0a]">
         <Image
           key={images[i]}
           src={images[i]}
-          alt={product.name}
+          alt={`${product.name}${product.color ? ` ${product.color}` : ""}`}
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 55vw"
-          className={isShowcase ? "object-contain p-2" : "object-cover"}
+          className={`animate-[fade-in_0.5s_ease-out] ${isShowcase(images[i]) ? "object-contain p-2" : "object-cover"}`}
         />
       </div>
       {images.length > 1 && (
-        <div className="flex gap-3">
+        <div className="flex justify-center gap-3">
           {images.map((src, idx) => (
             <button
               key={src}
               type="button"
               onClick={() => setI(idx)}
               aria-label={`Ver imagen ${idx + 1}`}
-              className={`relative size-20 overflow-hidden rounded-2xl ring-2 transition ${
-                src.includes("/showcase/") ? "bg-[#0a0a0a]" : "bg-mist"
-              } ${idx === i ? "ring-ink" : "ring-transparent hover:ring-line"}`}
+              aria-current={idx === i}
+              className={`relative size-16 overflow-hidden rounded-xl bg-[#0a0a0a] ring-2 transition ${
+                idx === i
+                  ? "ring-[#ebd7be]"
+                  : "ring-transparent hover:ring-white/30"
+              }`}
             >
-              <Image src={src} alt="" fill sizes="80px" className={src.includes("/showcase/") ? "object-contain p-1" : "object-cover"} />
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="64px"
+                className={
+                  isShowcase(src) ? "object-contain p-1" : "object-cover"
+                }
+              />
             </button>
           ))}
         </div>

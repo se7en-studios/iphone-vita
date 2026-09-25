@@ -9,7 +9,7 @@ import { ChatIcon } from "../ui/Icons";
 /** Botones de compra de un producto: carrito para precio fijo, WhatsApp para "consultar". */
 export function BuyButtons({ product, layout = "full", dark = false }: { product: Product; layout?: "full" | "compact"; dark?: boolean }) {
   const primary = "bg-[#ebd7be] text-black hover:bg-white font-semibold";
-  const secondary = "border border-white/20 bg-white/5 text-white hover:border-[#ebd7be] hover:text-[#ebd7be]";
+  const secondary = "border border-white/20 text-white hover:border-white/50 hover:bg-white/5";
   const { add, setOpen } = useCart();
   const [added, setAdded] = useState(false);
   const wa = (
