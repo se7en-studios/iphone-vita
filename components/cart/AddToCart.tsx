@@ -1,37 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "./CartProvider";
 import type { Product } from "@/types";
-import { productMessage, waLink } from "@/lib/whatsapp";
+import { isOutOfStock } from "@/lib/format";
+import { productMessage, restockMessage, waLink } from "@/lib/whatsapp";
 import { ChatIcon } from "../ui/Icons";
 
-/** Botones de compra de un producto: carrito para precio fijo, WhatsApp para "consultar". */
-export function BuyButtons({ product, layout = "full", dark = false }: { product: Product; layout?: "full" | "compact"; dark?: boolean }) {
-  const primary = "bg-accent text-accent-fg hover:brightness-110 font-semibold";
-  const secondary = "border border-fg/20 text-fg hover:border-fg/50 hover:bg-fg/5";
+const ADDED_FEEDBACK_MS = 1600;
+const WA_BUTTON =
+  "flex items-center justify-center gap-2 rounded-full border border-fg/20 bg-fg/5 py-3.5 text-sm font-medium text-fg transition hover:border-fg/40 hover:bg-fg/10 hover:text-fg";
+
+/**
+ * Botones de compra de un producto:
+ * - precio fijo con stock → carrito
+ * - precio a consultar → WhatsApp
+ * - sin stock → "Avisame cuando llegue" por WhatsApp
+ */
+export function BuyButtons({ product }: { product: Product }) {
   const { add, setOpen } = useCart();
   const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    if (!added) return;
+    const id = window.setTimeout(() => setAdded(false), ADDED_FEEDBACK_MS);
+    return () => window.clearTimeout(id);
+  }, [added]);
+
+  if (isOutOfStock(product)) {
+    return (
+      <a
+        href={waLink(restockMessage(product))}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-semibold text-accent-fg transition hover:brightness-110"
+      >
+        <ChatIcon className="size-4" /> Avisame cuando llegue
+      </a>
+    );
+  }
+
   const wa = (
     <a
       href={waLink(productMessage(product))}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center justify-center gap-2 rounded-full border border-fg/20 bg-fg/5 py-3.5 text-sm font-medium text-fg transition hover:border-fg/40 hover:bg-fg/10 hover:text-fg"
+      className={WA_BUTTON}
     >
       <ChatIcon className="size-4" /> Consultar por WhatsApp
     </a>
   );
-  if (product.priceType === "consultar") return <div className="grid">{wa}</div>;
+  if (product.priceType === "consultar" || product.price == null)
+    return <div className="grid">{wa}</div>;
+
   return (
-    <div className={`grid gap-3 ${layout === "full" ? "sm:grid-cols-2" : "grid-cols-2"}`}>
+    <div
+      className="grid gap-3 sm:grid-cols-2"
+    >
       <button
         type="button"
         onClick={() => {
           add(product.slug);
           setOpen(true);
         }}
-        className={`rounded-full py-3.5 text-sm font-medium transition ${primary}`}
+        className="rounded-full bg-accent py-3.5 text-sm font-semibold text-accent-fg transition hover:brightness-110"
       >
         Comprar ahora
       </button>
@@ -40,14 +72,13 @@ export function BuyButtons({ product, layout = "full", dark = false }: { product
         onClick={() => {
           add(product.slug);
           setAdded(true);
-          setTimeout(() => setAdded(false), 1600);
         }}
-        className={`rounded-full py-3.5 text-sm font-medium transition ${secondary}`}
+        className="rounded-full border border-fg/20 py-3.5 text-sm font-medium text-fg transition hover:border-fg/50 hover:bg-fg/5"
         aria-live="polite"
       >
         {added ? "Agregado al carrito" : "Agregar al carrito"}
       </button>
-      {layout === "full" && <div className="sm:col-span-2">{wa}</div>}
+      <div className="sm:col-span-2">{wa}</div>
     </div>
   );
 }

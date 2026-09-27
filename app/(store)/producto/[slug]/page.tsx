@@ -9,18 +9,58 @@ import {
   getProducts,
   getVariants,
 } from "@/lib/products";
-import { fullName, priceLabel, formatARS, formatUSD } from "@/lib/format";
+import { fullName, priceLabel, formatUSD, isOutOfStock } from "@/lib/format";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductBadges, StockNote } from "@/components/ui/Badges";
 import { BuyButtons } from "@/components/cart/AddToCart";
 import { StickyBuyBar } from "@/components/cart/StickyBuyBar";
 import { ProductCard } from "@/components/ProductCard";
-import {
-  GiftIcon,
-  ShieldIcon,
-  SwapIcon,
-  TruckIcon,
-} from "@/components/ui/Icons";
+import { ProductInfo } from "@/components/product/ProductInfo";
+import { Ars } from "@/components/StoreSettings";
+
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iphone-vita.vercel.app";
+const RELATED_MAX = 4;
+
+function availability(p: Product): string {
+  if (isOutOfStock(p)) return "https://schema.org/OutOfStock";
+  if (p.stockLevel === "bajo") return "https://schema.org/LimitedAvailability";
+  return "https://schema.org/InStock";
+}
+
+/** JSON-LD Product. Sin precio no hay Offer (Google la exige con precio). */
+function productJsonLd(p: Product) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: fullName(p),
+    sku: p.slug,
+    description: p.description || fullName(p),
+    brand: { "@type": "Brand", name: p.brand },
+    image: [p.image, ...p.gallery].filter(Boolean),
+    itemCondition: p.condition === "nuevo" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
+    offers:
+      p.price == null
+        ? undefined
+        : {
+            "@type": "Offer",
+            url: `${SITE}/producto/${p.slug}`,
+            priceCurrency: "USD",
+            price: p.price,
+            availability: availability(p),
+            itemCondition: p.condition === "nuevo" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
+          },
+  };
+}
+
+/** Otros modelos de la misma categoría, uno por modelo, primero los que tienen stock. */
+function relatedProducts(all: Product[], p: Product): Product[] {
+  const seen = new Set<string>();
+  return all
+    .filter((x) => x.category === p.category && x.model !== p.model)
+    .sort((a, b) => Number(isOutOfStock(a)) - Number(isOutOfStock(b)))
+    .filter((x) => !seen.has(x.model) && seen.add(x.model))
+    .slice(0, RELATED_MAX);
+}
 
 type Params = Promise<{ slug: string }>;
 
@@ -39,10 +79,10 @@ export async function generateMetadata({
   if (!p) return {};
   return {
     title: fullName(p),
-    description: p.description,
+    description: p.description || undefined,
     openGraph: {
       title: fullName(p),
-      description: p.description,
+      description: p.description || undefined,
       images: p.image ? [p.image] : undefined,
     },
   };
@@ -76,32 +116,8 @@ export default async function ProductPage({ params }: { params: Params }) {
     (v) => v.color === p.color && v.size === p.size && v.storage === p.storage,
   );
 
-  const all = await getProducts();
-  const related = all
-    .filter((x) => x.category === p.category && x.model !== p.model)
-    .slice(0, 4);
-  const isNewIphone = p.category === "iphone" && p.condition === "nuevo";
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: fullName(p),
-    description: p.description,
-    brand: { "@type": "Brand", name: p.brand },
-    image: p.image ?? undefined,
-    itemCondition:
-      p.condition === "nuevo"
-        ? "https://schema.org/NewCondition"
-        : "https://schema.org/UsedCondition",
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      price: p.price ?? undefined,
-      availability:
-        p.stockLevel === "bajo"
-          ? "https://schema.org/LimitedAvailability"
-          : "https://schema.org/InStock",
-    },
-  };
+  const related = relatedProducts(await getProducts(), p);
+  const soldOut = isOutOfStock(p);
   const summary = [
     p.size,
     p.storage,
@@ -116,7 +132,7 @@ export default async function ProductPage({ params }: { params: Params }) {
     <div className="store min-h-screen bg-bg text-fg">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(p)).replace(/</g, "\\u003c") }}
       />
       <header className="mx-auto max-w-7xl px-4 pb-6 pt-6 md:px-8 md:pb-14 md:pt-12">
         <nav
@@ -145,7 +161,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             <p className="tabular text-lg text-fg/60">
               {formatUSD(p.price)}{" "}
               <span className="text-sm text-fg/40">
-                ≈ {formatARS(p.price)} ARS
+                ≈ <Ars usd={p.price} />
               </span>
             </p>
           )}
@@ -239,54 +255,27 @@ export default async function ProductPage({ params }: { params: Params }) {
             </p>
             <p className="mt-1 text-lg font-semibold">{summary || p.name}</p>
             <div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
-              <p className="tabular text-3xl font-bold tracking-tight">
+              <p className={`tabular text-3xl font-bold tracking-tight ${soldOut ? "text-fg/40 line-through decoration-1" : ""}`}>
                 {priceLabel(p)}
               </p>
               <StockNote product={p} dark />
             </div>
             {p.price != null && (
-              <p className="mt-2 text-xs text-fg/50">
-                Pagás en dólares, USDT o pesos al cambio del día.
+              <p className="tabular mt-1 text-sm text-fg/60">
+                ≈ <Ars usd={p.price} /> · pagás en dólares, USDT o pesos al cambio del día.
               </p>
             )}
-            {isNewIphone && (
-              <p className="mt-5 flex items-start gap-3 text-sm text-fg/70">
-                <GiftIcon className="mt-0.5 size-5 shrink-0 text-highlight" />
-                <span>
-                  <span className="text-fg">
-                    Funda y templado de regalo.
-                  </span>{" "}
-                  Te los llevás instalados, sin costo.
-                </span>
+            {soldOut && (
+              <p className="mt-4 rounded-2xl bg-fg/[0.04] p-3.5 text-sm text-fg/70 ring-1 ring-fg/10">
+                Por ahora no tenemos stock. Dejanos tu consulta y te avisamos apenas vuelva a entrar.
               </p>
             )}
             <div className="mt-7">
-              <BuyButtons product={p} dark />
+              <BuyButtons product={p} />
             </div>
           </div>
 
-          <ul data-stagger className="grid gap-5 sm:grid-cols-3 sm:gap-6">
-            <Perk
-              icon={<TruckIcon />}
-              title="Envíos a todo el país"
-              body="Asegurados, o retiro coordinado."
-            />
-            <Perk
-              icon={<ShieldIcon />}
-              title="Garantía"
-              body={
-                p.condition === "nuevo"
-                  ? "1 año oficial Apple."
-                  : "90 días iPhone Vita."
-              }
-            />
-            <Perk
-              icon={<SwapIcon />}
-              title="Plan Canje"
-              body="Entregá tu usado como parte de pago."
-              href="/#plan-canje"
-            />
-          </ul>
+          <ProductInfo product={p} />
         </div>
       </section>
 
@@ -372,45 +361,9 @@ function Tile({
     >
       <span className="text-lg font-semibold">{label}</span>
       <span className="tabular text-sm text-fg/60">
-        {priceLabel(product)}
+        {isOutOfStock(product) ? "Sin stock" : priceLabel(product)}
       </span>
     </Link>
-  );
-}
-
-// Mobile: ícono al costado; desde sm: ícono arriba.
-const PERK = "grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-0.5 sm:block";
-
-function Perk({
-  icon,
-  title,
-  body,
-  href,
-}: {
-  icon: ReactNode;
-  title: string;
-  body: string;
-  href?: string;
-}) {
-  const content = (
-    <>
-      <span className="row-span-2 text-highlight">{icon}</span>
-      <span className="block text-sm font-semibold text-fg sm:mt-3">
-        {title}
-      </span>
-      <span className="block text-sm text-fg/50 sm:mt-1">{body}</span>
-    </>
-  );
-  return (
-    <li className={href ? undefined : PERK}>
-      {href ? (
-        <Link href={href} className={`${PERK} transition hover:opacity-80`}>
-          {content}
-        </Link>
-      ) : (
-        content
-      )}
-    </li>
   );
 }
 

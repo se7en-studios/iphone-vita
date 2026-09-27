@@ -1,4 +1,5 @@
 import type { Product } from "@/types";
+import { isOutOfStock } from "./format";
 
 /*
  * "Encontrá tu iPhone": lógica por filtros y puntaje, sin IA.
@@ -94,6 +95,8 @@ export function matchIphones(all: Product[], a: FinderAnswers): Product[] {
     if (a.preference === "bateria" && p.batteryHealth) s += p.batteryHealth >= 90 ? 1 : 0;
     if (a.preference === "precio") s += p.condition === "semi-nuevo" ? 2 : p.price ? Math.max(0, 2 - p.price / 800) : 0;
     if (p.stockLevel !== "bajo") s += 0.5;
+    // Sin stock va al fondo: se puede pedir aviso, pero no es la mejor recomendación.
+    if (isOutOfStock(p)) s -= 100;
     return s;
   };
 

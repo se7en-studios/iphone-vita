@@ -40,9 +40,12 @@ const ROWS = [
   "Diseño",
 ];
 
-/** Comparador minimalista blanco sobre negro, como el de apple.com. */
+/** Modelos con specs cargadas: la home solo compara los que siguen en el catálogo. */
+export const COMPARABLE_MODELS = Object.keys(SPECS);
+
+/** Comparador minimalista blanco sobre negro, como el de apple.com. Con menos de 2 modelos no se muestra. */
 export function CompareSection({ models }: { models: Product[] }) {
-  if (!models.length) return null;
+  if (models.length < 2) return null;
   return (
     <section
       id="comparar"
@@ -67,7 +70,7 @@ export function CompareSection({ models }: { models: Product[] }) {
       <div className="no-scrollbar mt-16 hidden overflow-x-auto px-8 md:block">
         <table className="mx-auto w-full min-w-[720px] max-w-5xl table-fixed border-collapse text-center">
           <caption className="sr-only">
-            Comparación de iPhone 17 Pro, iPhone 17 Pro Max e iPhone 18 Pro
+            Comparación de {models.map((m) => m.name).join(", ")}
           </caption>
           <thead>
             <tr>

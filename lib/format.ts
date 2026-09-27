@@ -19,6 +19,16 @@ export function priceLabelARS(p: Pick<Product, "price" | "priceType">, rate = DE
   return p.priceType === "consultar" || p.price == null ? null : formatARS(p.price, rate);
 }
 
+/** Sin unidades cargadas: se muestra pero no se puede comprar. */
+export function isOutOfStock(p: Pick<Product, "stock">): boolean {
+  return p.stock === 0;
+}
+
+/** Se puede agregar al carrito: precio fijo y con stock. */
+export function canBuy(p: Pick<Product, "price" | "priceType" | "stock">): boolean {
+  return p.priceType === "fijo" && p.price != null && !isOutOfStock(p);
+}
+
 export const STOCK_LABEL: Record<StockLevel, string> = {
   alto: "Disponible",
   medio: "Stock limitado",
@@ -26,6 +36,7 @@ export const STOCK_LABEL: Record<StockLevel, string> = {
 };
 
 export function stockLabel(p: Pick<Product, "stock" | "stockLevel" | "condition">): string {
+  if (isOutOfStock(p)) return "Sin stock";
   if (p.condition === "semi-nuevo" && p.stock != null) {
     return p.stock === 1 ? "1 unidad disponible" : `${p.stock} unidades disponibles`;
   }
@@ -37,12 +48,13 @@ export function fullName(p: Product): string {
   return [p.name, p.size, p.storage, p.color, p.bandSize ? `talle ${p.bandSize}` : ""].filter(Boolean).join(" ");
 }
 
-export type Badge = "NUEVO" | "SEMI NUEVO" | "ÚLTIMAS UNIDADES" | "CONSULTAR";
+export type Badge = "NUEVO" | "SEMI NUEVO" | "ÚLTIMAS UNIDADES" | "SIN STOCK" | "CONSULTAR";
 
 export function badgesFor(p: Product): Badge[] {
   const b: Badge[] = [];
   b.push(p.condition === "nuevo" ? "NUEVO" : "SEMI NUEVO");
-  if (p.condition === "nuevo" && p.stockLevel === "bajo") b.push("ÚLTIMAS UNIDADES");
+  if (isOutOfStock(p)) b.push("SIN STOCK");
+  else if (p.condition === "nuevo" && p.stockLevel === "bajo") b.push("ÚLTIMAS UNIDADES");
   if (p.priceType === "consultar") b.push("CONSULTAR");
   return b;
 }

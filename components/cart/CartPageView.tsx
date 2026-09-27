@@ -3,18 +3,24 @@
 import Link from "next/link";
 import { useCart } from "./CartProvider";
 import { CartLines } from "./CartLines";
+import { CartNotice } from "./CartNotice";
+import { useStoreSettings } from "../StoreSettings";
 import { formatARS, formatUSD } from "@/lib/format";
 import { cartMessage, waLink } from "@/lib/whatsapp";
 import { BagIcon, ChatIcon } from "../ui/Icons";
 
 export function CartPageView() {
   const { lines, subtotal, count } = useCart();
+  const { arsRate } = useStoreSettings();
   return (
     <div className="bg-bg text-fg min-h-[85vh]">
       <section className="mx-auto max-w-7xl px-4 pb-24 pt-12 md:px-8 md:pt-16">
         <div className="space-y-2">
           <p className="text-lg font-semibold text-highlight md:text-xl">Bolsa</p>
           <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] text-fg">Tu carrito.</h1>
+        </div>
+        <div className="mx-auto mt-8 max-w-xl empty:hidden lg:mx-0">
+          <CartNotice />
         </div>
         {lines.length === 0 ? (
           <div className="mt-10 rounded-3xl border border-fg/10 bg-surface p-10 text-center max-w-xl mx-auto space-y-4">
@@ -37,7 +43,7 @@ export function CartPageView() {
                 </div>
                 <div className="flex justify-between text-xs text-fg/40">
                   <span>En pesos (aprox.)</span>
-                  <span className="tabular font-medium text-fg/70">~ {formatARS(subtotal)} ARS</span>
+                  <span className="tabular font-medium text-fg/70">~ {formatARS(subtotal, arsRate)}</span>
                 </div>
               </div>
               <div className="space-y-1 rounded-2xl bg-fg/[0.04] p-3.5 text-xs ring-1 ring-fg/10">
@@ -49,7 +55,7 @@ export function CartPageView() {
               <p className="text-xs text-fg/40 leading-relaxed">
                 Al hacer clic te abrimos WhatsApp con el detalle completo de tu pedido para coordinar stock, entrega y pago.
               </p>
-              <a href={waLink(cartMessage(lines))} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-4 text-sm font-bold text-accent-fg transition hover:brightness-110">
+              <a href={waLink(cartMessage(lines, arsRate))} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-4 text-sm font-bold text-accent-fg transition hover:brightness-110">
                 <ChatIcon className="size-4" /> Finalizar compra por WhatsApp
               </a>
               <Link href="/productos" className="block w-full rounded-full border border-fg/15 py-3 text-center text-xs font-semibold text-fg/70 hover:border-fg/40 hover:text-fg transition">Seguir comprando</Link>

@@ -1,5 +1,5 @@
 import type { Product } from "@/types";
-import { badgesFor, stockLabel } from "@/lib/format";
+import { badgesFor, isOutOfStock, stockLabel } from "@/lib/format";
 
 export function ProductBadges({
   product,
@@ -28,8 +28,14 @@ export function ProductBadges({
   );
 }
 
-/** Etiqueta sobre la foto de una card: sólo lo que la distingue (hoy, semi nuevo). */
+/** Etiqueta sobre la foto de una card: solo lo que la distingue (sin stock o semi nuevo). */
 export function CardTag({ product }: { product: Product }) {
+  if (isOutOfStock(product))
+    return (
+      <span className="absolute left-3 top-3 z-10 rounded-full bg-bg/80 px-2.5 py-1 text-xs font-semibold text-fg/70 ring-1 ring-fg/15 backdrop-blur-md">
+        Sin stock
+      </span>
+    );
   if (product.condition !== "semi-nuevo") return null;
   return (
     <span className="absolute left-3 top-3 z-10 rounded-full bg-bg/75 px-2.5 py-1 text-xs font-semibold text-vita ring-1 ring-vita/30 backdrop-blur-md">
@@ -46,8 +52,9 @@ export function StockNote({
   product: Product;
   dark?: boolean;
 }) {
-  const dot =
-    product.condition === "semi-nuevo" || product.stockLevel === "bajo"
+  const dot = isOutOfStock(product)
+    ? "bg-fg/30"
+    : product.condition === "semi-nuevo" || product.stockLevel === "bajo"
       ? "bg-amber-400/80"
       : product.stockLevel === "medio"
         ? "bg-vita/60"

@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "./CartProvider";
 import { CartLines } from "./CartLines";
+import { CartNotice } from "./CartNotice";
+import { useStoreSettings } from "../StoreSettings";
 import { BagIcon, CloseIcon, ChatIcon } from "../ui/Icons";
-import { formatUSD } from "@/lib/format";
+import { formatARS, formatUSD } from "@/lib/format";
 import { cartMessage, waLink } from "@/lib/whatsapp";
 
 export function CartDrawer() {
   const { open, setOpen, lines, subtotal, count } = useCart();
+  const { arsRate } = useStoreSettings();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -31,11 +34,14 @@ export function CartDrawer() {
           <button type="button" aria-label="Cerrar carrito" onClick={() => setOpen(false)} className="grid size-9 place-items-center rounded-full text-fg/70 hover:bg-fg/10 hover:text-fg transition"><CloseIcon /></button>
         </header>
 
-        <div className="flex-1 overflow-y-auto px-6">
+        <div className="flex flex-1 flex-col overflow-y-auto px-6">
+          <div className="empty:hidden pt-4">
+            <CartNotice />
+          </div>
           {lines.length ? (
             <CartLines />
           ) : (
-            <div className="grid h-full place-items-center text-center">
+            <div className="grid flex-1 place-items-center py-10 text-center">
               <div className="space-y-4">
                 <div className="mx-auto grid size-16 place-items-center rounded-full bg-fg/5 border border-fg/10 text-fg/60"><BagIcon className="size-7" /></div>
                 <p className="text-lg font-medium text-fg">Todavía no agregaste nada.</p>
@@ -55,13 +61,13 @@ export function CartDrawer() {
               </div>
               <div className="flex justify-between text-xs text-fg/40">
                 <span>En pesos (aprox.)</span>
-                <span className="tabular font-medium text-fg/70">~ $ {(subtotal * 1380).toLocaleString("es-AR")} ARS</span>
+                <span className="tabular font-medium text-fg/70">~ {formatARS(subtotal, arsRate)}</span>
               </div>
             </div>
             <p className="text-[11px] text-fg/50 leading-relaxed">
               Confirmamos stock, número de serie, medios de pago (efectivo, transferencia o USDT) y entrega antes de cobrar.
             </p>
-            <a href={waLink(cartMessage(lines))} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-accent-fg transition hover:brightness-110">
+            <a href={waLink(cartMessage(lines, arsRate))} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-accent-fg transition hover:brightness-110">
               <ChatIcon className="size-4" /> Finalizar compra por WhatsApp
             </a>
             <button type="button" onClick={() => setOpen(false)} className="w-full rounded-full border border-fg/15 py-2.5 text-xs font-medium text-fg/70 hover:border-fg/40 hover:text-fg transition">

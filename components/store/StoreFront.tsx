@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Category, Product } from "@/types";
 import { groupByModel, type ModelGroup } from "@/lib/products";
-import { formatUSD, priceLabel } from "@/lib/format";
+import { formatUSD, isOutOfStock, priceLabel } from "@/lib/format";
 import { GENERAL_MESSAGE, waLink } from "@/lib/whatsapp";
 import { ProductVisual } from "../ProductVisual";
 import {
@@ -16,6 +16,8 @@ import {
 } from "../ui/Icons";
 
 /** Alinea el primer card del estante con el contenedor max-w-7xl y deja el resto sangrando a la derecha. */
+const LATEST_FALLBACK = 6;
+
 const SHELF_PAD =
   "px-4 scroll-px-4 md:px-8 md:scroll-px-8 xl:px-[calc((100vw-80rem)/2+2rem)] xl:scroll-px-[calc((100vw-80rem)/2+2rem)]";
 
@@ -27,12 +29,14 @@ export function StoreFront({
   products: Product[];
   categories: Category[];
 }) {
-  const latest = groupByModel(
-    products.filter((p) => p.featured || p.createdAt >= "2026-09-10"),
-  );
-  const semi = products.filter((p) => p.condition === "semi-nuevo");
+  const available = products.filter((p) => !isOutOfStock(p));
+  const nuevos = groupByModel(available.filter((p) => p.condition === "nuevo"));
+  // Destacados del admin; si no marcó ninguno, los primeros del catálogo.
+  const featured = nuevos.filter((g) => g.variants.some((v) => v.featured));
+  const latest = featured.length ? featured : nuevos.slice(0, LATEST_FALLBACK);
+  const semi = available.filter((p) => p.condition === "semi-nuevo");
   const essentials = groupByModel(
-    products.filter(
+    available.filter(
       (p) =>
         ["airpods", "accesorios", "audio"].includes(p.category) &&
         p.price != null,
@@ -77,7 +81,7 @@ export function StoreFront({
           <ProductTile
             key={p.slug}
             product={p}
-            eyebrow={`${p.batteryHealth}% batería`}
+            eyebrow={p.batteryHealth != null ? `${p.batteryHealth}% batería` : undefined}
           />
         ))}
       </Shelf>
@@ -194,6 +198,7 @@ function Shelf({
   tail: string;
   children: ReactNode;
 }) {
+  if (Array.isArray(children) && children.length === 0) return null;
   return (
     <section className="pt-10 md:pt-14">
       <h2 className="mx-auto max-w-7xl px-4 text-2xl font-semibold tracking-[-0.02em] md:px-8 md:text-[28px]">

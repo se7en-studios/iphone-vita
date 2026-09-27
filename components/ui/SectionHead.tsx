@@ -1,14 +1,37 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
-export function SectionHead({ eyebrow, title, lede, dark = false, align = "left", action }: { eyebrow?: string; title: ReactNode; lede?: ReactNode; dark?: boolean; align?: "left" | "center"; action?: ReactNode }) {
+/** Encabezado de las secciones de compra de la home (tema negro): eyebrow champagne, título y link opcional. */
+export function SectionHead({
+  eyebrow,
+  title,
+  action,
+}: {
+  eyebrow: string;
+  title: ReactNode;
+  action?: { href: string; label: string };
+}) {
   return (
-    <div data-reveal className={`flex flex-col gap-6 md:flex-row md:items-end md:justify-between ${align === "center" ? "items-center text-center md:flex-col md:items-center" : ""}`}>
-      <div className={`space-y-4 ${align === "center" ? "mx-auto max-w-3xl" : "max-w-3xl"}`}>
-        {eyebrow && <p className={`font-semibold text-base ${dark ? "text-white/45" : "text-muted"}`}>{eyebrow}</p>}
-        <h2 className={`text-[clamp(2.2rem,5.4vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.04em] ${dark ? "text-white" : "text-ink"}`}>{title}</h2>
-        {lede && <p className={`max-w-xl text-lg leading-relaxed ${dark ? "text-white/60" : "text-muted"}`}>{lede}</p>}
+    <div
+      data-reveal
+      className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
+    >
+      <div className="space-y-2">
+        <p className="text-base font-semibold text-[#ebd7be] md:text-lg">
+          {eyebrow}
+        </p>
+        <h2 className="text-[clamp(2rem,4.5vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+          {title}
+        </h2>
       </div>
-      {action}
+      {action && (
+        <Link
+          href={action.href}
+          className="inline-flex shrink-0 items-center py-2 text-base text-[#ebd7be] hover:underline"
+        >
+          {action.label} ›
+        </Link>
+      )}
     </div>
   );
 }

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { Product } from "@/types";
-import { priceLabel } from "@/lib/format";
-import { productMessage, waLink } from "@/lib/whatsapp";
+import { canBuy, isOutOfStock, priceLabel } from "@/lib/format";
+import { productMessage, restockMessage, waLink } from "@/lib/whatsapp";
 import { useCart } from "./CartProvider";
 import { ChatIcon } from "../ui/Icons";
 
@@ -56,18 +56,18 @@ export function StickyBuyBar({
             {product.name}
           </p>
           <p className="tabular truncate text-xs text-fg/55">
-            {[summary, priceLabel(product)].filter(Boolean).join(" · ")}
+            {[summary, isOutOfStock(product) ? "Sin stock" : priceLabel(product)].filter(Boolean).join(" · ")}
           </p>
         </div>
-        {product.priceType === "consultar" ? (
+        {!canBuy(product) ? (
           <a
-            href={waLink(productMessage(product))}
+            href={waLink(isOutOfStock(product) ? restockMessage(product) : productMessage(product))}
             target="_blank"
             rel="noopener noreferrer"
             tabIndex={shown ? 0 : -1}
             className={btn}
           >
-            <ChatIcon className="size-4" /> Consultar
+            <ChatIcon className="size-4" /> {isOutOfStock(product) ? "Avisame" : "Consultar"}
           </a>
         ) : (
           <button

@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import { waLink } from "@/lib/whatsapp";
 import { formatUSD } from "@/lib/format";
-import { ArrowIcon, ChatIcon } from "./ui/Icons";
+import { ChatIcon } from "./ui/Icons";
+import { Ars } from "./StoreSettings";
 
 interface CurrentPhone {
   model: string;
@@ -24,20 +25,19 @@ const CURRENT_MODELS: CurrentPhone[] = [
   { model: "iPhone 16", baseTradeIn: 700 },
 ];
 
-const TARGET_MODELS = [
-  { model: "iPhone 16 (128 GB)", price: 890 },
-  { model: "iPhone 17 (256 GB)", price: 1090 },
-  { model: "iPhone 17 Pro (256 GB)", price: 1290 },
-  { model: "iPhone 18 Pro (256 GB)", price: 1605 },
-];
+/** iPhone nuevo que te podés llevar: sale del catálogo real (modelo + capacidad más barata). */
+export interface CanjeTarget {
+  model: string;
+  price: number;
+}
 
-export function PlanCanje() {
+export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
   const [currentIdx, setCurrentIdx] = useState(4); // iPhone 13 default
-  const [targetIdx, setTargetIdx] = useState(2); // iPhone 17 Pro default
+  const [targetIdx, setTargetIdx] = useState(Math.min(2, Math.max(0, targets.length - 1)));
   const [batteryState, setBatteryState] = useState<"alta" | "media">("alta");
 
   const current = CURRENT_MODELS[currentIdx];
-  const target = TARGET_MODELS[targetIdx];
+  const target = targets[Math.min(targetIdx, targets.length - 1)];
 
   const estimatedTradeIn = useMemo(() => {
     let val = current.baseTradeIn;
@@ -45,6 +45,7 @@ export function PlanCanje() {
     return val;
   }, [current, batteryState]);
 
+  if (!target) return null;
   const difference = Math.max(0, target.price - estimatedTradeIn);
 
   const whatsappMessage = `Hola iPhone Vita! Quiero consultar por el Plan Canje: Entrego mi ${current.model} (${batteryState === "alta" ? "Batería +85% / excelente estado" : "Batería normal"}) y quiero llevarme el ${target.model}. Según la web la diferencia estimada es de aprox. $${difference} USD. ¿Podemos coordinar la revisión del equipo?`;
@@ -88,10 +89,11 @@ export function PlanCanje() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/80">
+                <label htmlFor="canje-actual" className="text-sm font-medium text-white/80">
                   Modelo que tenés:
                 </label>
                 <select
+                  id="canje-actual"
                   value={currentIdx}
                   onChange={(e) => setCurrentIdx(Number(e.target.value))}
                   className="w-full rounded-2xl border border-white/15 bg-[#0a0a0a] px-4 py-3.5 text-sm text-white focus:border-[#ebd7be] focus:outline-none"
@@ -105,13 +107,14 @@ export function PlanCanje() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/80">
+                <p className="text-sm font-medium text-white/80">
                   Estado de batería y detalles:
-                </label>
+                </p>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setBatteryState("alta")}
+                    aria-pressed={batteryState === "alta"}
                     className={`rounded-xl border p-3 text-xs text-left transition ${
                       batteryState === "alta"
                         ? "border-[#ebd7be] bg-[#ebd7be]/15 text-[#ebd7be]"
@@ -128,6 +131,7 @@ export function PlanCanje() {
                   <button
                     type="button"
                     onClick={() => setBatteryState("media")}
+                    aria-pressed={batteryState === "media"}
                     className={`rounded-xl border p-3 text-xs text-left transition ${
                       batteryState === "media"
                         ? "border-[#ebd7be] bg-[#ebd7be]/15 text-[#ebd7be]"
@@ -167,15 +171,16 @@ export function PlanCanje() {
                 </div>
 
                 <div className="mt-6 space-y-2">
-                  <label className="text-sm font-medium text-white/80">
+                  <label htmlFor="canje-nuevo" className="text-sm font-medium text-white/80">
                     Modelo que querés llevarte:
                   </label>
                   <select
+                    id="canje-nuevo"
                     value={targetIdx}
                     onChange={(e) => setTargetIdx(Number(e.target.value))}
                     className="w-full rounded-2xl border border-white/15 bg-[#0a0a0a] px-4 py-3.5 text-sm text-white focus:border-[#ebd7be] focus:outline-none"
                   >
-                    {TARGET_MODELS.map((item, idx) => (
+                    {targets.map((item, idx) => (
                       <option key={item.model} value={idx}>
                         {item.model} — {formatUSD(item.price)}
                       </option>
@@ -199,7 +204,7 @@ export function PlanCanje() {
                   </span>
                 </div>
                 <span className="mt-1 block text-xs text-white/50">
-                  (O abonás el equivalente en Pesos al cambio del día)
+                  ≈ <Ars usd={difference} /> al cambio del día
                 </span>
 
                 <a
