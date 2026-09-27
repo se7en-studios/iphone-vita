@@ -30,13 +30,28 @@ export const metadata: Metadata = {
     title: "iPhone Vita · Tu próxima tecnología",
     description:
       "iPhone sellados con garantía oficial, semi nuevos revisados y accesorios. Aceptamos pesos.",
-    images: ["/images/lifestyle-hand-pro.jpg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "iPhone Vita · Tu próxima tecnología",
+    description:
+      "iPhone sellados con garantía oficial, semi nuevos revisados y accesorios. Aceptamos pesos.",
   },
 };
 
 export const viewport: Viewport = {
   themeColor: "#000000",
   viewportFit: "cover",
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "iPhone Vita",
+  url: SITE,
+  description:
+    "Tienda de tecnología premium: iPhone nuevos y semi nuevos, Mac, iPad, Apple Watch, AirPods y accesorios.",
+  sameAs: ["https://www.instagram.com/iphone_vita/"],
 };
 
 export default async function RootLayout({
@@ -48,6 +63,12 @@ export default async function RootLayout({
   return (
     <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="bg-black text-white">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
         <CartProvider products={products}>
           <AnnouncementBar />
           <Navbar />

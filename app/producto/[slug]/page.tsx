@@ -80,6 +80,27 @@ export default async function ProductPage({ params }: { params: Params }) {
     .filter((x) => x.category === p.category && x.model !== p.model)
     .slice(0, 4);
   const isNewIphone = p.category === "iphone" && p.condition === "nuevo";
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: fullName(p),
+    description: p.description,
+    brand: { "@type": "Brand", name: p.brand },
+    image: p.image ?? undefined,
+    itemCondition:
+      p.condition === "nuevo"
+        ? "https://schema.org/NewCondition"
+        : "https://schema.org/UsedCondition",
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: p.price ?? undefined,
+      availability:
+        p.stockLevel === "bajo"
+          ? "https://schema.org/LimitedAvailability"
+          : "https://schema.org/InStock",
+    },
+  };
   const summary = [
     p.size,
     p.storage,
@@ -92,6 +113,10 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <header className="mx-auto max-w-7xl px-4 pb-10 pt-8 md:px-8 md:pb-14 md:pt-12">
         <nav
           aria-label="Ruta"
