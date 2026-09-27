@@ -69,7 +69,18 @@ export interface Product {
   featured?: boolean;
   /** Canal mayorista (cables y EarPods) */
   wholesale?: boolean;
+  /** false = oculto en la tienda (solo lo ve el admin) */
+  active?: boolean;
+  /** Orden en el catálogo (menor primero) */
+  sortOrder?: number;
   createdAt: string;
+}
+
+export interface StoreSettings {
+  /** Cotización USD → ARS */
+  arsRate: number;
+  /** Texto de la barra de anuncios; vacío = default del código */
+  announcement: string;
 }
 
 export interface CartItem {

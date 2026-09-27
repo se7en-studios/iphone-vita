@@ -3,14 +3,6 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-import { getProducts } from "@/lib/products";
-import { CartProvider } from "@/components/cart/CartProvider";
-import { CartDrawer } from "@/components/cart/CartDrawer";
-import { Navbar } from "@/components/Navbar";
-import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { Footer } from "@/components/Footer";
-import { WhatsAppFloat } from "@/components/WhatsAppFloat";
-import { Reveal } from "@/components/Reveal";
 
 const SITE =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://iphone-vita.vercel.app";
@@ -54,12 +46,11 @@ const organizationJsonLd = {
   sameAs: ["https://www.instagram.com/iphone_vita/"],
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const products = await getProducts();
   return (
     <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="bg-bg text-fg">
@@ -69,15 +60,7 @@ export default async function RootLayout({
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
-        <CartProvider products={products}>
-          <AnnouncementBar />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <CartDrawer />
-          <WhatsAppFloat />
-          <Reveal />
-        </CartProvider>
+        {children}
       </body>
     </html>
   );

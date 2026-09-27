@@ -7,6 +7,8 @@ import type {
   StockLevel,
   SubcategorySlug,
 } from "@/types";
+import { slugify } from "@/lib/slug";
+import { buildSpecs } from "@/lib/product-row";
 
 /*
  * Catálogo de iPhone Vita.
@@ -43,14 +45,6 @@ export const categories: Category[] = [
 ];
 
 /* ---------- helpers de carga ---------- */
-
-const slugify = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
 
 interface Input {
   name: string;
@@ -97,14 +91,7 @@ function p(i: Input): Product {
       .filter(Boolean)
       .join(" "),
   );
-  const specs: Record<string, string> = {};
-  if (i.storage) specs["Capacidad"] = i.storage;
-  if (i.color) specs["Color"] = i.color;
-  if (i.size) specs["Tamaño"] = i.size;
-  if (i.bandSize) specs["Talle de malla"] = i.bandSize;
-  if (i.batteryHealth) specs["Salud de batería"] = `${i.batteryHealth}%`;
-  specs["Condición"] = condition === "nuevo" ? "Nuevo" : "Semi nuevo";
-  Object.assign(specs, i.specifications);
+  const specs = buildSpecs({ ...i, condition }, i.specifications);
 
   return {
     id: String(seq).padStart(3, "0"),
