@@ -28,10 +28,10 @@ export function ColorDots({
     >
       {variants.map((v) => {
         const active = v.slug === activeSlug;
-        const cls = `${d} rounded-full border transition ${dark ? "border-white/20" : "border-black/10"} ${
+        const cls = `${d} rounded-full border transition ${dark ? "border-fg/20" : "border-black/10"} ${
           active
             ? dark
-              ? "ring-2 ring-white ring-offset-2 ring-offset-ink"
+              ? "ring-2 ring-fg ring-offset-2 ring-offset-surface"
               : "ring-2 ring-ink ring-offset-2"
             : ""
         }`;

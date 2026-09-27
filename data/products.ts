@@ -529,6 +529,7 @@ export const products: Product[] = [
   }),
   p({
     name: "AirTag",
+    image: cat("airtag"),
     category: "accesorios",
     subcategory: "airtags",
     price: 38,
@@ -538,6 +539,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Apple Pencil Pro",
+    image: cat("apple-pencil-pro"),
     category: "accesorios",
     subcategory: "apple-pencil",
     price: 145,
@@ -546,6 +548,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Apple Pencil USB-C",
+    image: cat("apple-pencil-usb-c"),
     category: "accesorios",
     subcategory: "apple-pencil",
     price: 101,
@@ -623,6 +626,7 @@ export const products: Product[] = [
   /* Cables (mayorista) */
   p({
     name: "Cable USB-C a Jack",
+    image: cat("cable-usbc-jack"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "bajo",
@@ -631,6 +635,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Cable Lightning 1m original",
+    image: cat("cable-lightning"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "bajo",
@@ -640,6 +645,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Cable MagSafe 15W inalámbrico original",
+    image: cat("magsafe-charger"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "medio",
@@ -650,6 +656,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Cable USB-C a Lightning 1m original",
+    image: cat("cable-usbc-lightning"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "alto",
@@ -659,6 +666,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Cable USB-C a Lightning 2m original",
+    image: cat("cable-usbc-lightning"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "medio",
@@ -668,6 +676,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Cable USB-C a USB-C 1m original",
+    image: cat("cable-usbc-usbc-1m"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "alto",
@@ -677,6 +686,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Cable USB-C a USB-C 2m original para MacBook",
+    image: cat("cable-usbc-usbc-2m"),
     category: "accesorios",
     subcategory: "cables",
     stockLevel: "medio",
@@ -689,6 +699,7 @@ export const products: Product[] = [
   /* Transformadores */
   p({
     name: "Transformador 20W original Apple",
+    image: cat("adapter-20w"),
     category: "accesorios",
     subcategory: "cargadores",
     stockLevel: "alto",
@@ -697,6 +708,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Transformador 40W Dynamic Power Adapter",
+    image: cat("adapter-40w"),
     category: "accesorios",
     subcategory: "cargadores",
     stockLevel: "alto",
@@ -707,6 +719,7 @@ export const products: Product[] = [
   /* Auriculares */
   p({
     name: "EarPods USB-C originales",
+    image: cat("earpods-usb-c"),
     category: "accesorios",
     subcategory: "auriculares",
     stockLevel: "bajo",
@@ -740,6 +753,7 @@ export const products: Product[] = [
   }),
   p({
     name: "DJI Mic Mini",
+    image: cat("dji-mic-mini"),
     brand: "DJI",
     category: "camaras-creators",
     price: 150,
@@ -748,6 +762,7 @@ export const products: Product[] = [
   }),
   p({
     name: "Anker Power Bank 10K mAh",
+    image: cat("anker-powerbank"),
     brand: "Anker",
     category: "accesorios",
     subcategory: "cargadores",
@@ -760,19 +775,20 @@ export const products: Product[] = [
   /* Casio */
   ...(
     [
-      ["A700WEVG-9AVT", 85],
-      ["B650WC-5AVT", 105],
-      ["BGD-10K-4CR", 109],
-      ["BGD10K-2", 109],
-      ["GA-2100-1ACR", 111],
-      ["GA700UC-5A", 136],
-      ["MTPB145DC-3A", 126],
+      ["A700WEVG-9AVT", 85, "casio-a700wevg-9a"],
+      ["B650WC-5AVT", 105, "casio-b650wc-5a"],
+      ["BGD-10K-4CR", 109, "casio-bgd-10k-4"],
+      ["BGD10K-2", 109, "casio-bgd-10k-2"],
+      ["GA-2100-1ACR", 111, "casio-ga-2100-1a"],
+      ["GA700UC-5A", 136, "casio-ga-700uc-5a"],
+      ["MTPB145DC-3A", 126, "casio-mtp-b145dc-3a"],
     ] as const
-  ).map(([ref, price]) =>
+  ).map(([ref, price, img]) =>
     p({
       name: `Casio ${ref}`,
       model: `casio-${slugify(ref)}`,
       brand: "Casio",
+      image: cat(img),
       category: "wearables",
       price,
       stockLevel: "bajo",

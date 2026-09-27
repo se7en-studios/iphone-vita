@@ -41,21 +41,21 @@ export function StickyBuyBar({
   }, [shown]);
 
   const btn =
-    "flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#ebd7be] px-5 py-3 text-sm font-semibold text-black transition hover:bg-white";
+    "flex shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-fg transition hover:brightness-110";
 
   return (
     <div
       aria-hidden={!shown}
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/85 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-xl transition duration-300 ease-[var(--ease-soft)] lg:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-fg/10 bg-bg/85 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-xl transition duration-300 ease-[var(--ease-soft)] lg:hidden ${
         shown ? "translate-y-0" : "pointer-events-none translate-y-full"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-white">
+          <p className="truncate text-sm font-semibold text-fg">
             {product.name}
           </p>
-          <p className="tabular truncate text-xs text-white/55">
+          <p className="tabular truncate text-xs text-fg/55">
             {[summary, priceLabel(product)].filter(Boolean).join(" · ")}
           </p>
         </div>

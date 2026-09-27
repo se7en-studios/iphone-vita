@@ -24,7 +24,7 @@ export function AnnouncementBar() {
   }, []);
 
   return (
-    <div className="relative z-50 bg-[#1d1d1f] text-center text-xs text-white/80">
+    <div className="relative z-50 bg-surface-2 text-center text-xs text-fg/80">
       <p className="mx-auto max-w-7xl px-4 py-2.5" aria-live="polite">
         <span key={i} className="inline-block animate-[fade-in_0.6s_ease-out]">
           {MESSAGES[i]}

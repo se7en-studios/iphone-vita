@@ -36,7 +36,7 @@ export function ModelCard({
       href={`/producto/${active.slug}`}
       className={`group flex h-full flex-col overflow-hidden rounded-[28px] transition duration-500 hover:-translate-y-1 ${
         dark
-          ? "bg-[#0a0a0a] text-white ring-1 ring-white/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
+          ? "bg-surface text-fg ring-1 ring-fg/10 hover:ring-accent/40 hover:shadow-[var(--card-shadow)]"
           : "bg-mist"
       }`}
     >
@@ -56,17 +56,17 @@ export function ModelCard({
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h3 className="text-xl font-bold text-white md:text-[22px] group-hover:text-[#ebd7be] transition">
+            <h3 className="text-xl font-bold text-fg md:text-[22px] group-hover:text-highlight transition">
               {group.name}
             </h3>
             <p
-              className={`mt-1 text-sm ${dark ? "text-white/60" : "text-muted"}`}
+              className={`mt-1 text-sm ${dark ? "text-fg/60" : "text-muted"}`}
             >
               {specs.join(" / ")}
             </p>
           </div>
           <span
-            className={`grid size-10 shrink-0 place-items-center rounded-full transition group-hover:translate-x-1 group-hover:bg-[#ebd7be] group-hover:text-black ${dark ? "bg-white/10 text-white" : "bg-white"}`}
+            className={`grid size-10 shrink-0 place-items-center rounded-full transition group-hover:translate-x-1 group-hover:bg-accent group-hover:text-accent-fg ${dark ? "bg-fg/10 text-fg" : "bg-fg"}`}
           >
             <ArrowIcon />
           </span>
@@ -81,13 +81,13 @@ export function ModelCard({
                 dark={dark}
               />
             )}
-            <p className={`text-xs ${dark ? "text-white/50" : "text-muted"}`}>
+            <p className={`text-xs ${dark ? "text-fg/50" : "text-muted"}`}>
               {active.color} · {STOCK_LABEL[active.stockLevel]}
             </p>
           </div>
           {group.fromPrice != null && (
-            <p className="tabular text-right text-base text-white">
-              <span className="text-white/50">Desde </span>
+            <p className="tabular text-right text-base text-fg">
+              <span className="text-fg/50">Desde </span>
               {formatUSD(group.fromPrice)}
             </p>
           )}

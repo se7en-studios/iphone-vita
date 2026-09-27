@@ -17,7 +17,7 @@ export function ProductBadges({
             b === "SEMI NUEVO"
               ? "bg-vita-soft text-vita"
               : dark
-                ? "bg-white/10 text-white/80"
+                ? "bg-fg/10 text-fg/80"
                 : "bg-mist text-ink/70"
           }`}
         >
@@ -32,7 +32,7 @@ export function ProductBadges({
 export function CardTag({ product }: { product: Product }) {
   if (product.condition !== "semi-nuevo") return null;
   return (
-    <span className="absolute left-3 top-3 z-10 rounded-full bg-black/60 px-2.5 py-1 text-xs font-semibold text-vita ring-1 ring-vita/30 backdrop-blur-md">
+    <span className="absolute left-3 top-3 z-10 rounded-full bg-bg/75 px-2.5 py-1 text-xs font-semibold text-vita ring-1 ring-vita/30 backdrop-blur-md">
       Semi nuevo
     </span>
   );
@@ -54,7 +54,7 @@ export function StockNote({
         : "bg-vita";
   return (
     <span
-      className={`inline-flex items-center gap-2 text-xs ${dark ? "text-white/60" : "text-muted"}`}
+      className={`inline-flex items-center gap-2 text-xs ${dark ? "text-fg/60" : "text-muted"}`}
     >
       <span className={`size-1.5 rounded-full ${dot}`} />
       {stockLabel(product)}

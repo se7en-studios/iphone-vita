@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 
 export default async function FinderPage() {
   const products = await getProducts();
-  return <IphoneFinder products={products.filter((p) => p.category === "iphone")} />;
+  return (
+    <div className="store">
+      <IphoneFinder products={products.filter((p) => p.category === "iphone")} />
+    </div>
+  );
 }

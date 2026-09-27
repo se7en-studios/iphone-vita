@@ -62,7 +62,7 @@ export default async function RootLayout({
   const products = await getProducts();
   return (
     <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <body className="bg-black text-white">
+      <body className="bg-bg text-fg">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

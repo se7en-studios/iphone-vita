@@ -47,8 +47,8 @@ export function ProductGallery({ product }: { product: Product }) {
               aria-current={idx === i}
               className={`stage relative size-16 overflow-hidden rounded-xl ring-2 transition ${
                 idx === i
-                  ? "ring-[#ebd7be]"
-                  : "ring-transparent hover:ring-white/30"
+                  ? "ring-accent"
+                  : "ring-transparent hover:ring-fg/30"
               }`}
             >
               <Image

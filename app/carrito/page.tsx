@@ -4,5 +4,9 @@ import { CartPageView } from "@/components/cart/CartPageView";
 export const metadata: Metadata = { title: "Carrito" };
 
 export default function CarritoPage() {
-  return <CartPageView />;
+  return (
+    <div className="store">
+      <CartPageView />
+    </div>
+  );
 }

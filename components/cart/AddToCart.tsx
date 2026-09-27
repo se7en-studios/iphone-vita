@@ -8,8 +8,8 @@ import { ChatIcon } from "../ui/Icons";
 
 /** Botones de compra de un producto: carrito para precio fijo, WhatsApp para "consultar". */
 export function BuyButtons({ product, layout = "full", dark = false }: { product: Product; layout?: "full" | "compact"; dark?: boolean }) {
-  const primary = "bg-[#ebd7be] text-black hover:bg-white font-semibold";
-  const secondary = "border border-white/20 text-white hover:border-white/50 hover:bg-white/5";
+  const primary = "bg-accent text-accent-fg hover:brightness-110 font-semibold";
+  const secondary = "border border-fg/20 text-fg hover:border-fg/50 hover:bg-fg/5";
   const { add, setOpen } = useCart();
   const [added, setAdded] = useState(false);
   const wa = (
@@ -17,7 +17,7 @@ export function BuyButtons({ product, layout = "full", dark = false }: { product
       href={waLink(productMessage(product))}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3.5 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/10 hover:text-white"
+      className="flex items-center justify-center gap-2 rounded-full border border-fg/20 bg-fg/5 py-3.5 text-sm font-medium text-fg transition hover:border-fg/40 hover:bg-fg/10 hover:text-fg"
     >
       <ChatIcon className="size-4" /> Consultar por WhatsApp
     </a>

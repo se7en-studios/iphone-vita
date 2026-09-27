@@ -33,7 +33,7 @@ export function ProductVisual({
         />
       ) : (
         <div className="absolute inset-0 grid place-items-center">
-          <div className="stage-product w-[42%] max-w-[170px] text-white/35 transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-105">
+          <div className="stage-product w-[42%] max-w-[170px] text-fg/25 transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-105">
             <CategoryGlyph
               category={product.category}
               subcategory={product.subcategory}

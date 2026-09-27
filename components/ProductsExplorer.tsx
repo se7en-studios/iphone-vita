@@ -134,27 +134,27 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 md:px-8">
-      <div className="sticky top-14 z-30 -mx-4 border-b border-line bg-black/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
+      <div className="sticky top-14 z-30 -mx-4 border-b border-line bg-bg/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
         <div className="flex items-center justify-between gap-3">
         <p className="tabular whitespace-nowrap text-sm text-muted">{filtered.length} productos</p>
         <div className="flex items-center gap-2">
           <label htmlFor="orden" className="sr-only">Ordenar</label>
-          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="min-w-0 rounded-full border border-line bg-paper px-3 py-2 text-sm outline-none focus:border-[#ebd7be] sm:px-4">
+          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="min-w-0 rounded-full border border-line bg-paper px-3 py-2 text-sm outline-none focus:border-accent sm:px-4">
             <option value="destacados">Destacados</option>
             <option value="precio-asc">Precio menor</option>
             <option value="precio-desc">Precio mayor</option>
             <option value="recientes">Más recientes</option>
           </select>
           <button type="button" onClick={() => setDrawer(true)} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm lg:hidden">
-            <FilterIcon /> Filtros{active ? <span className="grid size-5 place-items-center rounded-full bg-[#ebd7be] text-[11px] font-semibold text-black">{active}</span> : null}
+            <FilterIcon /> Filtros{active ? <span className="grid size-5 place-items-center rounded-full bg-accent text-[11px] font-semibold text-accent-fg">{active}</span> : null}
           </button>
         </div>
         </div>
         {chips.length > 0 && (
           <div className="no-scrollbar -mx-4 mt-3 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0">
             {chips.map((c) => (
-              <button key={c.key} type="button" onClick={c.remove} aria-label={`Quitar filtro ${c.label}`} className="flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-white/10 pl-3.5 pr-2.5 text-xs text-white transition hover:bg-white/20">
-                {c.label} <CloseIcon className="size-3.5 text-white/60" />
+              <button key={c.key} type="button" onClick={c.remove} aria-label={`Quitar filtro ${c.label}`} className="flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-fg/10 pl-3.5 pr-2.5 text-xs text-fg transition hover:bg-fg/20">
+                {c.label} <CloseIcon className="size-3.5 text-fg/60" />
               </button>
             ))}
             <button type="button" onClick={() => setF(empty)} className="h-9 shrink-0 px-2 text-xs text-vita hover:underline">Limpiar</button>
@@ -192,7 +192,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
             <button type="button" onClick={() => setDrawer(false)} aria-label="Cerrar filtros" className="grid size-9 place-items-center rounded-full hover:bg-mist"><CloseIcon /></button>
           </div>
           {panel}
-          <button type="button" onClick={() => setDrawer(false)} className="mt-8 w-full rounded-full bg-[#ebd7be] py-3.5 text-sm font-semibold text-black">
+          <button type="button" onClick={() => setDrawer(false)} className="mt-8 w-full rounded-full bg-accent py-3.5 text-sm font-semibold text-accent-fg">
             Ver {filtered.length} productos
           </button>
         </div>
@@ -204,7 +204,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset>
-      <legend className="mb-3 text-sm font-semibold text-white/80">{title}</legend>
+      <legend className="mb-3 text-sm font-semibold text-fg/80">{title}</legend>
       <div className="space-y-1">{children}</div>
     </fieldset>
   );

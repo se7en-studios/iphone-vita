@@ -22,25 +22,25 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
   return (
     <Link
       href={`/producto/${active.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[28px] bg-[#0a0a0a] text-white ring-1 ring-white/10 transition duration-500 hover:-translate-y-1 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+      className="group flex h-full flex-col overflow-hidden rounded-[20px] bg-surface text-fg ring-1 ring-fg/10 transition duration-500 hover:-translate-y-1 hover:ring-accent/40 hover:shadow-[var(--card-shadow)] md:rounded-[28px]"
     >
       <div className="relative">
         <CardTag product={active} />
         <ProductVisual
           product={active}
-          className="aspect-[4/5]"
+          className="aspect-square md:aspect-[4/5]"
           sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-3 p-4 md:p-5">
+      <div className="flex flex-1 flex-col gap-2.5 p-3.5 md:gap-3 md:p-5">
         <div>
           {active.brand !== "Apple" && (
-            <p className="text-xs text-white/50">{active.brand}</p>
+            <p className="text-xs text-fg/50">{active.brand}</p>
           )}
-          <h3 className="text-[14px] font-bold leading-snug transition group-hover:text-[#ebd7be] md:text-base">
+          <h3 className="text-[14px] font-bold leading-snug transition group-hover:text-highlight md:text-base">
             {active.name}
           </h3>
-          <p className="mt-0.5 text-xs text-white/60">
+          <p className="mt-0.5 text-xs text-fg/60">
             {[
               active.size,
               active.storage,
@@ -59,9 +59,9 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
             dark
           />
         )}
-        <div className="mt-auto flex flex-wrap items-end justify-between gap-2 border-t border-white/10 pt-3">
+        <div className="mt-auto flex flex-col gap-1 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-2 md:border-t md:border-fg/10 md:pt-3">
           <StockNote product={active} dark />
-          <span className="tabular whitespace-nowrap text-right text-[15px] font-bold text-[#ebd7be]">
+          <span className="tabular whitespace-nowrap text-[15px] font-bold text-highlight md:text-right">
             {min != null && varies
               ? `Desde ${formatUSD(min)}`
               : priceLabel(active)}

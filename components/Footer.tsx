@@ -63,9 +63,9 @@ type FooterLink = { label: string; href: string; external?: boolean };
 
 function FooterLinks({ links }: { links: FooterLink[] }) {
   const cls =
-    "block py-2.5 transition hover:text-white hover:underline md:py-0";
+    "block py-2.5 transition hover:text-fg hover:underline md:py-0";
   return (
-    <ul className="pb-3 text-sm text-white/60 md:space-y-2 md:pb-0 md:text-xs">
+    <ul className="pb-3 text-sm text-fg/60 md:space-y-2 md:pb-0 md:text-xs">
       {links.map((l) => (
         <li key={l.label}>
           {l.external ? (
@@ -93,25 +93,25 @@ const pretty = (n: string) =>
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black text-white">
+    <footer className="border-t border-fg/10 bg-bg text-fg">
       <div className="mx-auto max-w-[980px] px-4 pb-10 pt-16 md:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="space-y-4">
             <Wordmark dark className="text-2xl" />
-            <p className="max-w-xs text-xs leading-relaxed text-white/55">
+            <p className="max-w-xs text-xs leading-relaxed text-fg/55">
               Apple, accesorios y tecnología premium. Equipos sellados en caja y
               semi nuevos seleccionados.
             </p>
-            <p className="tabular font-mono text-xs text-[#ebd7be]/80">
+            <p className="tabular font-mono text-xs text-highlight/80">
               {pretty(WHATSAPP_NUMBER)}
             </p>
           </div>
-          <div className="-mt-4 divide-y divide-white/10 border-y border-white/10 md:hidden">
+          <div className="-mt-4 divide-y divide-fg/10 border-y border-fg/10 md:hidden">
             {cols.map((c) => (
               <details key={c.title} className="group">
-                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-sm font-semibold text-white/90 [&::-webkit-details-marker]:hidden">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-sm font-semibold text-fg/90 [&::-webkit-details-marker]:hidden">
                   {c.title}
-                  <ChevronIcon className="size-4 rotate-90 text-white/50 transition group-open:-rotate-90" />
+                  <ChevronIcon className="size-4 rotate-90 text-fg/50 transition group-open:-rotate-90" />
                 </summary>
                 <FooterLinks links={c.links} />
               </details>
@@ -119,20 +119,20 @@ export function Footer() {
           </div>
           {cols.map((c) => (
             <div key={c.title} className="hidden md:block">
-              <p className="mb-3 text-xs font-semibold text-white/90">
+              <p className="mb-3 text-xs font-semibold text-fg/90">
                 {c.title}
               </p>
               <FooterLinks links={c.links} />
             </div>
           ))}
         </div>
-        <div className="mt-8 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 md:mt-16 text-xs text-white/40 sm:flex-row">
+        <div className="mt-8 flex flex-col justify-between gap-3 border-t border-fg/10 pt-6 md:mt-16 text-xs text-fg/40 sm:flex-row">
           <p>
             © {new Date().getFullYear()} iPhone Vita. Precios de referencia en
             USD · Se aceptan Pesos (cotización Dólar Blue del día) y
             transferencias.
           </p>
-          <p className="text-white/40">
+          <p className="text-fg/40">
             Funda y templado de regalo con tu iPhone nuevo.
           </p>
         </div>

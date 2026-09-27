@@ -43,7 +43,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl text-white"
+        className="sticky top-0 z-50 border-b border-fg/10 bg-bg/80 backdrop-blur-xl text-fg"
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-6 px-4 md:px-8">
@@ -51,14 +51,14 @@ export function Navbar() {
             <Wordmark dark />
           </Link>
           <nav
-            className="hidden flex-1 justify-center gap-7 text-xs text-white/80 lg:flex"
+            className="hidden flex-1 justify-center gap-7 text-xs text-fg/80 lg:flex"
             aria-label="Principal"
           >
             {NAV.map((n) => (
               <Link
                 key={n.label}
                 href={n.href}
-                className="transition hover:text-white"
+                className="transition hover:text-fg"
               >
                 {n.label}
               </Link>
@@ -67,7 +67,7 @@ export function Navbar() {
           <div className="ml-auto flex items-center gap-1 lg:ml-0">
             <Link
               href="/encontra-tu-iphone"
-              className="mr-3 hidden items-center gap-1 text-xs text-[#ebd7be] transition hover:text-white xl:flex"
+              className="mr-3 hidden items-center gap-1 text-xs text-highlight transition hover:text-fg xl:flex"
             >
               Encontrá tu iPhone <ArrowIcon className="size-3" />
             </Link>
@@ -75,7 +75,7 @@ export function Navbar() {
               type="button"
               onClick={() => setSearch(true)}
               aria-label="Buscar"
-              className="grid size-10 place-items-center rounded-full hover:bg-white/10 text-white"
+              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg"
             >
               <SearchIcon />
             </button>
@@ -83,13 +83,13 @@ export function Navbar() {
               type="button"
               onClick={() => setOpen(true)}
               aria-label={`Carrito, ${count} productos`}
-              className="relative grid size-10 place-items-center rounded-full hover:bg-white/10 text-white"
+              className="relative grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg"
             >
               <BagIcon />
               {count > 0 && (
                 <span
                   key={count}
-                  className="pop tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-[#ebd7be] px-1 text-[10px] font-semibold leading-4 text-black"
+                  className="pop tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-4 text-accent-fg"
                 >
                   {count}
                 </span>
@@ -99,7 +99,7 @@ export function Navbar() {
               type="button"
               onClick={() => setMenu(true)}
               aria-label="Abrir menú"
-              className="grid size-10 place-items-center rounded-full hover:bg-white/10 text-white lg:hidden"
+              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg lg:hidden"
             >
               <MenuIcon />
             </button>
@@ -109,16 +109,16 @@ export function Navbar() {
 
       {/* Menú mobile */}
       <div
-        className={`fixed inset-0 z-[65] bg-black text-white transition-opacity duration-300 lg:hidden overflow-y-auto ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-[65] bg-bg text-fg transition-opacity duration-300 lg:hidden overflow-y-auto ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
         aria-hidden={!menu}
       >
-        <div className="flex h-14 items-center justify-between px-4 border-b border-white/10">
+        <div className="flex h-14 items-center justify-between px-4 border-b border-fg/10">
           <Wordmark dark />
           <button
             type="button"
             onClick={() => setMenu(false)}
             aria-label="Cerrar menú"
-            className="grid size-10 place-items-center rounded-full hover:bg-white/10 text-white"
+            className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg"
           >
             <CloseIcon />
           </button>
@@ -129,7 +129,7 @@ export function Navbar() {
               key={n.label}
               href={n.href}
               onClick={() => setMenu(false)}
-              className={`border-b border-white/10 py-3.5 text-2xl font-bold transition-all duration-300 hover:text-[#ebd7be] ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+              className={`border-b border-fg/10 py-3.5 text-2xl font-bold transition-all duration-300 hover:text-highlight ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
               style={{ transitionDelay: menu ? `${i * 30}ms` : "0ms" }}
             >
               {n.label}
@@ -138,17 +138,17 @@ export function Navbar() {
           <Link
             href="/encontra-tu-iphone"
             onClick={() => setMenu(false)}
-            className="mt-6 flex items-center justify-between rounded-2xl border border-white/10 bg-[#0a0a0a] p-5 text-white transition hover:border-[#ebd7be]"
+            className="mt-6 flex items-center justify-between rounded-2xl border border-fg/10 bg-surface p-5 text-fg transition hover:border-accent"
           >
             <span>
-              <span className="block text-sm font-semibold text-[#ebd7be]">
+              <span className="block text-sm font-semibold text-highlight">
                 Recomendador inteligente
               </span>
               <span className="text-lg font-bold">
                 Encontrá tu iPhone ideal
               </span>
             </span>
-            <ArrowIcon className="size-5 text-[#ebd7be]" />
+            <ArrowIcon className="size-5 text-highlight" />
           </Link>
         </nav>
       </div>
