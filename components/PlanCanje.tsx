@@ -52,16 +52,19 @@ export function PlanCanje() {
   return (
     <section
       id="plan-canje"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div data-reveal className="mx-auto max-w-[980px] space-y-5 text-center">
-          <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">Plan Canje</p>
+        <div
+          data-reveal
+          className="mx-auto max-w-[980px] space-y-5 text-center"
+        >
+          <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">
+            Plan Canje
+          </p>
           <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
             Entregá tu iPhone usado. <br />
-            <span className="text-[#ebd7be]">
-              Llevate el último modelo.
-            </span>
+            <span className="text-[#ebd7be]">Llevate el último modelo.</span>
           </h2>
           <p className="mx-auto max-w-[60ch] text-lg text-white/60 md:text-xl">
             Tomamos tu equipo actual en parte de pago al mejor valor del
@@ -70,7 +73,10 @@ export function PlanCanje() {
         </div>
 
         {/* Card interactiva */}
-        <div data-reveal className="mx-auto mt-16 max-w-4xl rounded-[28px] bg-[#0a0a0a] p-6 ring-1 ring-white/10 md:p-10">
+        <div
+          data-reveal
+          className="mx-auto mt-10 max-w-4xl rounded-[28px] bg-[#0a0a0a] p-6 ring-1 ring-white/10 md:p-10"
+        >
           <div className="grid gap-8 md:grid-cols-2 md:gap-12">
             {/* Columna Izquierda: Lo que entregás */}
             <div className="space-y-6">
@@ -191,7 +197,7 @@ export function PlanCanje() {
                   <span className="text-4xl font-bold text-[#ebd7be] md:text-5xl">
                     {formatUSD(difference)}
                   </span>
-                                  </div>
+                </div>
                 <span className="mt-1 block text-xs text-white/50">
                   (O abonás el equivalente en Pesos al cambio del día)
                 </span>
@@ -200,10 +206,10 @@ export function PlanCanje() {
                   href={waLink(whatsappMessage)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#ebd7be] py-4 text-sm font-bold text-black transition hover:bg-white"
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#ebd7be] px-5 py-4 text-sm font-bold text-black transition hover:bg-white"
                 >
-                  <ChatIcon className="size-4" /> Cotizar mi Plan Canje en
-                  WhatsApp
+                  <ChatIcon className="size-4 shrink-0" />
+                  <span>Cotizar por WhatsApp</span>
                 </a>
               </div>
             </div>

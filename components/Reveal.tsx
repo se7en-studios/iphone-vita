@@ -8,7 +8,17 @@ export function Reveal() {
   const pathname = usePathname();
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    // Cascada por fila: el índice se reinicia cada 4 hijos (máximo de columnas).
+    document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((group) =>
+      Array.from(group.children).forEach((child, i) => {
+        const el = child as HTMLElement;
+        el.dataset.reveal = "";
+        el.style.setProperty("--i", String(i % 4));
+      }),
+    );
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {

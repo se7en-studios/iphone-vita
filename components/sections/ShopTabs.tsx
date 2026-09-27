@@ -24,6 +24,11 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]["key"];
 
+// Mobile: carrusel horizontal con snap. sm+: grilla.
+const RAIL =
+  "no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 md:gap-5 lg:grid-cols-3";
+const RAIL_ITEM = "w-[80vw] shrink-0 snap-start sm:w-auto";
+
 interface Props {
   iphoneGroups: ModelGroup[];
   macGroups: ModelGroup[];
@@ -47,7 +52,7 @@ export function ShopTabs({
   return (
     <section
       id="tienda"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
       <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-8">
         <div
@@ -71,7 +76,7 @@ export function ShopTabs({
         </div>
 
         <div
-          className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0"
+          className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 [mask-image:linear-gradient(to_right,#000_85%,transparent)] md:mx-0 md:px-0 md:[mask-image:none]"
           role="tablist"
           aria-label="Categorías"
         >
@@ -114,7 +119,7 @@ function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
   return (
     <div className="space-y-6">
       <div
-        className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0"
+        className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 [mask-image:linear-gradient(to_right,#000_85%,transparent)] md:mx-0 md:px-0 md:[mask-image:none]"
         role="tablist"
         aria-label="Filtrar por modelo"
       >
@@ -135,9 +140,11 @@ function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
           </button>
         ))}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+      <div className={RAIL}>
         {shown.map((g) => (
-          <ModelCard key={g.model} group={g} size="md" dark />
+          <div key={g.model} className={RAIL_ITEM}>
+            <ModelCard group={g} size="md" dark />
+          </div>
         ))}
       </div>
     </div>
@@ -146,9 +153,11 @@ function IphoneGrid({ groups }: { groups: ModelGroup[] }) {
 
 function SimpleGrid({ groups }: { groups: ModelGroup[] }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+    <div className={RAIL}>
       {groups.map((g) => (
-        <ModelCard key={g.model} group={g} size="md" dark />
+        <div key={g.model} className={RAIL_ITEM}>
+          <ModelCard group={g} size="md" dark />
+        </div>
       ))}
     </div>
   );
@@ -156,7 +165,7 @@ function SimpleGrid({ groups }: { groups: ModelGroup[] }) {
 
 function AccessoryGrid({ items }: { items: Product[] }) {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+    <div data-stagger className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
       {items.map((p) => (
         <ProductCard key={p.slug} product={p} compact dark />
       ))}
@@ -166,7 +175,7 @@ function AccessoryGrid({ items }: { items: Product[] }) {
 
 function SemiGrid({ items }: { items: Product[] }) {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
+    <div data-stagger className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
       {items.map((p) => (
         <ProductCard key={p.slug} product={p} compact dark />
       ))}
@@ -284,7 +293,6 @@ function WatchConfigurator({ variants }: { variants: Product[] }) {
       <div className="order-1 lg:order-2">
         <ProductVisual
           product={active}
-          tone="dark"
           className="aspect-square rounded-[44px]"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Product } from "@/types";
 import { priceLabel } from "@/lib/format";
 import { ProductVisual } from "./ProductVisual";
-import { ProductBadges, StockNote } from "./ui/Badges";
+import { CardTag, StockNote } from "./ui/Badges";
 
 /** Card de un SKU. Variante compacta para accesorios y grillas densas. */
 export function ProductCard({ product: p, compact = false, dark = true }: { product: Product; compact?: boolean; dark?: boolean }) {
@@ -15,11 +15,13 @@ export function ProductCard({ product: p, compact = false, dark = true }: { prod
           : "bg-mist hover:shadow-[0_24px_60px_-30px_rgba(0,0,0,0.35)]"
       }`}
     >
-      <ProductVisual product={p} tone={dark ? "dark" : "light"} className="aspect-[4/5]" />
+      <div className="relative">
+        <CardTag product={p} />
+        <ProductVisual product={p} className="aspect-[4/5]" />
+      </div>
       <div className={`flex flex-1 flex-col gap-3 ${compact ? "p-4" : "p-5 md:p-6"}`}>
-        <ProductBadges product={p} dark={dark} />
         <div>
-          <p className={`text-xs ${dark ? "text-white/45" : "text-muted"}`}>{p.brand}</p>
+          {p.brand !== "Apple" && <p className={`text-xs ${dark ? "text-white/45" : "text-muted"}`}>{p.brand}</p>}
           <h3 className={`${compact ? "text-[14px]" : "text-base"} font-semibold tracking-tight leading-snug group-hover:text-[#ebd7be] transition`}>
             {p.name}
           </h3>

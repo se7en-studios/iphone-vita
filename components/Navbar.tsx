@@ -87,7 +87,10 @@ export function Navbar() {
             >
               <BagIcon />
               {count > 0 && (
-                <span className="tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-[#ebd7be] px-1 text-[10px] font-semibold leading-4 text-black">
+                <span
+                  key={count}
+                  className="pop tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-[#ebd7be] px-1 text-[10px] font-semibold leading-4 text-black"
+                >
                   {count}
                 </span>
               )}

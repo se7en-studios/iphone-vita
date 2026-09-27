@@ -42,7 +42,6 @@ export function ModelCard({
     >
       <ProductVisual
         product={active}
-        tone={dark ? "dark" : "light"}
         className={
           stretch
             ? "aspect-[4/5] lg:aspect-auto lg:min-h-[380px] lg:flex-1"
@@ -73,7 +72,7 @@ export function ModelCard({
           </span>
         </div>
         <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             {colors.length > 1 && (
               <ColorDots
                 variants={colors}

@@ -66,7 +66,7 @@ export function Highlights() {
   return (
     <section
       id="destacados"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 md:py-40"
     >
       <div data-reveal className="mx-auto max-w-7xl px-4 md:px-8">
         <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
@@ -101,7 +101,7 @@ export function Highlights() {
       </div>
 
       <div className="mx-auto mt-8 flex max-w-7xl items-center justify-between px-4 md:px-8">
-        <div className="flex gap-2">
+        <div className="-mx-1.5 flex">
           {CARDS.map((c, i) => (
             <button
               key={c.eyebrow}
@@ -109,8 +109,12 @@ export function Highlights() {
               aria-label={`Ir a ${c.eyebrow}`}
               aria-current={i === active}
               onClick={() => go(i)}
-              className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-white" : "w-2 bg-white/30 hover:bg-white/60"}`}
-            />
+              className="group/dot grid h-11 min-w-5 place-items-center px-1.5"
+            >
+              <span
+                className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-white" : "w-2 bg-white/30 group-hover/dot:bg-white/60"}`}
+              />
+            </button>
           ))}
         </div>
         <div className="flex gap-3">

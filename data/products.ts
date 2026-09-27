@@ -135,39 +135,8 @@ function p(i: Input): Product {
   };
 }
 
-const IMG = {
-  // Flyers oficiales / showcase iPhone Vita
-  showcaseIphone16: "/images/showcase/iphone-16.jpg",
-  showcaseIphone17: "/images/showcase/iphone-17.jpg",
-  showcaseIphone17Pro: "/images/showcase/iphone-17-pro.jpg",
-  showcaseIphone18Pro: "/images/showcase/iphone-18-pro.jpg",
-  showcaseIpadA16: "/images/showcase/ipad-a16.jpg",
-  showcaseIpadProM5: "/images/showcase/ipad-pro-m5.jpg",
-  showcaseMacbookNeo: "/images/showcase/macbook-neo.jpg",
-  showcaseMacbookAir: "/images/showcase/macbook-air.jpg",
-  showcaseAppleWatch: "/images/showcase/apple-watch-11.jpg",
-  showcaseAirpods: "/images/showcase/airpods-4.jpg",
-  showcaseSemi: "/images/showcase/iphone-16-pro-semi.jpg",
-
-  orange: "/images/iphone-pro-cosmic-orange.jpg",
-  silver: "/images/iphone-pro-silver.jpg",
-  blueBox: "/images/iphone-pro-blue-box.jpg",
-  natural: "/images/iphone-pro-natural.jpg",
-  pink: "/images/iphone-pink.jpg",
-  blueHand: "/images/iphone-blue-hand.jpg",
-  dark: "/images/iphone-pro-dark.jpg",
-  airpods: "/images/airpods.jpg",
-  semiDesert: "/images/semi-desert.jpg",
-  semiBlack: "/images/semi-black.jpg",
-  semiWhite: "/images/semi-white.jpg",
-  semiGrey: "/images/semi-grey.jpg",
-  macbookAir: "/images/macbook-air.jpg",
-  ipadPro: "/images/ipad-pro.jpg",
-  appleWatch: "/images/apple-watch.jpg",
-  jbl: "/images/jbl-boombox.jpg",
-  ps5: "/images/ps5-joystick.jpg",
-  anker: "/images/anker-powerbank.jpg",
-};
+/** Fotos de catálogo estandarizadas: producto recortado, lienzo 4:5 transparente, mismo encuadre. */
+const cat = (name: string) => `/images/catalog/${name}.webp`;
 
 const HEX = {
   black: "#2B2B2E",
@@ -210,7 +179,7 @@ export const products: Product[] = [
     colorHex: HEX.silver,
     price: 1605,
     stockLevel: "bajo",
-    image: IMG.natural,
+    image: cat("iphone-18-pro-silver"),
     description: nuevoIphone("iPhone 18 Pro de 256GB", "Silver"),
     createdAt: "2026-09-20",
     featured: true,
@@ -218,11 +187,11 @@ export const products: Product[] = [
 
   ...(
     [
-      ["White", HEX.white, "alto", IMG.showcaseIphone16],
-      ["Black", HEX.black, "alto", null],
-      ["Pink", HEX.pink, "medio", IMG.pink],
-      ["Teal", HEX.teal, "alto", null],
-      ["Ultramarine", HEX.ultramarine, "bajo", IMG.blueHand],
+      ["White", HEX.white, "alto", cat("iphone-16-white")],
+      ["Black", HEX.black, "alto", cat("iphone-16-black")],
+      ["Pink", HEX.pink, "medio", cat("iphone-16-pink")],
+      ["Teal", HEX.teal, "alto", cat("iphone-16-teal")],
+      ["Ultramarine", HEX.ultramarine, "bajo", cat("iphone-16-ultramarine")],
     ] as const
   ).map(([color, hex, stock, img]) =>
     p({
@@ -233,17 +202,17 @@ export const products: Product[] = [
       colorHex: hex,
       price: 890,
       stockLevel: stock,
-      image: img ?? IMG.showcaseIphone16,
+      image: img,
       description: nuevoIphone("iPhone 16 de 128GB", color),
     }),
   ),
 
   ...(
     [
-      ["White", HEX.white, "bajo", IMG.showcaseIphone17],
-      ["Black", HEX.black, "medio", null],
-      ["Mist Blue", HEX.mistBlue, "bajo", null],
-      ["Sage", HEX.sage, "medio", null],
+      ["White", HEX.white, "bajo", cat("iphone-17-white")],
+      ["Black", HEX.black, "medio", cat("iphone-17-black")],
+      ["Mist Blue", HEX.mistBlue, "bajo", cat("iphone-17-mist-blue")],
+      ["Sage", HEX.sage, "medio", cat("iphone-17-sage")],
     ] as const
   ).map(([color, hex, stock, img]) =>
     p({
@@ -254,7 +223,7 @@ export const products: Product[] = [
       colorHex: hex,
       price: 1090,
       stockLevel: stock,
-      image: img ?? IMG.showcaseIphone17,
+      image: img,
       description: nuevoIphone("iPhone 17 de 256GB", color),
       createdAt: "2026-09-10",
     }),
@@ -262,9 +231,9 @@ export const products: Product[] = [
 
   ...(
     [
-      ["Silver", HEX.silver, "alto", IMG.silver],
-      ["Cosmic Orange", HEX.cosmicOrange, "medio", IMG.orange],
-      ["Deep Blue", HEX.deepBlue, "alto", IMG.blueBox],
+      ["Silver", HEX.silver, "alto", cat("iphone-17-pro-silver")],
+      ["Cosmic Orange", HEX.cosmicOrange, "medio", cat("iphone-17-pro-cosmic-orange")],
+      ["Deep Blue", HEX.deepBlue, "alto", cat("iphone-17-pro-deep-blue")],
     ] as const
   ).flatMap(([color, hex, stock, img]) => [
     p({
@@ -306,7 +275,7 @@ export const products: Product[] = [
     colorHex: HEX.spaceBlack,
     price: 1489,
     stockLevel: "medio",
-    image: IMG.showcaseMacbookAir,
+    image: cat("macbook-air"),
     specifications: {
       Chip: "Apple M5",
       CPU: "10 núcleos",
@@ -332,7 +301,7 @@ export const products: Product[] = [
       colorHex: hex,
       price: 1641,
       stockLevel: stock,
-      image: IMG.showcaseMacbookAir,
+      image: cat("macbook-air"),
       specifications: {
         Chip: "Apple M5",
         CPU: "10 núcleos",
@@ -345,7 +314,7 @@ export const products: Product[] = [
   ),
   ...(
     [
-      ["Silver", HEX.silver, "alto", IMG.showcaseMacbookNeo],
+      ["Silver", HEX.silver, "alto", null],
       ["Blush", HEX.blush, "bajo", null],
       ["Indigo", HEX.indigo, "alto", null],
     ] as const
@@ -360,7 +329,7 @@ export const products: Product[] = [
       colorHex: hex,
       price: 1050,
       stockLevel: stock,
-      image: img ?? IMG.showcaseMacbookNeo,
+      image: img ?? cat("macbook-neo"),
       specifications: {
         Chip: "Apple A18 Pro",
         Memoria: "8GB",
@@ -374,7 +343,7 @@ export const products: Product[] = [
   /* iPad */
   ...(
     [
-      ["Silver", HEX.silver, "alto", IMG.showcaseIpadA16],
+      ["Silver", HEX.silver, "alto", null],
       ["Blue", HEX.blue, "alto", null],
       ["Pink", HEX.pink, "medio", null],
       ["Yellow", HEX.yellow, "alto", null],
@@ -390,7 +359,7 @@ export const products: Product[] = [
       colorHex: hex,
       price: 580,
       stockLevel: stock,
-      image: img ?? IMG.showcaseIpadA16,
+      image: img ?? cat("ipad-a16"),
       specifications: { Chip: "A16", Conectividad: "Wi-Fi" },
       description: "iPad de 11 pulgadas con chip A16, Wi-Fi y 128GB.",
     }),
@@ -405,7 +374,7 @@ export const products: Product[] = [
     colorHex: HEX.spaceBlack,
     price: 1188,
     stockLevel: "medio",
-    image: IMG.ipadPro,
+    image: cat("ipad-pro-m5"),
     specifications: { Chip: "M5", Conectividad: "Wi-Fi" },
     description: "iPad Pro de 11 pulgadas con chip M5, Wi-Fi y 256GB.",
   }),
@@ -419,7 +388,7 @@ export const products: Product[] = [
     colorHex: HEX.spaceBlack,
     price: 1376,
     stockLevel: "medio",
-    image: IMG.ipadPro,
+    image: cat("ipad-pro-m5"),
     specifications: { Chip: "M5", Conectividad: "Wi-Fi" },
     description: "iPad Pro de 13 pulgadas con chip M5, Wi-Fi y 256GB.",
   }),
@@ -432,7 +401,7 @@ export const products: Product[] = [
     size: "46mm",
     color: "Jet Black",
     colorHex: HEX.jetBlack,
-    image: IMG.appleWatch,
+    image: cat("apple-watch-11"),
     bandSize: "M/L",
     price: 403,
     stockLevel: "medio",
@@ -451,7 +420,7 @@ export const products: Product[] = [
     size: "42mm",
     color: "Silver · Purple Fog",
     colorHex: HEX.silver,
-    image: IMG.appleWatch,
+    image: cat("apple-watch-11"),
     bandSize: "M/L",
     price: 372,
     stockLevel: "bajo",
@@ -470,7 +439,7 @@ export const products: Product[] = [
     size: "42mm",
     color: "Jet Black",
     colorHex: HEX.jetBlack,
-    image: IMG.appleWatch,
+    image: cat("apple-watch-11"),
     bandSize: "S/M",
     price: 372,
     stockLevel: "bajo",
@@ -489,7 +458,7 @@ export const products: Product[] = [
     size: "46mm",
     color: "Jet Black",
     colorHex: HEX.jetBlack,
-    image: IMG.appleWatch,
+    image: cat("apple-watch-11"),
     bandSize: "S/M",
     price: 403,
     stockLevel: "bajo",
@@ -508,7 +477,7 @@ export const products: Product[] = [
     size: "46mm",
     color: "Rose Gold · Light Blush",
     colorHex: HEX.roseGold,
-    image: IMG.appleWatch,
+    image: cat("apple-watch-11"),
     bandSize: "M/L",
     price: 403,
     stockLevel: "bajo",
@@ -527,7 +496,7 @@ export const products: Product[] = [
     size: "46mm",
     color: "Silver · Purple Fog",
     colorHex: HEX.silver,
-    image: IMG.appleWatch,
+    image: cat("apple-watch-11"),
     bandSize: "M/L",
     price: 403,
     stockLevel: "bajo",
@@ -546,7 +515,7 @@ export const products: Product[] = [
     category: "airpods",
     price: 133,
     stockLevel: "alto",
-    image: IMG.airpods,
+    image: cat("airpods-4"),
     description: "AirPods 4.",
   }),
   p({
@@ -555,7 +524,7 @@ export const products: Product[] = [
     category: "airpods",
     price: 184,
     stockLevel: "alto",
-    image: IMG.airpods,
+    image: cat("airpods-4"),
     description: "AirPods 4 con cancelación activa de ruido.",
   }),
   p({
@@ -587,18 +556,18 @@ export const products: Product[] = [
   /* iPhone semi nuevos — precio a consultar, 1 unidad */
   ...(
     [
-      ["iPhone 13", "128GB", "Midnight", HEX.midnight, 87, IMG.semiBlack],
-      ["iPhone 13 Pro", "128GB", "Graphite", HEX.graphite, 86, IMG.semiGrey],
-      ["iPhone 14 Pro Max", "256GB", "Black", HEX.black, 84, IMG.semiBlack],
-      ["iPhone 15 Pro", "512GB", "White", HEX.white, 87, IMG.semiWhite],
-      ["iPhone 16 Pro", "128GB", "White", HEX.white, 89, IMG.semiWhite],
+      ["iPhone 13", "128GB", "Midnight", HEX.midnight, 87, cat("semi-dual-midnight")],
+      ["iPhone 13 Pro", "128GB", "Graphite", HEX.graphite, 86, cat("semi-pro-graphite")],
+      ["iPhone 14 Pro Max", "256GB", "Black", HEX.black, 84, cat("semi-pro-black")],
+      ["iPhone 15 Pro", "512GB", "White", HEX.white, 87, cat("semi-pro-white")],
+      ["iPhone 16 Pro", "128GB", "White", HEX.white, 89, cat("semi-pro-white")],
       [
         "iPhone 16 Pro",
         "256GB",
         "Desert Titanium",
         HEX.desert,
         89,
-        IMG.semiDesert,
+        cat("semi-pro-desert"),
       ],
       [
         "iPhone 16 Pro",
@@ -606,7 +575,7 @@ export const products: Product[] = [
         "Black Titanium",
         HEX.blackTitanium,
         90,
-        IMG.semiBlack,
+        cat("semi-pro-black-titanium"),
       ],
       [
         "iPhone 16 Pro",
@@ -614,7 +583,7 @@ export const products: Product[] = [
         "Black Titanium",
         HEX.blackTitanium,
         91,
-        IMG.semiBlack,
+        cat("semi-pro-black-titanium"),
       ],
       [
         "iPhone 16 Pro Max",
@@ -622,7 +591,7 @@ export const products: Product[] = [
         "White Titanium",
         HEX.whiteTitanium,
         92,
-        IMG.semiWhite,
+        cat("semi-pro-white-titanium"),
       ],
       [
         "iPhone 16 Pro Max",
@@ -630,7 +599,7 @@ export const products: Product[] = [
         "Black Titanium",
         HEX.blackTitanium,
         90,
-        IMG.semiBlack,
+        cat("semi-pro-black-titanium"),
       ],
     ] as const
   ).map(([name, storage, color, hex, battery, img]) =>
@@ -754,7 +723,7 @@ export const products: Product[] = [
     colorHex: HEX.black,
     price: 620,
     stockLevel: "medio",
-    image: IMG.jbl,
+    image: cat("jbl-boombox-4"),
     specifications: { Resistencia: "Waterproof" },
     description: "Parlante JBL Boombox 4 Waterproof, color Black.",
   }),
@@ -766,7 +735,7 @@ export const products: Product[] = [
     colorHex: HEX.white,
     price: 90,
     stockLevel: "alto",
-    image: IMG.ps5,
+    image: cat("ps5-joystick"),
     description: "Joystick para PlayStation 5, color White.",
   }),
   p({
@@ -784,7 +753,6 @@ export const products: Product[] = [
     subcategory: "cargadores",
     price: 41,
     stockLevel: "bajo",
-    image: IMG.anker,
     specifications: { Capacidad: "10.000 mAh" },
     description: "Batería portátil Anker de 10.000 mAh.",
   }),

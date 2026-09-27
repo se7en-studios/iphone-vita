@@ -7,55 +7,40 @@ interface Props {
   sizes?: string;
   priority?: boolean;
   className?: string;
-  tone?: "light" | "dark";
 }
 
 /**
- * Foto del producto o, si todavía no hay foto propia, una ilustración neutra
- * teñida con el color de la variante. Nunca queda un hueco vacío.
+ * Producto sobre el escenario de estudio común a todo el catálogo.
+ * Sin foto, muestra la ilustración de la categoría en el mismo escenario.
  */
 export function ProductVisual({
   product,
   sizes = "(max-width: 768px) 100vw, 33vw",
   priority,
   className = "",
-  tone = "light",
 }: Props) {
-  const isShowcase = product.image?.includes("/showcase/");
-
-  if (product.image) {
-    return (
-      <div
-        className={`relative overflow-hidden ${isShowcase ? "bg-black" : ""} ${className}`}
-      >
+  return (
+    <div className={`stage relative overflow-hidden ${className}`}>
+      {product.image ? (
         <Image
+          key={product.image}
           src={product.image}
-          alt={product.name}
+          alt={`${product.name}${product.color ? ` ${product.color}` : ""}`}
           fill
           sizes={sizes}
           priority={priority}
-          className={`${isShowcase ? "object-contain p-1" : "object-cover"} transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.03]`}
+          className="stage-product animate-[fade-in_0.45s_ease-out] object-contain transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
         />
-      </div>
-    );
-  }
-  const tint = product.colorHex ?? (tone === "dark" ? "#3a3a3e" : "#d8d8d4");
-  return (
-    <div
-      className={`relative grid place-items-center overflow-hidden bg-black ${className}`}
-      style={{
-        background: `radial-gradient(120% 90% at 50% 20%, #1a1a1a 0%, #000000 70%)`,
-      }}
-    >
-      <div className="w-[46%] max-w-[180px] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-105 text-[#ebd7be]/60">
-        <CategoryGlyph
-          category={product.category}
-          subcategory={product.subcategory}
-        />
-      </div>
-      <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap font-semibold text-xs text-[#ebd7be]/40">
-        Foto próximamente
-      </span>
+      ) : (
+        <div className="absolute inset-0 grid place-items-center">
+          <div className="stage-product w-[42%] max-w-[170px] text-white/35 transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-105">
+            <CategoryGlyph
+              category={product.category}
+              subcategory={product.subcategory}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

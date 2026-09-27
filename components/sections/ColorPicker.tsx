@@ -15,7 +15,7 @@ export function ColorPicker({ variants }: { variants: Product[] }) {
   return (
     <section
       id="colores"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
       <div
         data-reveal
@@ -25,13 +25,13 @@ export function ColorPicker({ variants }: { variants: Product[] }) {
           Colores
         </p>
         <h2 className="mt-3 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-          {active.name}. Elegí el tuyo.
+          {active.name}, en {variants.length} colores.
         </h2>
       </div>
 
       <div
         data-reveal
-        className="relative mx-auto mt-16 aspect-square w-full max-w-[560px] overflow-hidden rounded-[28px] bg-[#0a0a0a] px-4"
+        className="stage relative mx-auto mt-10 aspect-square w-full max-w-[560px] overflow-hidden rounded-[28px] md:mt-16"
       >
         {variants.map((v, idx) =>
           v.image ? (
@@ -42,7 +42,7 @@ export function ColorPicker({ variants }: { variants: Product[] }) {
               fill
               sizes="(max-width: 640px) 100vw, 560px"
               aria-hidden={idx !== i}
-              className={`object-cover transition-all duration-700 ease-[var(--ease-soft)] ${idx === i ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"}`}
+              className={`stage-product object-contain p-6 transition-all duration-700 ease-[var(--ease-soft)] ${idx === i ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"}`}
             />
           ) : null,
         )}

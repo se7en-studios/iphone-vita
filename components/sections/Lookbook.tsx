@@ -30,7 +30,7 @@ const TILES: Tile[] = [
 /** Grilla editorial estilo lookbook: fotos reales grandes con caption superpuesta. */
 export function Lookbook() {
   return (
-    <section className="border-t border-white/10 bg-black py-20 md:py-28">
+    <section className="border-t border-white/10 bg-black py-12 md:py-28">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div data-reveal className="mb-10 flex items-end justify-between gap-6">
           <div>
@@ -52,7 +52,7 @@ export function Lookbook() {
           </Link>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+        <div data-stagger className="grid gap-4 md:grid-cols-2 md:gap-5">
           {TILES.map((t) => (
             <Tile key={t.href} tile={t} className="aspect-[4/3]" />
           ))}

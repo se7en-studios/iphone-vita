@@ -24,6 +24,8 @@
   --color-champagne-light: #f7ede0;
 
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 html {
@@ -69,12 +71,99 @@ h3 {
   transform: none;
 }
 
+/* Cascada: [data-stagger] reparte --i entre sus hijos (ver Reveal.tsx). */
+.reveal-ready [data-reveal] {
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Entrada del hero al cargar: texto escalonado (--d) y producto que se asienta. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.intro > * {
+  animation: rise 0.9s var(--ease-out-expo) both;
+  animation-delay: calc(var(--d, 0) * 90ms + 60ms);
+}
+.intro-media {
+  animation: settle 1.4s var(--ease-out-expo) 0.4s both;
+}
+
+/* Badge del carrito: rebote al cambiar la cantidad. */
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.45);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.pop {
+  animation: pop 0.5s var(--ease-out-expo);
+}
+
+/* Botones pill: se hunden levemente al tocarlos. */
+:is(a, button)[class*="rounded-full"]:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Animaciones ligadas al scroll: sólo donde el navegador las soporta. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-zoom {
+      animation: scroll-zoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    .scroll-out {
+      animation: scroll-out linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+@keyframes scroll-zoom {
+  from {
+    opacity: 0.2;
+    transform: scale(0.78);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes scroll-out {
+  to {
+    opacity: 0.35;
+    transform: scale(0.92);
   }
 }
 
@@ -86,6 +175,14 @@ h3 {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .intro > *,
+  .intro-media,
+  .pop {
+    animation: none;
+  }
+  :is(a, button)[class*="rounded-full"]:active {
+    transform: none;
   }
   * {
     transition-duration: 0.01ms !important;
@@ -101,4 +198,14 @@ h3 {
 
 .tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Escenario de estudio común a todas las fotos de catálogo (recortes 4:5 transparentes). */
+.stage {
+  background:
+    radial-gradient(60% 8% at 50% 88%, rgba(0, 0, 0, 0.55), transparent 70%),
+    radial-gradient(85% 65% at 50% 40%, #26262a 0%, #161618 55%, #0c0c0d 100%);
+}
+.stage-product {
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.5));
 }

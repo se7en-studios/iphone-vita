@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CountUp } from "../ui/CountUp";
 
 const SPECS = [
   {
@@ -21,7 +22,7 @@ export function CameraSection() {
   return (
     <section
       id="camara"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
       <div
         data-reveal
@@ -41,8 +42,7 @@ export function CameraSection() {
       </div>
 
       <div
-        data-reveal
-        className="relative mx-auto mt-16 aspect-[337/195] w-full max-w-[520px] px-4"
+        className="scroll-zoom relative mx-auto mt-10 aspect-[337/195] md:mt-16 w-full max-w-[520px] px-4"
       >
         <Image
           src="/images/highlights/main-camera.jpg"
@@ -53,11 +53,11 @@ export function CameraSection() {
         />
       </div>
 
-      <dl className="mx-auto mt-20 grid max-w-5xl gap-12 px-4 md:grid-cols-3 md:gap-10 md:px-8">
+      <dl data-stagger className="mx-auto mt-12 grid max-w-5xl gap-8 px-4 md:mt-20 md:grid-cols-3 md:gap-10 md:px-8">
         {SPECS.map((s) => (
-          <div key={s.value} data-reveal className="text-center md:text-left">
+          <div key={s.value} className="text-center md:text-left">
             <dt className="tabular text-[clamp(3rem,7vw,5.5rem)] font-bold leading-none tracking-[-0.04em] text-white">
-              {s.value}
+              <CountUp value={s.value} />
             </dt>
             <dd className="mx-auto mt-4 max-w-[30ch] text-[17px] leading-relaxed text-white/60 md:mx-0">
               {s.label}

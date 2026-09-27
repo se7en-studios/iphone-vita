@@ -5,8 +5,6 @@ import { useState } from "react";
 import type { Product } from "@/types";
 import { ProductVisual } from "./ProductVisual";
 
-const isShowcase = (src: string) => src.includes("/showcase/");
-
 /** Galería: imagen principal + miniaturas (image + gallery). */
 export function ProductGallery({ product }: { product: Product }) {
   const images = [product.image, ...product.gallery].filter(
@@ -27,7 +25,7 @@ export function ProductGallery({ product }: { product: Product }) {
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-square overflow-hidden rounded-[28px] bg-[#0a0a0a]">
+      <div className="stage relative aspect-square overflow-hidden rounded-[28px]">
         <Image
           key={images[i]}
           src={images[i]}
@@ -35,7 +33,7 @@ export function ProductGallery({ product }: { product: Product }) {
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 55vw"
-          className={`animate-[fade-in_0.5s_ease-out] ${isShowcase(images[i]) ? "object-contain p-2" : "object-cover"}`}
+          className="stage-product animate-[fade-in_0.5s_ease-out] object-contain"
         />
       </div>
       {images.length > 1 && (
@@ -47,7 +45,7 @@ export function ProductGallery({ product }: { product: Product }) {
               onClick={() => setI(idx)}
               aria-label={`Ver imagen ${idx + 1}`}
               aria-current={idx === i}
-              className={`relative size-16 overflow-hidden rounded-xl bg-[#0a0a0a] ring-2 transition ${
+              className={`stage relative size-16 overflow-hidden rounded-xl ring-2 transition ${
                 idx === i
                   ? "ring-[#ebd7be]"
                   : "ring-transparent hover:ring-white/30"
@@ -58,9 +56,7 @@ export function ProductGallery({ product }: { product: Product }) {
                 alt=""
                 fill
                 sizes="64px"
-                className={
-                  isShowcase(src) ? "object-contain p-1" : "object-cover"
-                }
+                className="object-contain"
               />
             </button>
           ))}

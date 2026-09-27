@@ -82,6 +82,15 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
   const accesorios = categories.find((c) => c.slug === "accesorios");
 
+  const chips: { key: string; label: string; remove: () => void }[] = [
+    ...f.categories.map((v) => ({ key: `c-${v}`, label: categories.find((c) => c.slug === v)?.name ?? v, remove: () => setF({ ...f, categories: toggle(f.categories, v) }) })),
+    ...f.subcategories.map((v) => ({ key: `s-${v}`, label: accesorios?.subcategories?.find((s) => s.slug === v)?.name ?? v, remove: () => setF({ ...f, subcategories: toggle(f.subcategories, v) }) })),
+    ...f.conditions.map((v) => ({ key: `n-${v}`, label: v === "nuevo" ? "Nuevo" : "Semi nuevo", remove: () => setF({ ...f, conditions: toggle(f.conditions, v) }) })),
+    ...f.brands.map((v) => ({ key: `b-${v}`, label: v, remove: () => setF({ ...f, brands: toggle(f.brands, v) }) })),
+    ...f.prices.map((v) => ({ key: `p-${v}`, label: PRICE_BUCKETS.find((b) => b.value === v)?.label ?? v, remove: () => setF({ ...f, prices: toggle(f.prices, v) }) })),
+    ...f.stock.map((v) => ({ key: `k-${v}`, label: STOCK_LABEL[v], remove: () => setF({ ...f, stock: toggle(f.stock, v) }) })),
+  ];
+
   const panel = (
     <div className="space-y-8">
       <Group title="Categoría">
@@ -125,20 +134,32 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 md:px-8">
-      <div className="sticky top-14 z-30 -mx-4 flex items-center justify-between gap-3 border-b border-line bg-black/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
-        <p className="tabular text-sm text-muted">{filtered.length} productos</p>
+      <div className="sticky top-14 z-30 -mx-4 border-b border-line bg-black/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
+        <div className="flex items-center justify-between gap-3">
+        <p className="tabular whitespace-nowrap text-sm text-muted">{filtered.length} productos</p>
         <div className="flex items-center gap-2">
           <label htmlFor="orden" className="sr-only">Ordenar</label>
-          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="rounded-full border border-line bg-paper px-4 py-2 text-sm outline-none focus:border-[#ebd7be]">
+          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="min-w-0 rounded-full border border-line bg-paper px-3 py-2 text-sm outline-none focus:border-[#ebd7be] sm:px-4">
             <option value="destacados">Destacados</option>
             <option value="precio-asc">Precio menor</option>
             <option value="precio-desc">Precio mayor</option>
             <option value="recientes">Más recientes</option>
           </select>
-          <button type="button" onClick={() => setDrawer(true)} className="flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm lg:hidden">
-            <FilterIcon /> Filtros{active ? ` (${active})` : ""}
+          <button type="button" onClick={() => setDrawer(true)} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm lg:hidden">
+            <FilterIcon /> Filtros{active ? <span className="grid size-5 place-items-center rounded-full bg-[#ebd7be] text-[11px] font-semibold text-black">{active}</span> : null}
           </button>
         </div>
+        </div>
+        {chips.length > 0 && (
+          <div className="no-scrollbar -mx-4 mt-3 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0">
+            {chips.map((c) => (
+              <button key={c.key} type="button" onClick={c.remove} aria-label={`Quitar filtro ${c.label}`} className="flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-white/10 pl-3.5 pr-2.5 text-xs text-white transition hover:bg-white/20">
+                {c.label} <CloseIcon className="size-3.5 text-white/60" />
+              </button>
+            ))}
+            <button type="button" onClick={() => setF(empty)} className="h-9 shrink-0 px-2 text-xs text-vita hover:underline">Limpiar</button>
+          </div>
+        )}
       </div>
 
       <div className="grid gap-10 pt-8 lg:grid-cols-[220px_1fr]">
@@ -147,7 +168,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
         </aside>
         <div>
           {groups.length ? (
-            <div className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-3">
+            <div data-stagger className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-3">
               {groups.map((g) => (
                 <CatalogCard key={`${g.model}-${g.variants.map((v) => v.slug).join()}`} variants={g.variants} />
               ))}

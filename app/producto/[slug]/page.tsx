@@ -13,6 +13,7 @@ import { fullName, priceLabel, formatARS, formatUSD } from "@/lib/format";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductBadges, StockNote } from "@/components/ui/Badges";
 import { BuyButtons } from "@/components/cart/AddToCart";
+import { StickyBuyBar } from "@/components/cart/StickyBuyBar";
 import { ProductCard } from "@/components/ProductCard";
 import {
   GiftIcon,
@@ -120,15 +121,15 @@ export default async function ProductPage({ params }: { params: Params }) {
       <header className="mx-auto max-w-7xl px-4 pb-10 pt-8 md:px-8 md:pb-14 md:pt-12">
         <nav
           aria-label="Ruta"
-          className="flex flex-wrap gap-2 text-xs text-white/50"
+          className="-my-3 flex flex-wrap items-center gap-2 text-xs text-white/50"
         >
-          <Link href="/" className="hover:text-white">
+          <Link href="/" className="py-3 hover:text-white">
             Inicio
           </Link>
           <span aria-hidden="true">›</span>
           <Link
             href={`/productos?categoria=${p.category}`}
-            className="hover:text-white"
+            className="py-3 hover:text-white"
           >
             {categoryName(p.category)}
           </Link>
@@ -227,7 +228,10 @@ export default async function ProductPage({ params }: { params: Params }) {
             </Step>
           )}
 
-          <div className="rounded-[28px] bg-[#0a0a0a] p-6 ring-1 ring-white/10 md:p-8">
+          <div
+            id="buy-box"
+            className="rounded-[28px] bg-[#0a0a0a] p-6 ring-1 ring-white/10 md:p-8"
+          >
             <p className="text-sm text-white/50">
               {p.condition === "semi-nuevo"
                 ? `Tu ${p.name} semi nuevo`
@@ -261,7 +265,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             </div>
           </div>
 
-          <ul className="grid gap-6 sm:grid-cols-3">
+          <ul data-stagger className="grid gap-6 sm:grid-cols-3">
             <Perk
               icon={<TruckIcon />}
               title="Envíos a todo el país"
@@ -314,7 +318,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             <h2 className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
               También te puede interesar.
             </h2>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+            <div data-stagger className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
               {related.map((r) => (
                 <ProductCard key={r.slug} product={r} compact dark />
               ))}
@@ -322,6 +326,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
         </section>
       )}
+      <StickyBuyBar product={p} targetId="buy-box" summary={summary} />
     </div>
   );
 }

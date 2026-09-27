@@ -5,9 +5,9 @@ export function IntelligenceSection() {
   return (
     <section
       id="intelligence"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 md:px-8 lg:grid-cols-2 lg:gap-20">
+      <div className="mx-auto grid max-w-7xl items-center gap-4 px-4 md:gap-14 md:px-8 lg:grid-cols-2 lg:gap-20">
         <div data-reveal className="space-y-6">
           <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">
             Apple Intelligence

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Product } from "@/types";
 import { formatUSD } from "@/lib/format";
 import { ProductVisual } from "../ProductVisual";
+import { CompareMobile } from "./CompareMobile";
 
 // Specs oficiales de apple.com/la (iPhone 18 Pro specs, familia iPhone 17 Pro).
 const SPECS: Record<string, Record<string, string>> = {
@@ -45,7 +46,7 @@ export function CompareSection({ models }: { models: Product[] }) {
   return (
     <section
       id="comparar"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
       <div
         data-reveal
@@ -59,7 +60,11 @@ export function CompareSection({ models }: { models: Product[] }) {
         </h2>
       </div>
 
-      <div className="no-scrollbar mt-16 overflow-x-auto px-4 md:px-8">
+      <div className="mt-10 md:hidden">
+        <CompareMobile models={models} specs={SPECS} rows={ROWS} />
+      </div>
+
+      <div className="no-scrollbar mt-16 hidden overflow-x-auto px-8 md:block">
         <table className="mx-auto w-full min-w-[720px] max-w-5xl table-fixed border-collapse text-center">
           <caption className="sr-only">
             Comparación de iPhone 17 Pro, iPhone 17 Pro Max e iPhone 18 Pro
@@ -77,7 +82,6 @@ export function CompareSection({ models }: { models: Product[] }) {
                 >
                   <ProductVisual
                     product={m}
-                    tone="dark"
                     className="mx-auto aspect-square w-full max-w-[180px] rounded-[20px]"
                     sizes="180px"
                   />

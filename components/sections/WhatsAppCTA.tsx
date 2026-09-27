@@ -3,7 +3,7 @@ import { ChatIcon } from "../ui/Icons";
 
 export function WhatsAppCTA() {
   return (
-    <section className="border-t border-white/10 bg-black py-28 text-white md:py-40">
+    <section className="border-t border-white/10 bg-black py-16 text-white md:py-40">
       <div
         data-reveal
         className="mx-auto max-w-[980px] space-y-6 px-4 text-center md:px-8"

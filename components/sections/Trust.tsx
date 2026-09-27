@@ -29,7 +29,7 @@ export function Trust() {
   return (
     <section
       id="nosotros"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-28 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div
@@ -44,10 +44,10 @@ export function Trust() {
           </h2>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl items-center gap-14 lg:grid-cols-2">
+        <div className="mx-auto mt-10 grid max-w-5xl items-center gap-10 md:mt-16 md:gap-14 lg:grid-cols-2">
           <div
             data-reveal
-            className="relative mx-auto aspect-[4/5] w-full max-w-[460px] overflow-hidden rounded-[28px] bg-[#0a0a0a]"
+            className="relative mx-auto aspect-[4/3] w-full max-w-[460px] overflow-hidden rounded-[28px] bg-[#0a0a0a] sm:aspect-[4/5]"
           >
             <Image
               src="/images/iphone-pro-blue-box.jpg"
@@ -58,7 +58,7 @@ export function Trust() {
             />
           </div>
 
-          <dl className="grid gap-x-10 gap-y-12 sm:grid-cols-2">
+          <dl data-stagger className="grid gap-x-10 gap-y-8 sm:grid-cols-2 sm:gap-y-12">
             {POINTS.map((p) => (
               <div key={p.title} data-reveal className="space-y-3">
                 <span className="text-[#ebd7be]">{p.icon}</span>

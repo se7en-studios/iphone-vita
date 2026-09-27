@@ -42,6 +42,10 @@ export default async function Home() {
 
   const featured = byModel(FEATURED_MODEL)[0];
   if (!featured) notFound();
+  // El destacado puede venir en un solo color: en ese caso mostramos otro modelo.
+  const featuredColors = byModel(FEATURED_MODEL);
+  const colorVariants =
+    featuredColors.length > 1 ? featuredColors : byModel(COLORS_MODEL);
 
   const iphoneGroups = groupByModel(
     nuevos.filter((p) => p.category === "iphone"),
@@ -68,7 +72,7 @@ export default async function Home() {
       <Highlights />
       <CameraSection />
       <IntelligenceSection />
-      <ColorPicker variants={byModel(COLORS_MODEL)} />
+      <ColorPicker variants={colorVariants} />
       <ShopTabs
         iphoneGroups={iphoneGroups}
         macGroups={macGroups}
