@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { ModelGroup } from "@/lib/products";
-import { uniqueColors } from "@/lib/products";
-import { formatUSD, STOCK_LABEL } from "@/lib/format";
+import type { ModelGroup } from "@/lib/catalog";
+import { uniqueColors } from "@/lib/catalog";
+import { formatUSD, stockLabel } from "@/lib/format";
 import { ProductVisual } from "./ProductVisual";
 import { ColorDots } from "./ui/ColorDots";
 import { ArrowIcon } from "./ui/Icons";
@@ -82,7 +82,7 @@ export function ModelCard({
               />
             )}
             <p className={`text-xs ${dark ? "text-fg/50" : "text-muted"}`}>
-              {active.color} · {STOCK_LABEL[active.stockLevel]}
+              {[active.color, stockLabel(active)].filter(Boolean).join(" · ")}
             </p>
           </div>
           {group.fromPrice != null && (

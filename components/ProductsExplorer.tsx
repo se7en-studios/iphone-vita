@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Category, CategorySlug, Condition, Product, StockLevel, SubcategorySlug } from "@/types";
-import { groupByModel } from "@/lib/products";
-import { STOCK_LABEL } from "@/lib/format";
+import { groupByModel } from "@/lib/catalog";
+import { isOutOfStock, STOCK_LABEL } from "@/lib/format";
+import { GENERAL_MESSAGE, waLink } from "@/lib/whatsapp";
 import { CatalogCard } from "./CatalogCard";
 import { CloseIcon, FilterIcon } from "./ui/Icons";
 
@@ -64,7 +65,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
       if (f.subcategories.length && (!p.subcategory || !f.subcategories.includes(p.subcategory))) return false;
       if (f.brands.length && !f.brands.includes(p.brand)) return false;
       if (f.prices.length && !PRICE_BUCKETS.filter((b) => f.prices.includes(b.value)).some((b) => b.test(p))) return false;
-      if (f.stock.length && !f.stock.includes(p.stockLevel)) return false;
+      if (f.stock.length && (isOutOfStock(p) || !f.stock.includes(p.stockLevel))) return false;
       if (f.conditions.length && !f.conditions.includes(p.condition)) return false;
       return true;
     });
@@ -73,12 +74,14 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
     if (sort === "precio-desc") list = [...list].sort((a, b) => priceOr(b, -Infinity) - priceOr(a, -Infinity));
     if (sort === "recientes") list = [...list].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     if (sort === "destacados") list = [...list].sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
-    return list;
+    // Sin stock siempre al final (sort estable: respeta el orden elegido dentro de cada bloque).
+    return [...list].sort((a, b) => Number(isOutOfStock(a)) - Number(isOutOfStock(b)));
   }, [products, f, sort]);
 
   // Los semi nuevos son unidades únicas: cada uno va en su propia card.
   const groups = useMemo(() => groupByModel(filtered.map((p) => (p.condition === "semi-nuevo" ? { ...p, model: p.slug } : p))), [filtered]);
   const active = Object.values(f).reduce((s, v) => s + v.length, 0);
+  const resultsLabel = `${groups.length} ${groups.length === 1 ? "resultado" : "resultados"}`;
 
   const accesorios = categories.find((c) => c.slug === "accesorios");
 
@@ -136,7 +139,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
     <div className="mx-auto max-w-7xl px-4 pb-24 md:px-8">
       <div className="sticky top-14 z-30 -mx-4 border-b border-line bg-bg/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
         <div className="flex items-center justify-between gap-3">
-        <p className="tabular whitespace-nowrap text-sm text-muted">{filtered.length} productos</p>
+        <p className="tabular whitespace-nowrap text-sm text-muted">{resultsLabel}</p>
         <div className="flex items-center gap-2">
           <label htmlFor="orden" className="sr-only">Ordenar</label>
           <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="min-w-0 rounded-full border border-line bg-paper px-3 py-2 text-sm outline-none focus:border-accent sm:px-4">
@@ -174,9 +177,19 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
               ))}
             </div>
           ) : (
-            <div className="rounded-[28px] bg-mist p-10 text-center">
-              <p className="text-lg font-medium">No hay productos con esos filtros.</p>
-              <button type="button" onClick={() => setF(empty)} className="mt-3 text-sm text-vita hover:underline">Limpiar filtros</button>
+            <div className="rounded-[28px] bg-surface p-8 text-center ring-1 ring-fg/10 md:p-12">
+              <p className="text-xl font-semibold">No encontramos productos con esos filtros.</p>
+              <p className="mx-auto mt-2 max-w-md text-sm text-fg/60">
+                Probá sacando alguno, o escribinos y te decimos si tenemos el equipo que buscás.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                <button type="button" onClick={() => setF(empty)} className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-fg transition hover:brightness-110">
+                  Ver todos los productos
+                </button>
+                <a href={waLink(GENERAL_MESSAGE)} target="_blank" rel="noopener noreferrer" className="rounded-full border border-fg/20 px-6 py-3 text-sm font-medium transition hover:border-fg/50">
+                  Consultar por WhatsApp
+                </a>
+              </div>
             </div>
           )}
         </div>
@@ -193,7 +206,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
           </div>
           {panel}
           <button type="button" onClick={() => setDrawer(false)} className="mt-8 w-full rounded-full bg-accent py-3.5 text-sm font-semibold text-accent-fg">
-            Ver {filtered.length} productos
+            Ver {resultsLabel}
           </button>
         </div>
       </div>

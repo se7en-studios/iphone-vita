@@ -131,8 +131,10 @@ export async function adjustPrices(
   if (error) dbError(error);
   // ponytail: un update por fila, alcanza para un catálogo de cientos; RPC si crece a miles.
   const factor = 1 + percent / 100;
+  const priced = data as { id: string; price: number | string }[];
+  if (priced.length === 0) return [];
   const results = await Promise.all(
-    (data as { id: string; price: number | string }[]).map((r) =>
+    priced.map((r) =>
       admin
         .from("products")
         .update({ price: Math.round(Number(r.price) * factor) })
@@ -144,7 +146,8 @@ export async function adjustPrices(
   const { data: fresh, error: freshError } = await admin
     .from("products")
     .select(PRODUCT_COLUMNS)
-    .in("id", ids);
+    // Solo los que tenían precio: los "consultar" no cambian y no cuentan.
+    .in("id", priced.map((r) => r.id));
   if (freshError) dbError(freshError);
   return (fresh as ProductRow[]).map(rowToProduct);
 }

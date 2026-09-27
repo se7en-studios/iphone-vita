@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { Product } from "@/types";
-import { formatUSD, priceLabel } from "@/lib/format";
-import { uniqueColors } from "@/lib/products";
+import { formatUSD, isOutOfStock, priceLabel } from "@/lib/format";
+import { Ars } from "./StoreSettings";
+import { uniqueColors } from "@/lib/catalog";
 import { ProductVisual } from "./ProductVisual";
 import { CardTag, StockNote } from "./ui/Badges";
 import { ColorDots } from "./ui/ColorDots";
@@ -13,11 +14,13 @@ import { ColorDots } from "./ui/ColorDots";
 export function CatalogCard({ variants }: { variants: Product[] }) {
   const colors = uniqueColors(variants);
   const [active, setActive] = useState(variants[0]);
-  const prices = variants
+  const inStock = variants.filter((v) => !isOutOfStock(v));
+  const prices = (inStock.length ? inStock : variants)
     .map((v) => v.price)
     .filter((x): x is number => x != null);
   const min = prices.length ? Math.min(...prices) : null;
   const varies = prices.length > 1 && new Set(prices).size > 1;
+  const shownPrice = varies ? min : active.priceType === "fijo" ? active.price : null;
 
   return (
     <Link
@@ -62,9 +65,12 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
         <div className="mt-auto flex flex-col gap-1 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-2 md:border-t md:border-fg/10 md:pt-3">
           <StockNote product={active} dark />
           <span className="tabular whitespace-nowrap text-[15px] font-bold text-highlight md:text-right">
-            {min != null && varies
-              ? `Desde ${formatUSD(min)}`
-              : priceLabel(active)}
+            {min != null && varies ? `Desde ${formatUSD(min)}` : priceLabel(active)}
+            {shownPrice != null && (
+              <span className="block text-[11px] font-normal text-fg/50">
+                ≈ <Ars usd={shownPrice} />
+              </span>
+            )}
           </span>
         </div>
       </div>

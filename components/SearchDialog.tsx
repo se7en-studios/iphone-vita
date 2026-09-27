@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Product } from "@/types";
-import { categoryName } from "@/lib/products";
-import { priceLabel } from "@/lib/format";
+import { categoryName } from "@/lib/catalog";
+import { isOutOfStock, priceLabel } from "@/lib/format";
 import { ProductVisual } from "./ProductVisual";
 import { CloseIcon, SearchIcon } from "./ui/Icons";
 
@@ -79,7 +79,7 @@ export function SearchDialog({ products, open, onClose }: { products: Product[];
                     <p className="truncate text-sm font-semibold text-fg group-hover:text-highlight transition">{p.name}</p>
                     <p className="truncate text-xs text-fg/50">{[p.brand, p.size, p.storage, p.color, p.batteryHealth ? `${p.batteryHealth}% batería` : ""].filter(Boolean).join(" · ")}</p>
                   </div>
-                  <span className="tabular shrink-0 font-bold text-sm text-highlight">{priceLabel(p)}</span>
+                  <span className="tabular shrink-0 font-bold text-sm text-highlight">{isOutOfStock(p) ? "Sin stock" : priceLabel(p)}</span>
                 </Link>
               </li>
             ))}

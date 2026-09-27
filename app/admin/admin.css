@@ -1,0 +1,461 @@
+/*
+ * Estilos del panel admin. Se importa solo desde app/admin/layout.tsx.
+ * Paleta clara estilo Apple, independiente de las variables de la tienda
+ * (--bg/--fg son negras por defecto y cambian con .store).
+ * Los tokens van también en .admin-portal: modales y toasts se montan en
+ * document.body, fuera de .vita-admin.
+ */
+.vita-admin,
+.admin-portal {
+  --a-bg: #f5f5f7;
+  --a-surface: #ffffff;
+  --a-surface-2: #f5f5f7;
+  --a-surface-3: #e8e8ed;
+  --a-border: rgba(0, 0, 0, 0.08);
+  --a-border-strong: rgba(0, 0, 0, 0.16);
+  --a-text: #1d1d1f;
+  --a-muted: #6e6e73;
+  --a-accent: #0071e3;
+  --a-accent-hover: #0077ed;
+  --a-accent-bg: rgba(0, 113, 227, 0.08);
+  --a-accent-border: rgba(0, 113, 227, 0.28);
+  --a-danger: #d70015;
+  --a-danger-bg: rgba(215, 0, 21, 0.07);
+  --a-danger-border: rgba(215, 0, 21, 0.22);
+  --a-success: #1a7f37;
+  --a-success-bg: rgba(26, 127, 55, 0.08);
+  --a-success-border: rgba(26, 127, 55, 0.22);
+  --a-warning: #b25000;
+  --a-warning-bg: rgba(255, 149, 0, 0.1);
+  --a-warning-border: rgba(255, 149, 0, 0.3);
+  --a-radius-lg: 18px;
+  --a-radius-md: 12px;
+  --a-radius-sm: 8px;
+  --a-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --a-shadow-md: 0 8px 28px -8px rgba(0, 0, 0, 0.14);
+  font-family:
+    var(--font-geist-sans),
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: var(--a-text);
+}
+
+html:has(.vita-admin) {
+  color-scheme: light;
+}
+html:has(.vita-admin) body {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+
+.vita-admin {
+  background: var(--a-bg);
+  min-height: 100vh;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.vita-admin :focus-visible,
+.admin-portal :focus-visible {
+  outline: 2px solid var(--a-accent);
+  outline-offset: 2px;
+  border-radius: var(--a-radius-sm);
+}
+
+/* ── Inputs ── */
+.admin-input {
+  width: 100%;
+  min-height: 40px;
+  background: var(--a-surface);
+  border: 1px solid var(--a-border-strong);
+  border-radius: var(--a-radius-sm);
+  padding: 8px 12px;
+  color: var(--a-text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.admin-input:focus {
+  border-color: var(--a-accent);
+  box-shadow: 0 0 0 3px var(--a-accent-bg);
+}
+.admin-input[aria-invalid="true"] {
+  border-color: var(--a-danger);
+}
+.admin-input:disabled {
+  background: var(--a-surface-2);
+  color: var(--a-muted);
+}
+
+/* ── Cards ── */
+.admin-card {
+  background: var(--a-surface);
+  border: 1px solid var(--a-border);
+  border-radius: var(--a-radius-lg);
+  padding: 20px;
+  box-shadow: var(--a-shadow-sm);
+}
+.admin-card--interactive {
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+.admin-card--interactive:hover {
+  transform: translateY(-2px);
+  border-color: var(--a-border-strong);
+  box-shadow: var(--a-shadow-md);
+}
+
+/* ── Buttons ── */
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: 980px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.15s ease,
+    filter 0.15s ease,
+    transform 0.1s ease;
+}
+.admin-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.admin-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.admin-btn--sm {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.admin-btn--full {
+  width: 100%;
+}
+.admin-btn--primary {
+  background: var(--a-accent);
+  color: #fff;
+}
+.admin-btn--primary:hover:not(:disabled) {
+  background: var(--a-accent-hover);
+}
+.admin-btn--secondary {
+  background: var(--a-surface);
+  color: var(--a-text);
+  border-color: var(--a-border-strong);
+}
+.admin-btn--secondary:hover:not(:disabled) {
+  background: var(--a-surface-2);
+}
+.admin-btn--ghost {
+  background: transparent;
+  color: var(--a-muted);
+}
+.admin-btn--ghost:hover:not(:disabled) {
+  background: var(--a-surface-3);
+  color: var(--a-text);
+}
+.admin-btn--danger {
+  background: var(--a-danger-bg);
+  color: var(--a-danger);
+  border-color: var(--a-danger-border);
+}
+.admin-btn--danger:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.admin-icon-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--a-muted);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease;
+}
+.admin-icon-btn:hover:not(:disabled) {
+  background: var(--a-surface-3);
+  color: var(--a-text);
+}
+.admin-icon-btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+.admin-icon-btn:disabled,
+.admin-icon-btn[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: default;
+}
+.admin-icon-btn--danger {
+  color: var(--a-danger);
+}
+.admin-icon-btn--danger:hover:not(:disabled) {
+  background: var(--a-danger-bg);
+  color: var(--a-danger);
+}
+
+/* ── Pills (filtros rápidos) ── */
+.admin-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 4px 12px;
+  border-radius: 980px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid var(--a-border-strong);
+  background: var(--a-surface);
+  color: var(--a-muted);
+  transition: all 0.15s ease;
+}
+.admin-pill:hover {
+  color: var(--a-text);
+}
+.admin-pill--active {
+  background: var(--a-text);
+  border-color: var(--a-text);
+  color: #fff;
+}
+
+/* ── Toggle ── */
+.admin-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--a-text);
+}
+.admin-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.admin-toggle-track {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--a-surface-3);
+  flex-shrink: 0;
+  transition: background-color 0.18s ease;
+}
+.admin-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s ease;
+}
+.admin-toggle input:checked + .admin-toggle-track {
+  background: #34c759;
+}
+.admin-toggle input:checked + .admin-toggle-track .admin-toggle-thumb {
+  transform: translateX(16px);
+}
+.admin-toggle input:focus-visible + .admin-toggle-track {
+  outline: 2px solid var(--a-accent);
+  outline-offset: 2px;
+}
+.admin-toggle input:disabled + .admin-toggle-track {
+  opacity: 0.5;
+}
+
+/* ── Tabla ── */
+.admin-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--a-surface);
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--a-muted);
+  border-bottom: 1px solid var(--a-border);
+  white-space: nowrap;
+}
+.admin-table td {
+  padding: 10px 12px;
+  border-top: 1px solid var(--a-border);
+  vertical-align: middle;
+}
+.admin-table tbody tr:hover {
+  background: #fafafc;
+}
+.admin-table tr[data-selected="true"] {
+  background: var(--a-accent-bg);
+}
+
+/* ── Skeleton ── */
+@keyframes adminShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.admin-skeleton {
+  background: linear-gradient(90deg, #ececf0 25%, #f5f5f7 37%, #ececf0 63%);
+  background-size: 200% 100%;
+  animation: adminShimmer 1.6s ease-in-out infinite;
+}
+
+/* ── Modal ── */
+@keyframes adminFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes adminModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes adminSheetIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.admin-modal-backdrop {
+  animation: adminFadeIn 0.18s ease both;
+}
+.admin-modal-dialog {
+  animation: adminModalIn 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.admin-modal-handle {
+  display: none;
+}
+@media (max-width: 720px) {
+  .admin-modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .admin-modal-dialog {
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0;
+    animation: adminSheetIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .admin-modal-handle {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 2px;
+  }
+  .admin-modal-handle span {
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--a-border-strong);
+  }
+}
+
+/* ── Toasts ── */
+@keyframes adminToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.admin-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #1d1d1f;
+  color: #fff;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.45);
+  animation: adminToastIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.admin-toast--leaving {
+  animation: adminToastIn 0.18s ease reverse both;
+}
+.admin-toast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background: #30d158;
+}
+.admin-toast--error .admin-toast-dot {
+  background: #ff453a;
+}
+
+@keyframes adminRowIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.admin-section-in {
+  animation: adminRowIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (min-width: 1024px) {
+  .vita-admin main {
+    margin-left: var(--admin-sidebar-w, 240px);
+    transition: margin-left 0.2s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vita-admin *,
+  .admin-portal * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -28,19 +28,28 @@ Copiar `.env.example` a `.env.local` y cargar las mismas en Vercel (Settings →
 |---|---|
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Número de la tienda sin `+` ni espacios. Hoy: `5492994386853` |
 | `NEXT_PUBLIC_SITE_URL` | URL pública, para metadata y Open Graph |
+| `NEXT_PUBLIC_SUPABASE_URL` | Proyecto Supabase (catálogo y admin) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública de Supabase (solo lectura por RLS) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clave de servidor para las escrituras del admin. Nunca `NEXT_PUBLIC_` |
 
 ## Estructura
 
 ```text
 app/                    rutas
-  page.tsx              home editorial
+  (store)/              tienda pública (layout con navbar, carrito y footer)
+  (store)/page.tsx      home editorial
+  admin/                panel del dueño (login, productos, configuración)
+  api/admin/            API protegida del panel
   productos/            catálogo con filtros (sidebar en desktop, drawer en mobile)
   producto/[slug]/      detalle con variantes de color, capacidad, tamaño y talle
   carrito/              carrito completo
   encontra-tu-iphone/   selector interactivo (lógica por filtros, sin IA)
 components/             UI (cards, navbar, carrito, buscador, secciones de la home)
-data/products.ts        catálogo: única fuente de productos
-lib/products.ts         acceso a datos (getProducts, getProductBySlug, ...)
+data/products.ts        catálogo semilla / fallback sin Supabase
+supabase/               schema.sql + seed.sql
+lib/products.ts         acceso a datos de la tienda (Supabase o fallback)
+lib/admin-products.ts   lecturas/escrituras del admin (service role)
+lib/api-guard.ts        sesión + admin_users para /api/admin
 lib/whatsapp.ts         links y mensajes de WhatsApp
 lib/finder.ts           reglas de "Encontrá tu iPhone"
 lib/format.ts           precios, stock y badges
@@ -54,15 +63,24 @@ public/images/          fotos (temporales, ver abajo)
 - **Precio "Consultar"** (semi nuevos, cables mayoristas, transformadores, EarPods) → no entra al carrito; el botón abre WhatsApp con un mensaje del producto.
 - Mercado Pago se puede sumar después en el paso "Finalizar compra" sin tocar las cards ni el catálogo.
 
-## Pasar a Supabase
+## Panel admin y Supabase
 
-Ningún componente declara productos: todo sale de `lib/products.ts`. Para conectar Supabase:
+El catálogo vive en Supabase y el dueño lo maneja desde **`/admin`** (productos, precios,
+stock, fotos, visibilidad, destacados, cotización USD→ARS y barra de anuncios).
+Plan completo y contrato de la API: `docs/PLAN-MEJORA.md`.
 
-1. Crear la tabla `products` con los campos de `types/index.ts`.
-2. Reemplazar el cuerpo de `getProducts()`, `getProductBySlug()`, etc. por consultas a Supabase.
-3. Subir las fotos a Supabase Storage (el dominio `*.supabase.co` ya está permitido en `next.config.ts`).
+Puesta en marcha (una sola vez):
 
-El mismo modelo sirve para el panel de administración: alta y edición de productos, precio, stock, imágenes, categoría y nuevo / semi nuevo.
+1. Crear un proyecto en Supabase.
+2. SQL Editor → correr `supabase/schema.sql` y después `supabase/seed.sql` (carga los productos
+   de `data/products.ts`; se regenera con `npx tsx scripts/seed-sql.ts`).
+3. Cargar las tres variables de Supabase en Vercel y redeployar.
+4. Authentication → Users → crear el usuario del dueño y correr el `insert into public.admin_users`
+   que está comentado al final de `schema.sql`.
+
+Seguridad: el público solo lee productos activos (RLS). Todas las escrituras pasan por
+`/api/admin/*`, que valida la sesión y la tabla `admin_users` y recién ahí usa la service role.
+Sin variables de Supabase, la tienda sigue andando con `data/products.ts`.
 
 ## Pendientes [COMPLETAR]
 
