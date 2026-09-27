@@ -1,5 +1,5 @@
 -- iPhone Vita — esquema de la tienda.
--- Correr UNA vez en el SQL Editor de Supabase (es re-ejecutable), después seed.sql.
+-- Se aplica con `npx supabase db push` (o pegándolo en el SQL Editor; es re-ejecutable).
 --
 -- Modelo de seguridad (mismo criterio que Poné La Pava, sin sus agujeros):
 --   * El público solo LEE productos activos y la configuración.

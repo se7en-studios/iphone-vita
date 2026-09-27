@@ -46,7 +46,7 @@ app/                    rutas
   encontra-tu-iphone/   selector interactivo (lógica por filtros, sin IA)
 components/             UI (cards, navbar, carrito, buscador, secciones de la home)
 data/products.ts        catálogo semilla / fallback sin Supabase
-supabase/               schema.sql + seed.sql
+supabase/               migrations/ (esquema) + seed.sql + config.toml (CLI)
 lib/products.ts         acceso a datos de la tienda (Supabase o fallback)
 lib/admin-products.ts   lecturas/escrituras del admin (service role)
 lib/api-guard.ts        sesión + admin_users para /api/admin
@@ -72,11 +72,13 @@ Plan completo y contrato de la API: `docs/PLAN-MEJORA.md`.
 Puesta en marcha (una sola vez):
 
 1. Crear un proyecto en Supabase.
-2. SQL Editor → correr `supabase/schema.sql` y después `supabase/seed.sql` (carga los productos
-   de `data/products.ts`; se regenera con `npx tsx scripts/seed-sql.ts`).
+2. Cargar esquema y productos con la CLI:
+   `npx supabase login` → `npx supabase link --project-ref <ref>` → `npx supabase db push --include-seed`.
+   (O a mano en el SQL Editor: `supabase/migrations/*_schema.sql` y después `supabase/seed.sql`.)
+   El seed sale de `data/products.ts` y se regenera con `npx tsx scripts/seed-sql.ts`.
 3. Cargar las tres variables de Supabase en Vercel y redeployar.
 4. Authentication → Users → crear el usuario del dueño y correr el `insert into public.admin_users`
-   que está comentado al final de `schema.sql`.
+   que está comentado al final de la migración del esquema.
 
 Seguridad: el público solo lee productos activos (RLS). Todas las escrituras pasan por
 `/api/admin/*`, que valida la sesión y la tabla `admin_users` y recién ahí usa la service role.

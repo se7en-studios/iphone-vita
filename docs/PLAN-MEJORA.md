@@ -13,7 +13,7 @@ Referencia del admin: `C:\Users\franc\OneDrive\Documentos\UNIVERSIDAD\webs\ponel
 
 ## Fase 0 — Backend (HECHO, commit 917bf1c)
 
-- `supabase/schema.sql`: `products`, `store_settings` (cotización USD→ARS + anuncio),
+- `supabase/migrations/20260927000000_schema.sql`: `products`, `store_settings` (cotización USD→ARS + anuncio),
   `admin_users`, bucket `product-images`. RLS: el público solo lee productos `active`.
   Nadie escribe con la anon key.
 - `supabase/seed.sql`: los 70 productos actuales (generado con `npx tsx scripts/seed-sql.ts`).
@@ -65,7 +65,7 @@ Pantallas:
    en castellano, `?error=unauthorized` muestra "Tu usuario no tiene acceso".
 2. **Layout `app/admin/(panel)/layout.tsx`** — `getAdminUser()`; si null → `redirect("/admin/login?error=unauthorized")`.
    Si `!isSupabaseConfigured` → pantalla "Configurar Supabase" con los 4 pasos (crear proyecto,
-   correr schema.sql y seed.sql, cargar las 3 env vars en Vercel, crear usuario + insert en
+   correr la migración y seed.sql, cargar las 3 env vars en Vercel, crear usuario + insert en
    admin_users). `robots: noindex`. Botón "Ver tienda" y "Cerrar sesión".
 3. **`/admin` → `/admin/productos`** (el dueño entra a trabajar sobre el catálogo).
 4. **`/admin/dashboard` (Resumen)** — KPIs: productos activos, ocultos, sin stock (`stock === 0`),
@@ -161,10 +161,10 @@ convencionales → push a `main` → verificar deploy en Vercel.
 
 1. Crear un proyecto Supabase para iPhone Vita (la cuenta conectada ya tiene 2 proyectos
    activos, el límite del plan gratis).
-2. SQL Editor → correr `supabase/schema.sql` y después `supabase/seed.sql`.
+2. SQL Editor → correr `supabase/migrations/20260927000000_schema.sql` y después `supabase/seed.sql`.
 3. Vercel → Settings → Environment Variables: `NEXT_PUBLIC_SUPABASE_URL`,
    `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` → redeploy.
 4. Authentication → Users → crear el usuario del dueño y correr el insert en `admin_users`
-   (al final de `schema.sql`).
+   (al final de la migración del esquema).
 
 Hasta entonces la tienda sigue funcionando con `data/products.ts` y `/admin` muestra esta guía.

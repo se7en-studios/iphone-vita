@@ -22,7 +22,7 @@ const rows = products.map((p, i) => {
 const cols = Object.keys(rows[0]);
 const values = rows.map((r) => `(${cols.map((c) => lit(r[c as keyof typeof r])).join(", ")})`);
 const sql = `-- Generado por scripts/seed-sql.ts — ${products.length} productos.
--- Correr después de schema.sql. Re-ejecutable: saltea slugs existentes, no pisa ediciones.
+-- Correr después de la migración del esquema (db push --include-seed lo hace solo). Re-ejecutable: saltea slugs existentes, no pisa ediciones.
 insert into public.products (${cols.join(", ")}) values
 ${values.join(",\n")}
 on conflict (slug) do nothing;

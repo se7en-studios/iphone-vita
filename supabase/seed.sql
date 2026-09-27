@@ -1,5 +1,5 @@
 -- Generado por scripts/seed-sql.ts — 70 productos.
--- Correr después de schema.sql. Re-ejecutable: saltea slugs existentes, no pisa ediciones.
+-- Correr después de la migración del esquema (db push --include-seed lo hace solo). Re-ejecutable: saltea slugs existentes, no pisa ediciones.
 insert into public.products (slug, name, model, brand, category, subcategory, condition, price, stock, stock_level, color, color_hex, storage, battery_health, size, band_size, image, gallery, description, specifications, featured, wholesale, active, sort_order, created_at) values
 ('iphone-18-pro-256gb-silver', 'iPhone 18 Pro', 'iphone-18-pro', 'Apple', 'iphone', null, 'nuevo', 1605, null, 'bajo', 'Silver', '#D9DADC', '256GB', null, null, null, '/images/catalog/iphone-18-pro-silver.webp', array[]::text[], 'iPhone 18 Pro de 256GB en color Silver. Equipo nuevo sellado con garantía. Incluye funda + templado de regalo.', '{}'::jsonb, true, false, true, 10, '2026-09-20'),
 ('iphone-16-128gb-white', 'iPhone 16', 'iphone-16', 'Apple', 'iphone', null, 'nuevo', 890, null, 'alto', 'White', '#F1F1EE', '128GB', null, null, null, '/images/catalog/iphone-16-white.webp', array[]::text[], 'iPhone 16 de 128GB en color White. Equipo nuevo sellado con garantía. Incluye funda + templado de regalo.', '{}'::jsonb, false, false, true, 20, '2026-09-01'),

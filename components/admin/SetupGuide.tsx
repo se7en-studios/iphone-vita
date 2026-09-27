@@ -7,8 +7,8 @@ const STEPS: { title: string; body: string }[] = [
     body: "Entrá a supabase.com, creá un proyecto nuevo para iPhone Vita y esperá a que termine de aprovisionarse.",
   },
   {
-    title: "Correr schema.sql y seed.sql",
-    body: "En SQL Editor pegá y ejecutá supabase/schema.sql. Después supabase/seed.sql para cargar el catálogo actual.",
+    title: "Cargar el esquema y los productos",
+    body: "Con la CLI: npx supabase db push --include-seed. O en SQL Editor: supabase/migrations/20260927000000_schema.sql y después supabase/seed.sql.",
   },
   {
     title: "Cargar las 3 variables en Vercel",
@@ -16,7 +16,7 @@ const STEPS: { title: string; body: string }[] = [
   },
   {
     title: "Crear tu usuario y darle acceso",
-    body: "Authentication → Users → Add user con tu email y contraseña. Después corré el insert en admin_users que está al final de schema.sql, con ese mismo email.",
+    body: "Authentication → Users → Add user con tu email y contraseña. Después corré el insert en admin_users que está al final de la migración del esquema, con ese mismo email.",
   },
 ];
 
