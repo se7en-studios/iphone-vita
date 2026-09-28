@@ -76,7 +76,7 @@ export function SearchDialog({ products, open, onClose }: { products: Product[];
         </div>
 
         {/* Quick filter chips */}
-        <div className="flex items-center gap-1.5 overflow-x-auto border-b border-fg/5 px-4 py-2.5 text-xs">
+        <div className="flex items-center gap-1.5 overflow-x-auto border-b border-fg/5 px-4 py-2.5 text-xs [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           <span className="shrink-0 text-[11px] font-medium text-fg/40 uppercase mr-1">Filtros:</span>
           {filterChips.map((chip) => (
             <button
