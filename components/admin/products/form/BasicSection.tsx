@@ -33,7 +33,6 @@ export function BasicSection({
           value={state.name}
           onChange={(e) => set({ name: e.target.value })}
           placeholder="iPhone 17 Pro"
-          autoFocus
           {...invalidProps(errors, "name", "pf-name")}
         />
       </AdminField>

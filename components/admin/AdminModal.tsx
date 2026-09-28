@@ -17,12 +17,14 @@ export function AdminModal({
   children,
   footer,
   maxWidth = 480,
+  autoFocusFirst = false,
 }: {
   title: string;
   onClose: () => void;
   children: ReactNode;
   footer?: ReactNode;
   maxWidth?: number;
+  autoFocusFirst?: boolean;
 }) {
   const id = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -40,9 +42,13 @@ export function AdminModal({
       Array.from(
         dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? [],
       );
-    // Si un campo ya tomó el foco con autoFocus se respeta; si no, el primero después de "Cerrar".
-    if (!dialogRef.current?.contains(document.activeElement))
-      (focusable()[1] ?? focusable()[0])?.focus();
+    if (!dialogRef.current?.contains(document.activeElement)) {
+      if (autoFocusFirst) {
+        (focusable()[1] ?? focusable()[0])?.focus();
+      } else {
+        dialogRef.current?.focus();
+      }
+    }
 
     function handleKey(e: KeyboardEvent) {
       if (openModals[openModals.length - 1] !== id) return;
@@ -86,7 +92,8 @@ export function AdminModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${id}-title`}
-        className="admin-modal-dialog flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-[20px] bg-[var(--a-surface)] shadow-2xl"
+        tabIndex={-1}
+        className="admin-modal-dialog flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-[20px] bg-[var(--a-surface)] shadow-2xl outline-none"
         style={{ maxWidth }}
       >
         <div className="admin-modal-handle">

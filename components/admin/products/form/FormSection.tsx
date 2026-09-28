@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
 import type { FormErrors, FormState } from "./formState";
 
 export interface SectionProps {
@@ -9,18 +10,23 @@ export interface SectionProps {
 
 export function FormSection({
   title,
+  icon: Icon,
   children,
 }: {
   title: string;
+  icon?: LucideIcon;
   children: ReactNode;
 }) {
   return (
-    <fieldset className="space-y-4 border-t border-[var(--a-border)] pt-5 first:border-t-0 first:pt-0">
-      <legend className="float-left mb-4 w-full text-[15px] font-semibold">
-        {title}
-      </legend>
+    <div className="space-y-4 rounded-2xl border border-[var(--a-border)] bg-[var(--a-surface)] p-5 shadow-sm">
+      <div className="flex items-center gap-2 border-b border-[var(--a-border)] pb-3">
+        {Icon && <Icon size={16} className="text-[var(--a-accent)]" />}
+        <h3 className="text-sm font-semibold tracking-tight text-[var(--a-text)]">
+          {title}
+        </h3>
+      </div>
       {children}
-    </fieldset>
+    </div>
   );
 }
 
