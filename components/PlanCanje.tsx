@@ -12,17 +12,19 @@ interface CurrentPhone {
 }
 
 const CURRENT_MODELS: CurrentPhone[] = [
-  { model: "iPhone 11", baseTradeIn: 220 },
-  { model: "iPhone 11 Pro / Pro Max", baseTradeIn: 280 },
-  { model: "iPhone 12", baseTradeIn: 320 },
-  { model: "iPhone 12 Pro / Pro Max", baseTradeIn: 390 },
-  { model: "iPhone 13", baseTradeIn: 430 },
-  { model: "iPhone 13 Pro / Pro Max", baseTradeIn: 540 },
-  { model: "iPhone 14", baseTradeIn: 510 },
-  { model: "iPhone 14 Pro / Pro Max", baseTradeIn: 660 },
-  { model: "iPhone 15", baseTradeIn: 620 },
-  { model: "iPhone 15 Pro / Pro Max", baseTradeIn: 780 },
-  { model: "iPhone 16", baseTradeIn: 700 },
+  { model: "iPhone XR / XS / XS Max", baseTradeIn: 180 },
+  { model: "iPhone 11", baseTradeIn: 230 },
+  { model: "iPhone 11 Pro / Pro Max", baseTradeIn: 290 },
+  { model: "iPhone 12 / 12 Mini", baseTradeIn: 320 },
+  { model: "iPhone 12 Pro / Pro Max", baseTradeIn: 400 },
+  { model: "iPhone 13 / 13 Mini", baseTradeIn: 440 },
+  { model: "iPhone 13 Pro / Pro Max", baseTradeIn: 550 },
+  { model: "iPhone 14 / 14 Plus", baseTradeIn: 520 },
+  { model: "iPhone 14 Pro / Pro Max", baseTradeIn: 680 },
+  { model: "iPhone 15 / 15 Plus", baseTradeIn: 640 },
+  { model: "iPhone 15 Pro / Pro Max", baseTradeIn: 800 },
+  { model: "iPhone 16 / 16 Plus", baseTradeIn: 720 },
+  { model: "iPhone 16 Pro / Pro Max", baseTradeIn: 920 },
 ];
 
 /** iPhone nuevo que te podés llevar: sale del catálogo real (modelo + capacidad más barata). */
@@ -216,6 +218,14 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                   <ChatIcon className="size-4 shrink-0" />
                   <span>Cotizar por WhatsApp</span>
                 </a>
+
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] text-white/50">
+                  <span>⚡ Revisión en 15 minutos</span>
+                  <span>·</span>
+                  <span>🛡️ Garantía oficial</span>
+                  <span>·</span>
+                  <span>💵 Diferencia en USD, Pesos o USDT</span>
+                </div>
               </div>
             </div>
           </div>
