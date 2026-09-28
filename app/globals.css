@@ -171,10 +171,18 @@ h3 {
   animation-delay: calc(var(--d, 0) * 80ms + 60ms);
 }
 /* Cascada automática para bloques .intro sin --d propio (ficha de producto). */
-.intro > :nth-child(2) { --d: 1; }
-.intro > :nth-child(3) { --d: 2; }
-.intro > :nth-child(4) { --d: 3; }
-.intro > :nth-child(n + 5) { --d: 4; }
+.intro > :nth-child(2) {
+  --d: 1;
+}
+.intro > :nth-child(3) {
+  --d: 2;
+}
+.intro > :nth-child(4) {
+  --d: 3;
+}
+.intro > :nth-child(n + 5) {
+  --d: 4;
+}
 .intro-media {
   animation: settle 1s var(--ease-out-expo) 0.35s both;
 }
@@ -201,7 +209,12 @@ h3 {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.7) 50%, transparent 70%);
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 70%
+  );
   translate: -120% 0;
   transition: translate 0.9s var(--ease-out-expo);
 }
@@ -228,15 +241,51 @@ h3 {
       translate: 0 0;
     }
   }
+  /* Atado a la salida del propio hero (no al scroll de la página): con un intro arriba sigue igual. */
   .hero-copy {
     animation: hero-copy-out linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 60vh;
+    animation-timeline: view();
+    animation-range: exit 0% exit 70%;
   }
   .hero-stage {
     animation: stage-in linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 45%;
+  }
+
+  /* Títulos de sección: se acercan mientras entran, atados al scroll (va y vuelve). */
+  @keyframes title-in {
+    from {
+      opacity: 0.15;
+      scale: 0.88;
+      translate: 0 28px;
+    }
+  }
+  main h2 {
+    animation: title-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  /* Fotos de las grillas: parallax sutil dentro de la tarjeta. Conserva el fade-in de carga. */
+  @keyframes drift {
+    from {
+      translate: 0 16px;
+    }
+    to {
+      translate: 0 -16px;
+    }
+  }
+  /* La tarjeta es overflow-hidden (= scroll container): view() en la foto mediría contra
+     la tarjeta y quedaría clavado en 50%. El timeline se toma del item de la grilla. */
+  [data-stagger] > * {
+    view-timeline: --tile;
+  }
+  [data-stagger] .stage-product {
+    animation:
+      fade-in 0.45s ease-out,
+      drift linear both;
+    animation-timeline: auto, --tile;
   }
 }
 
@@ -279,7 +328,13 @@ h3 {
 }
 .marquee {
   overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
 }
 .marquee-track {
   animation: marquee 28s linear infinite;
@@ -304,7 +359,11 @@ h3 {
     inset: 0 0 auto;
     z-index: 70;
     height: 2px;
-    background: linear-gradient(90deg, var(--color-champagne), var(--color-champagne-light));
+    background: linear-gradient(
+      90deg,
+      var(--color-champagne),
+      var(--color-champagne-light)
+    );
     transform-origin: left;
     animation: progress linear both;
     animation-timeline: scroll(root);
@@ -327,7 +386,9 @@ h3 {
   .hero-copy,
   .hero-stage,
   .hero-float,
-  .marquee-track {
+  .marquee-track,
+  main h2,
+  [data-stagger] .stage-product {
     animation: none;
   }
   .reveal-ready [data-reveal] {
@@ -356,7 +417,12 @@ h3 {
 .stage {
   background:
     radial-gradient(60% 8% at 50% 88%, var(--stage-floor), transparent 70%),
-    radial-gradient(85% 65% at 50% 40%, var(--stage-hi) 0%, var(--stage-mid) 55%, var(--stage-lo) 100%);
+    radial-gradient(
+      85% 65% at 50% 40%,
+      var(--stage-hi) 0%,
+      var(--stage-mid) 55%,
+      var(--stage-lo) 100%
+    );
 }
 .stage-product {
   filter: drop-shadow(0 18px 22px var(--stage-shadow));

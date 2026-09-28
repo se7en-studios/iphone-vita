@@ -40,7 +40,10 @@ export function TrustBar() {
       aria-label="Por qué comprar en iPhone Vita"
       className="scroll-mt-28 border-y border-white/10 bg-black text-white"
     >
-      <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-6 px-4 py-8 md:grid-cols-4 md:px-8 md:py-10">
+      <ul
+        data-stagger
+        className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-6 px-4 py-8 md:grid-cols-4 md:px-8 md:py-10"
+      >
         {POINTS.map((p) => {
           const inner = (
             <>

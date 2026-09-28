@@ -2,6 +2,7 @@ import type { Product } from "@/types";
 import { getProducts, groupByModel, type ModelGroup } from "@/lib/products";
 import { isOutOfStock } from "@/lib/format";
 import { Hero } from "@/components/sections/Hero";
+import AirlockHero from "@/components/ui/airlock-spaceship-hero";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { CategoryTiles } from "@/components/sections/CategoryTiles";
 import { BrandMarquee } from "@/components/sections/BrandMarquee";
@@ -17,6 +18,17 @@ import { FaqSection } from "@/components/sections/FaqSection";
 import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
 
 const BEST_SELLERS_MIN = 4;
+
+/**
+ * Intro en video que se adelanta con la rueda antes del hero. null = sin intro.
+ * ponytail: ruta fija a /public/videos; null apaga el intro.
+ */
+const INTRO_VIDEO: { src: string; poster: string } | null = {
+  src: "/videos/hero-v2.mp4",
+  poster: "/videos/hero-v2-poster.jpg",
+};
+/* Barra de anuncio (~36px) + navbar (h-14): el intro llena lo que queda de pantalla. */
+const INTRO_HEIGHT = "calc(100dvh - 5.75rem)";
 
 /** Variante más barata con precio de un grupo (o la primera si ninguna tiene precio). */
 const cheapest = (g: ModelGroup): Product =>
@@ -63,6 +75,20 @@ export default async function Home() {
 
   return (
     <>
+      {INTRO_VIDEO && (
+        <AirlockHero
+          videoSrc={INTRO_VIDEO.src}
+          posterSrc={INTRO_VIDEO.poster}
+          title="iPhone Vita"
+          scrollHint="DESLIZÁ"
+          tagline="Nuevo, sellado y con garantía oficial."
+          skipLabel="Saltar intro"
+          theme="ember"
+          scrubDistance={1400}
+          holdDistance={400}
+          style={{ height: INTRO_HEIGHT }}
+        />
+      )}
       <Hero group={bestSellers[0]} />
       <TrustBar />
       <CategoryTiles products={available} />
