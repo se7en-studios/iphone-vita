@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { cookies } from "next/headers";
+import { SESSION_COOKIE, verifySession } from "@/lib/admin-session";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 import { ValidationError } from "@/lib/validation";
 
 export type AdminRole = "owner" | "staff";
 export interface AdminUser {
   email: string;
+  name: string | null;
   role: AdminRole;
 }
 
@@ -20,29 +22,25 @@ export class AuthError extends Error {
 }
 
 /**
- * Sesión de Supabase Auth + fila activa en admin_users (leída con service role:
- * la tabla no tiene policies, así un usuario logueado cualquiera no puede listarla).
- * Devuelve null si no hay sesión o no es admin.
+ * Cookie de sesión del PIN + fila activa en admin_users (leída con service role:
+ * la tabla no tiene policies). Devuelve null si no hay sesión o el admin fue desactivado.
  */
 export async function getAdminUser(): Promise<AdminUser | null> {
   if (!isSupabaseConfigured) return null;
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user?.email) return null;
+  const email = await verifySession((await cookies()).get(SESSION_COOKIE)?.value);
+  if (!email) return null;
 
   const { data, error } = await supabaseAdmin()
     .from("admin_users")
-    .select("email, role, active")
-    .eq("email", user.email.toLowerCase().trim())
+    .select("email, name, role, active")
+    .eq("email", email)
     .maybeSingle();
   if (error) {
     console.error("[auth] admin_users:", error.message);
     return null;
   }
   if (!data?.active) return null;
-  return { email: data.email, role: data.role as AdminRole };
+  return { email: data.email, name: data.name, role: data.role as AdminRole };
 }
 
 export async function requireAdmin(role?: AdminRole): Promise<AdminUser> {

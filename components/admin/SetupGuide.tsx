@@ -15,8 +15,8 @@ const STEPS: { title: string; body: string }[] = [
     body: "Settings → Environment Variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY y SUPABASE_SERVICE_ROLE_KEY (Project Settings → API). Después hacé redeploy.",
   },
   {
-    title: "Crear tu usuario y darle acceso",
-    body: "Authentication → Users → Add user con tu email y contraseña. Después corré el insert en admin_users que está al final de la migración del esquema, con ese mismo email.",
+    title: "Crear tu acceso con PIN",
+    body: "Corré la migración admin_pin y el insert de ejemplo que trae al principio, con tu nombre y tu PIN (4 a 8 números).",
   },
 ];
 

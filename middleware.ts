@@ -1,19 +1,20 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { SESSION_COOKIE, verifySession } from "@/lib/admin-session";
 
 /*
- * Refresca la sesión de Supabase y saca a los no logueados de /admin.
- * La verificación de que el usuario ES admin (tabla admin_users) la hacen el
- * layout del panel y cada handler de /api/admin con la service role.
+ * Saca de /admin a quien no tenga una sesión de PIN válida.
+ * Que el admin siga activo en admin_users lo verifican el layout del panel y cada
+ * handler de /api/admin (getAdminUser), así desactivarlo corta el acceso al instante.
  */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isApi = pathname.startsWith("/api/admin");
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   // Sin Supabase el panel muestra la guía de configuración; la API no responde.
-  if (!url || !anon) {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.SUPABASE_SERVICE_ROLE_KEY
+  ) {
     return isApi
       ? NextResponse.json(
           { error: "Supabase no está configurado" },
@@ -22,33 +23,13 @@ export async function middleware(request: NextRequest) {
       : NextResponse.next();
   }
 
-  let response = NextResponse.next({ request });
-  const supabase = createServerClient(url, anon, {
-    cookies: {
-      getAll: () => request.cookies.getAll(),
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) =>
-          request.cookies.set(name, value),
-        );
-        response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options),
-        );
-      },
-    },
-  });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const isLogin = pathname === "/admin/login";
-  if (!user && !isLogin) {
+  const email = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
+  if (!email && pathname !== "/admin/login") {
     if (isApi)
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {

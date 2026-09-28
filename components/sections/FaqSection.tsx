@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
+import { waLink } from "@/lib/whatsapp";
 
 interface FaqItem {
   id: string;
@@ -125,7 +126,7 @@ export function FaqSection() {
             </p>
           </div>
           <a
-            href="https://wa.me/5493516599723?text=Hola%20iPhone%20Vita!%20Tengo%20una%20consulta%20antes%20de%20comprar:"
+            href={waLink("Hola iPhone Vita! Tengo una consulta antes de comprar:")}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-flex items-center justify-center rounded-full bg-fg/10 px-6 py-2.5 text-sm font-semibold text-fg ring-1 ring-fg/20 transition hover:bg-fg/20 hover:text-fg md:mt-0"

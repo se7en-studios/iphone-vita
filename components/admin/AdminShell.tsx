@@ -18,10 +18,9 @@ import {
   RefreshCw,
   Search,
 } from "lucide-react";
-import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { ADMIN_NAV_ITEMS, activeNavItem } from "./admin-nav";
 import { useAdminUser } from "./AdminUserContext";
-import { errorMessage, useAdminToast } from "./AdminToast";
+import { useAdminToast } from "./AdminToast";
 import { formatARS } from "@/lib/format";
 import type { Product, StoreSettings } from "@/types";
 import { CommandPalette } from "./CommandPalette";
@@ -153,9 +152,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
   }
 
   async function handleLogout() {
-    const { error } = await createSupabaseBrowserClient().auth.signOut();
-    if (error) {
-      showToast(errorMessage(error, "No se pudo cerrar la sesión"), "error");
+    const res = await fetch("/api/auth/pin", { method: "DELETE" }).catch(() => null);
+    if (!res?.ok) {
+      showToast("No se pudo cerrar la sesión", "error");
       return;
     }
     window.location.href = "/admin/login";
