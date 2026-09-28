@@ -69,7 +69,7 @@ function SemiCard({ product: p }: { product: Product }) {
           </p>
         </div>
         {p.batteryHealth != null && <Battery value={p.batteryHealth} />}
-        <p className="tabular mt-auto border-t border-white/10 pt-3 text-[15px] font-semibold text-[#ebd7be]">
+        <p className="tabular mt-auto border-t border-white/10 pt-3 text-[15px] font-semibold text-champagne">
           {priceLabel(p)}
           {p.price != null && (
             <span className="ml-1.5 text-xs font-normal text-white/50">

@@ -82,7 +82,7 @@ export function InlineNumber({
         aria-label={`${label}: ${display}. Editar`}
         className={`-mx-2 min-h-[36px] rounded-lg border px-2 text-left tabular-nums transition-all duration-300 ${
           justSaved
-            ? "border-[#ebd7be] bg-[#ebd7be]/15 text-[#ebd7be] shadow-[0_0_12px_rgba(235,215,190,0.3)]"
+            ? "border-champagne bg-champagne/15 text-champagne shadow-[0_0_12px_rgba(235,215,190,0.3)]"
             : "border-transparent hover:border-[var(--a-border-strong)] hover:bg-[var(--a-surface-2)]"
         }`}
       >

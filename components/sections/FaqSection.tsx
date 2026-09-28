@@ -58,8 +58,8 @@ export function FaqSection() {
       <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Header */}
         <div data-reveal className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#ebd7be]">
-            <HelpCircle size={14} className="text-[#ebd7be]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-champagne">
+            <HelpCircle size={14} className="text-champagne" />
             Respuestas Claras
           </div>
           <h2 className="mt-4 text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-[1.1] tracking-[-0.03em]">
@@ -79,7 +79,7 @@ export function FaqSection() {
                 key={faq.id}
                 className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
                   isOpen
-                    ? "border-[#ebd7be]/40 bg-white/[0.04] shadow-lg shadow-black/40"
+                    ? "border-champagne/40 bg-white/[0.04] shadow-lg shadow-black/40"
                     : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.03]"
                 }`}
               >
@@ -94,7 +94,7 @@ export function FaqSection() {
                   </span>
                   <div
                     className={`flex size-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-transform duration-300 ${
-                      isOpen ? "rotate-180 border-[#ebd7be]/50 text-[#ebd7be]" : "text-white/60"
+                      isOpen ? "rotate-180 border-champagne/50 text-champagne" : "text-white/60"
                     }`}
                   >
                     <ChevronDown size={18} />

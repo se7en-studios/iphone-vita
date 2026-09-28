@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Wordmark } from "./Wordmark";
 import { waLink, WHATSAPP_NUMBER } from "@/lib/whatsapp";
-import { ChevronIcon } from "./ui/Icons";
+import { ChatIcon, ChevronIcon, ShieldIcon, SwapIcon, TruckIcon } from "./ui/Icons";
 
 const INSTAGRAM = "https://www.instagram.com/iphone_vita/";
 
@@ -94,25 +94,86 @@ const pretty = (n: string) =>
 
 export function Footer() {
   return (
-    <footer className="border-t border-fg/10 bg-bg text-fg">
-      <div className="mx-auto max-w-[980px] px-4 pb-10 pt-16 md:px-8">
+    <footer className="border-t border-white/10 bg-black text-white relative">
+      {/* 4-Pillar Trust Guarantee Banner */}
+      <div className="footer-trust border-b border-white/10 bg-[#0a0a0c] py-10 px-4 md:px-8">
+        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex items-start gap-3.5">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+              <ShieldIcon className="size-5" />
+            </span>
+            <div>
+              <h4 className="text-sm font-bold text-white tracking-tight">
+                Garantía Oficial Escrita
+              </h4>
+              <p className="mt-1 text-xs text-white/55 leading-relaxed">
+                1 año oficial en sellados y 3 meses de respaldo integral Vita en seleccionados.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3.5">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+              <TruckIcon className="size-5" />
+            </span>
+            <div>
+              <h4 className="text-sm font-bold text-white tracking-tight">
+                Envíos Asegurados
+              </h4>
+              <p className="mt-1 text-xs text-white/55 leading-relaxed">
+                A toda la Argentina con seguro de valor declarado o retiro en persona coordinado.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3.5">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+              <SwapIcon className="size-5" />
+            </span>
+            <div>
+              <h4 className="text-sm font-bold text-white tracking-tight">
+                Plan Canje Inmediato
+              </h4>
+              <p className="mt-1 text-xs text-white/55 leading-relaxed">
+                Tomamos tu iPhone usado en el acto para que te lleves el último modelo pagando solo la diferencia.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3.5">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+              <ChatIcon className="size-5" />
+            </span>
+            <div>
+              <h4 className="text-sm font-bold text-white tracking-tight">
+                Atención Humana 1 a 1
+              </h4>
+              <p className="mt-1 text-xs text-white/55 leading-relaxed">
+                Asesoramiento sin bots en WhatsApp. Despejamos tus dudas en minutos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-[980px] px-4 pb-12 pt-16 md:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="space-y-4">
             <Wordmark dark className="text-2xl" />
-            <p className="max-w-xs text-xs leading-relaxed text-fg/55">
+            <p className="max-w-xs text-xs leading-relaxed text-white/55">
               Apple, accesorios y tecnología premium. Equipos sellados en caja y
-              semi nuevos seleccionados.
+              semi nuevos rigurosamente testeados.
             </p>
-            <p className="tabular font-mono text-xs text-highlight/80">
+            <p className="tabular font-mono text-xs text-champagne font-bold">
               {pretty(WHATSAPP_NUMBER)}
             </p>
           </div>
-          <div className="-mt-4 divide-y divide-fg/10 border-y border-fg/10 md:hidden">
+          <div className="-mt-4 divide-y divide-white/10 border-y border-white/10 md:hidden">
             {cols.map((c) => (
               <details key={c.title} className="group">
-                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-sm font-semibold text-fg/90 [&::-webkit-details-marker]:hidden">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-sm font-semibold text-white/90 [&::-webkit-details-marker]:hidden">
                   {c.title}
-                  <ChevronIcon className="size-4 rotate-90 text-fg/50 transition group-open:-rotate-90" />
+                  <ChevronIcon className="size-4 rotate-90 text-white/50 transition group-open:-rotate-90" />
                 </summary>
                 <FooterLinks links={c.links} />
               </details>
@@ -120,20 +181,19 @@ export function Footer() {
           </div>
           {cols.map((c) => (
             <div key={c.title} className="hidden md:block">
-              <p className="mb-3 text-xs font-semibold text-fg/90">
+              <p className="mb-3 text-xs font-bold text-white tracking-wider uppercase">
                 {c.title}
               </p>
               <FooterLinks links={c.links} />
             </div>
           ))}
         </div>
-        <div className="mt-8 flex flex-col justify-between gap-3 border-t border-fg/10 pt-6 md:mt-16 text-xs text-fg/40 sm:flex-row">
+        <div className="mt-10 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 md:mt-16 text-xs text-white/40 sm:flex-row">
           <p>
             © {new Date().getFullYear()} iPhone Vita. Precios de referencia en
-            USD · Se aceptan Pesos (cotización Dólar Blue del día) y
-            transferencias.
+            USD · Se aceptan Pesos (Dólar Blue del día), USDT y transferencias.
           </p>
-          <p className="text-fg/40">
+          <p className="text-champagne/80 font-medium">
             Funda y templado de regalo con tu iPhone nuevo.
           </p>
         </div>

@@ -69,13 +69,13 @@ export function ReviewsSection() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Header de la sección */}
         <div data-reveal className="mx-auto max-w-[800px] text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#ebd7be]/30 bg-[#ebd7be]/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#ebd7be]">
-            <Sparkles size={14} className="text-[#ebd7be]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-champagne/30 bg-champagne/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-champagne">
+            <Sparkles size={14} className="text-champagne" />
             Experiencia iPhone Vita
           </div>
           <h2 className="mt-4 text-[clamp(2.2rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.03em]">
             Confianza respaldada por{" "}
-            <span className="text-[#ebd7be]">nuestra comunidad</span>.
+            <span className="text-champagne">nuestra comunidad</span>.
           </h2>
           <p className="mx-auto mt-4 max-w-[58ch] text-base text-white/60 md:text-lg">
             Cientos de personas eligen renovar su tecnología con nosotros todos los meses.
@@ -106,7 +106,7 @@ export function ReviewsSection() {
             <div
               key={r.id}
               data-reveal
-              className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0e0e11] p-6 transition-colors duration-200 hover:border-[#ebd7be]/40 hover:bg-[#141418]"
+              className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0e0e11] p-6 transition-colors duration-200 hover:border-champagne/40 hover:bg-[#141418]"
             >
               <div>
                 {/* Estrellas y Fecha */}
@@ -127,7 +127,7 @@ export function ReviewsSection() {
 
               <div className="mt-6 border-t border-white/5 pt-4">
                 {/* Producto */}
-                <p className="line-clamp-1 text-xs font-medium text-[#ebd7be]">
+                <p className="line-clamp-1 text-xs font-medium text-champagne">
                   {r.product}
                 </p>
                 {/* Autor y Ubicación */}

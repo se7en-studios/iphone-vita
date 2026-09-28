@@ -178,7 +178,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       {/* ── Mobile: barra superior con blur ── */}
       <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-[var(--a-border)] bg-[var(--a-surface)]/85 px-4 backdrop-blur-2xl lg:hidden">
         <div className="flex items-center gap-2">
-          <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#ebd7be] to-[#b58d59] text-black font-extrabold text-xs shadow-xs">
+          <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-champagne to-[#b58d59] text-black font-extrabold text-xs shadow-xs">
             V
           </div>
           <div className="flex items-baseline gap-1 text-[15px] tracking-tight">
@@ -359,7 +359,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         <div className="flex h-18 shrink-0 items-center justify-between px-4 border-b border-[var(--a-border)]">
           {!collapsed ? (
             <div className="flex items-center gap-2.5">
-              <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#ebd7be] to-[#b58d59] text-black font-black text-sm shadow-[0_0_16px_rgba(235,215,190,0.35)]">
+              <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-champagne to-[#b58d59] text-black font-black text-sm shadow-[0_0_16px_rgba(235,215,190,0.35)]">
                 V
               </div>
               <div className="min-w-0">
@@ -375,7 +375,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
               </div>
             </div>
           ) : (
-            <div className="mx-auto flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#ebd7be] to-[#b58d59] text-black font-black text-sm shadow-[0_0_16px_rgba(235,215,190,0.35)]">
+            <div className="mx-auto flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-champagne to-[#b58d59] text-black font-black text-sm shadow-[0_0_16px_rgba(235,215,190,0.35)]">
               V
             </div>
           )}

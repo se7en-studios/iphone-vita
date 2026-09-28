@@ -67,7 +67,7 @@ export function SaleReceiptModal({
 
           <div className="flex items-center justify-between border-b border-[var(--a-border)] pb-4">
             <div className="flex items-center gap-2.5">
-              <div className="flex size-8 items-center justify-center rounded-xl bg-[#ebd7be] text-black font-black text-sm shadow-[0_0_12px_rgba(235,215,190,0.4)]">
+              <div className="flex size-8 items-center justify-center rounded-xl bg-champagne text-black font-black text-sm shadow-[0_0_12px_rgba(235,215,190,0.4)]">
                 V
               </div>
               <div>
@@ -79,7 +79,7 @@ export function SaleReceiptModal({
                 </span>
               </div>
             </div>
-            <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs font-bold text-[#ebd7be]">
+            <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs font-bold text-champagne">
               #{sale.id.slice(-6).toUpperCase()}
             </span>
           </div>
@@ -102,7 +102,7 @@ export function SaleReceiptModal({
             )}
 
             <div className="pt-3 border-t border-[var(--a-border)]">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#ebd7be]/80">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-champagne/80">
                 Detalle del Equipo
               </span>
               <div className="mt-1.5 flex items-center justify-between">
@@ -114,7 +114,7 @@ export function SaleReceiptModal({
                 </span>
               </div>
               <div className="mt-1 flex items-center gap-2">
-                <span className="inline-flex rounded-full bg-[#ebd7be]/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#ebd7be] border border-[#ebd7be]/30">
+                <span className="inline-flex rounded-full bg-champagne/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-champagne border border-champagne/30">
                   {sale.condition === "nuevo" ? "Sellado en caja" : "Semi-nuevo"}
                 </span>
                 <span className="text-[11px] text-[var(--a-muted)]">
@@ -159,7 +159,7 @@ export function SaleReceiptModal({
                   </span>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-black text-[#ebd7be] tabular-nums tracking-tight">
+                  <div className="text-2xl font-black text-champagne tabular-nums tracking-tight">
                     {formatUSD(sale.salePriceUSD)}
                   </div>
                 </div>

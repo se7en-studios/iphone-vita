@@ -44,7 +44,7 @@ export function TrustBar() {
         {POINTS.map((p) => {
           const inner = (
             <>
-              <span className="mt-0.5 shrink-0 text-[#ebd7be]">{p.icon}</span>
+              <span className="mt-0.5 shrink-0 text-champagne">{p.icon}</span>
               <span className="min-w-0">
                 <span className="block text-sm font-semibold leading-snug">
                   {p.title}

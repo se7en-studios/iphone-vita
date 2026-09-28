@@ -86,7 +86,7 @@ export function WhatsAppFloat() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="group flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-2.5 text-left text-xs transition hover:border-[#ebd7be]/40 hover:bg-white/[0.08]"
+                className="group flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-2.5 text-left text-xs transition hover:border-champagne/40 hover:bg-white/[0.08]"
               >
                 <div className="flex items-center gap-2.5">
                   <span className="text-base">{t.icon}</span>
@@ -94,7 +94,7 @@ export function WhatsAppFloat() {
                     {t.label}
                   </span>
                 </div>
-                <ArrowRight size={13} className="shrink-0 text-white/30 group-hover:text-[#ebd7be]" />
+                <ArrowRight size={13} className="shrink-0 text-white/30 group-hover:text-champagne" />
               </a>
             ))}
           </div>

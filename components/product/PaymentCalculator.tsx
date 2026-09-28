@@ -83,7 +83,7 @@ export function PaymentCalculator({ product }: { product: Product }) {
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
         <div className="flex items-center gap-2">
-          <Sparkles className="size-4 text-[#ebd7be]" />
+          <Sparkles className="size-4 text-champagne" />
           <span className="text-xs font-semibold uppercase tracking-wider text-fg/90">
             Simulador de Pagos & Financiación
           </span>
@@ -140,7 +140,7 @@ export function PaymentCalculator({ product }: { product: Product }) {
           onClick={() => setActiveTab("tradein")}
           className={`flex flex-col items-center justify-center gap-1 rounded-lg py-2 px-1 text-center transition ${
             activeTab === "tradein"
-              ? "bg-[#ebd7be]/20 text-[#ebd7be] shadow-sm font-semibold border border-[#ebd7be]/30"
+              ? "bg-champagne/20 text-champagne shadow-sm font-semibold border border-champagne/30"
               : "text-fg/60 hover:text-fg hover:bg-white/[0.04]"
           }`}
         >
@@ -311,7 +311,7 @@ export function PaymentCalculator({ product }: { product: Product }) {
               <select
                 value={selectedTradeInIdx}
                 onChange={(e) => setSelectedTradeInIdx(Number(e.target.value))}
-                className="w-full rounded-lg border border-white/15 bg-white/[0.05] px-2.5 py-1.5 text-xs text-fg focus:border-[#ebd7be] focus:outline-none"
+                className="w-full rounded-lg border border-white/15 bg-white/[0.05] px-2.5 py-1.5 text-xs text-fg focus:border-champagne focus:outline-none"
               >
                 {TRADE_IN_CATALOG.map((item, idx) => (
                   <option key={`${item.model}-${item.storage}`} value={idx} className="bg-[#1a1a1a] text-fg">
@@ -339,7 +339,7 @@ export function PaymentCalculator({ product }: { product: Product }) {
                     onClick={() => setTradeInCondition(c.id)}
                     className={`rounded py-1 px-1 text-[11px] font-medium transition border ${
                       tradeInCondition === c.id
-                        ? "border-[#ebd7be] bg-[#ebd7be]/20 text-[#ebd7be]"
+                        ? "border-champagne bg-champagne/20 text-champagne"
                         : "border-white/5 bg-white/[0.02] text-fg/60 hover:bg-white/5"
                     }`}
                   >
@@ -351,14 +351,14 @@ export function PaymentCalculator({ product }: { product: Product }) {
           </div>
 
           {/* Trade-in result */}
-          <div className="rounded-xl border border-[#ebd7be]/30 bg-[#ebd7be]/[0.05] p-3.5">
+          <div className="rounded-xl border border-champagne/30 bg-champagne/[0.05] p-3.5">
             <div className="flex items-center justify-between text-xs text-fg/70 border-b border-white/5 pb-2">
               <span>Tomamos tu {currentTradeIn.model} en:</span>
               <span className="font-semibold text-emerald-400 tabular">~{formatUSD(tradeInEstimatedUsd)}</span>
             </div>
             <div className="pt-2 flex items-baseline justify-between">
               <div>
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#ebd7be]">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-champagne">
                   Diferencia a abonar:
                 </span>
                 <p className="text-2xl font-black text-fg tabular">
@@ -380,7 +380,7 @@ export function PaymentCalculator({ product }: { product: Product }) {
             )}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-[#ebd7be] py-2.5 text-xs font-bold text-black hover:bg-[#dfc7aa] transition shadow-md"
+            className="flex items-center justify-center gap-2 rounded-xl bg-champagne py-2.5 text-xs font-bold text-black hover:bg-[#dfc7aa] transition shadow-md"
           >
             <span>Consultar canje y coordinar entrega</span>
             <ArrowRightLeft className="size-3.5" />

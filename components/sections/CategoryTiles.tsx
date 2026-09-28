@@ -55,6 +55,7 @@ export function CategoryTiles({ products }: { products: Product[] }) {
     ];
   });
   if (!tiles.length) return null;
+  const spanOf = tileSpans(tiles.length);
 
   return (
     <section
@@ -79,26 +80,17 @@ export function CategoryTiles({ products }: { products: Product[] }) {
 
         <div
           data-stagger
-          className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-6"
+          className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-6"
         >
           {tiles.map((t, index) => {
             const isFeatured = index === 0; // iPhone
             const isSecondary = index === 1; // Mac
 
             return (
-              <div
-                key={t.label}
-                className={
-                  isFeatured
-                    ? "col-span-2 sm:col-span-2 lg:col-span-2 xl:col-span-2 row-span-1"
-                    : isSecondary
-                      ? "col-span-2 sm:col-span-1 lg:col-span-2 xl:col-span-2 row-span-1"
-                      : "col-span-1"
-                }
-              >
+              <div key={t.label} className={spanOf(index)}>
                 <Link
                   href={t.href}
-                  className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] bg-[#0c0c0e] ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-1 hover:ring-[#ebd7be]/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(235,215,190,0.1)] p-4 md:p-5"
+                  className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] bg-[#0c0c0e] ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-1 hover:ring-champagne/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(235,215,190,0.1)] p-4 md:p-5"
                 >
                   {/* Subtle card sheen */}
                   <div
@@ -113,12 +105,12 @@ export function CategoryTiles({ products }: { products: Product[] }) {
                   <div className="relative z-10 flex items-start justify-between gap-2">
                     <div>
                       {isFeatured && (
-                        <span className="inline-block mb-1.5 rounded-full bg-[#ebd7be]/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#ebd7be] ring-1 ring-[#ebd7be]/30">
+                        <span className="inline-block mb-1.5 rounded-full bg-champagne/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-champagne ring-1 ring-champagne/30">
                           Más buscado
                         </span>
                       )}
                       <h3
-                        className={`font-bold tracking-tight text-white transition group-hover:text-[#ebd7be] ${
+                        className={`font-bold tracking-tight text-white transition group-hover:text-champagne ${
                           isFeatured ? "text-xl md:text-2xl" : "text-base md:text-lg"
                         }`}
                       >
@@ -131,7 +123,7 @@ export function CategoryTiles({ products }: { products: Product[] }) {
                       </p>
                     </div>
 
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/40 ring-1 ring-white/10 transition-all duration-300 group-hover:bg-[#ebd7be] group-hover:text-black group-hover:scale-105">
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/40 ring-1 ring-white/10 transition-all duration-300 group-hover:bg-champagne group-hover:text-black group-hover:scale-105">
                       <svg
                         className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
                         fill="none"
@@ -148,7 +140,7 @@ export function CategoryTiles({ products }: { products: Product[] }) {
                   <div className="relative z-10 mt-3 flex items-center justify-center overflow-hidden">
                     <ProductVisual
                       product={t.cover}
-                      className={`w-full transition-transform duration-500 group-hover:scale-105 ${
+                      className={`w-full !bg-none transition-transform duration-500 group-hover:scale-105 ${
                         isFeatured
                           ? "aspect-[16/10] max-h-48"
                           : isSecondary
@@ -170,4 +162,25 @@ export function CategoryTiles({ products }: { products: Product[] }) {
       </div>
     </section>
   );
+}
+
+/* Tailwind necesita las clases literales. */
+const LG_SPAN: Record<number, string> = {
+  1: "lg:col-span-6",
+  2: "lg:col-span-3",
+  3: "lg:col-span-2",
+};
+
+/**
+ * Bento sin huecos: iPhone y Mac anchos; en desktop la fila 1 es 2+2+1+1 (6 columnas) y
+ * lo que sobra reparte la fila 2. En mobile (2 columnas) el último impar ocupa todo el ancho.
+ */
+function tileSpans(n: number) {
+  const restLg = LG_SPAN[n - 4] ?? "";
+  const oddLast = (n - 2) % 2 === 1;
+  return (i: number) => {
+    if (i < 2) return "col-span-2";
+    const lg = i >= 4 && restLg ? restLg : "lg:col-span-1";
+    return oddLast && i === n - 1 ? `col-span-2 ${lg}` : i >= 4 ? restLg : "";
+  };
 }

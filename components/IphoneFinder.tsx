@@ -29,7 +29,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               key={i}
               className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
                 i < step
-                  ? "bg-[#ebd7be] shadow-[0_0_8px_rgba(235,215,190,0.4)]"
+                  ? "bg-champagne shadow-[0_0_8px_rgba(235,215,190,0.4)]"
                   : i === step
                     ? "bg-white/60"
                     : "bg-white/10"
@@ -40,7 +40,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
 
         {!done ? (
           <div key={step} className="mt-12 space-y-8">
-            <span className="inline-block rounded-full bg-[#ebd7be]/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#ebd7be] ring-1 ring-[#ebd7be]/30">
+            <span className="inline-block rounded-full bg-champagne/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-champagne ring-1 ring-champagne/30">
               Paso {step + 1} de {QUESTIONS.length}
             </span>
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-white">{q.title}</h2>
@@ -57,12 +57,12 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                     }}
                     className={`group flex items-center justify-between rounded-3xl p-6 text-left text-base transition-all duration-300 ${
                       selected
-                        ? "bg-[#ebd7be] text-black font-bold shadow-[0_0_20px_rgba(235,215,190,0.3)] scale-[1.02]"
-                        : "bg-white/[0.03] ring-1 ring-white/10 hover:bg-white/[0.07] text-white hover:ring-[#ebd7be]/40 hover:shadow-[0_0_20px_rgba(235,215,190,0.08)]"
+                        ? "bg-champagne text-black font-bold shadow-[0_0_20px_rgba(235,215,190,0.3)] scale-[1.02]"
+                        : "bg-white/[0.03] ring-1 ring-white/10 hover:bg-white/[0.07] text-white hover:ring-champagne/40 hover:shadow-[0_0_20px_rgba(235,215,190,0.08)]"
                     }`}
                   >
                     <span className="font-semibold">{o.label}</span>
-                    <ArrowIcon className={`size-5 transition group-hover:translate-x-1 ${selected ? "text-black" : "text-[#ebd7be]"}`} />
+                    <ArrowIcon className={`size-5 transition group-hover:translate-x-1 ${selected ? "text-black" : "text-champagne"}`} />
                   </button>
                 );
               })}
@@ -71,7 +71,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               <button
                 type="button"
                 onClick={() => setStep(step - 1)}
-                className="text-sm text-white/55 underline-offset-4 hover:text-[#ebd7be] hover:underline transition-colors"
+                className="text-sm text-white/55 underline-offset-4 hover:text-champagne hover:underline transition-colors"
               >
                 ← Volver a la pregunta anterior
               </button>
@@ -86,7 +86,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               <button
                 type="button"
                 onClick={() => { setAnswers({}); setStep(0); }}
-                className="text-sm text-white/55 underline-offset-4 hover:text-[#ebd7be] hover:underline transition-colors"
+                className="text-sm text-white/55 underline-offset-4 hover:text-champagne hover:underline transition-colors"
               >
                 ↺ Empezar de nuevo
               </button>
@@ -102,7 +102,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               href={waLink(results[0] ? `${productMessage(results[0])} También quiero que me asesoren según las respuestas del test.` : "Hola iPhone Vita! Hice el test en la web y quiero que me ayuden a elegir un iPhone.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ebd7be] px-8 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.5)]"
+              className="inline-flex items-center gap-2 rounded-full bg-champagne px-8 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.5)]"
             >
               Hablar con un asesor por WhatsApp
             </a>

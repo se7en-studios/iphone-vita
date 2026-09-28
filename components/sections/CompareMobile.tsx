@@ -35,7 +35,7 @@ export function CompareMobile({
                   prev.map((v, i) => (i === col ? Number(e.target.value) : v)),
                 )
               }
-              className="h-11 w-full rounded-full border border-white/15 bg-[#0a0a0a] px-3 text-sm text-white focus:border-[#ebd7be] focus:outline-none"
+              className="h-11 w-full rounded-full border border-white/15 bg-[#0a0a0a] px-3 text-sm text-white focus:border-champagne focus:outline-none"
             >
               {models.map((opt, i) => (
                 <option key={opt.model} value={i}>
@@ -55,7 +55,7 @@ export function CompareMobile({
             )}
             <Link
               href={`/producto/${m.slug}`}
-              className="mt-3 inline-flex h-11 items-center rounded-full bg-[#ebd7be] px-5 text-sm font-semibold text-black transition hover:bg-white"
+              className="mt-3 inline-flex h-11 items-center rounded-full bg-champagne px-5 text-sm font-semibold text-black transition hover:bg-white"
             >
               Comprar
             </Link>

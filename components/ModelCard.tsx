@@ -52,7 +52,7 @@ export function ModelCard({
       onMouseLeave={handleMouseLeave}
       className={`group relative flex h-full flex-col overflow-hidden rounded-[28px] transition-all duration-500 hover:-translate-y-1.5 ${
         dark
-          ? "bg-surface text-fg ring-1 ring-fg/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.7),0_0_30px_rgba(235,215,190,0.12)]"
+          ? "bg-surface text-fg ring-1 ring-fg/10 hover:ring-champagne/40 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.7),0_0_30px_rgba(235,215,190,0.12)]"
           : "bg-mist"
       }`}
     >

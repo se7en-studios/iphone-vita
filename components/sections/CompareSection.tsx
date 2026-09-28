@@ -49,13 +49,13 @@ export function CompareSection({ models }: { models: Product[] }) {
   return (
     <section
       id="comparar"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-40"
+      className="scroll-mt-28 border-t border-white/10 bg-[#0a0a0b] py-16 text-white md:py-40"
     >
       <div
         data-reveal
         className="mx-auto max-w-[980px] px-4 text-center md:px-8"
       >
-        <p className="text-lg font-semibold text-[#ebd7be] md:text-xl">
+        <p className="text-lg font-semibold text-champagne md:text-xl">
           Comparar
         </p>
         <h2 className="mt-3 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
@@ -96,7 +96,7 @@ export function CompareSection({ models }: { models: Product[] }) {
                   )}
                   <Link
                     href={`/producto/${m.slug}`}
-                    className="mt-5 inline-block rounded-full bg-[#ebd7be] px-5 py-2 text-sm font-semibold text-black transition hover:bg-white"
+                    className="mt-5 inline-block rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-black transition hover:bg-white"
                   >
                     Comprar
                   </Link>

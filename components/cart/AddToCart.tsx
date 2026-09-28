@@ -33,7 +33,7 @@ export function BuyButtons({ product }: { product: Product }) {
         href={waLink(restockMessage(product))}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 rounded-full bg-[#ebd7be] py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_20px_rgba(235,215,190,0.4)]"
+        className="flex items-center justify-center gap-2 rounded-full bg-champagne py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_20px_rgba(235,215,190,0.4)]"
       >
         <ChatIcon className="size-4" /> Avisame cuando llegue
       </a>
@@ -45,9 +45,9 @@ export function BuyButtons({ product }: { product: Product }) {
       href={waLink(productMessage(product))}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] py-3.5 text-sm font-medium text-white transition-all duration-300 hover:border-[#ebd7be]/40 hover:bg-white/[0.08]"
+      className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] py-3.5 text-sm font-medium text-white transition-all duration-300 hover:border-champagne/40 hover:bg-white/[0.08]"
     >
-      <ChatIcon className="size-4 text-[#ebd7be]" /> Consultar por WhatsApp
+      <ChatIcon className="size-4 text-champagne" /> Consultar por WhatsApp
     </a>
   );
   if (product.priceType === "consultar" || product.price == null)
@@ -61,7 +61,7 @@ export function BuyButtons({ product }: { product: Product }) {
           add(product.slug);
           setOpen(true);
         }}
-        className="rounded-full bg-[#ebd7be] py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.4)] hover:scale-[1.01]"
+        className="rounded-full bg-champagne py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.4)] hover:scale-[1.01]"
       >
         Comprar ahora
       </button>

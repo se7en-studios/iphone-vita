@@ -187,7 +187,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                     aria-current={v.color === p.color ? "true" : undefined}
                     className={`size-10 rounded-full ring-1 transition-all duration-300 ${
                       v.color === p.color
-                        ? "ring-2 ring-[#ebd7be] ring-offset-4 ring-offset-black scale-110 shadow-[0_0_15px_rgba(235,215,190,0.3)]"
+                        ? "ring-2 ring-champagne ring-offset-4 ring-offset-black scale-110 shadow-[0_0_15px_rgba(235,215,190,0.3)]"
                         : "ring-white/20 hover:scale-105 hover:ring-white/50"
                     }`}
                     style={{ background: v.colorHex }}
@@ -256,7 +256,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             </p>
             <p className="mt-1 text-xl font-bold tracking-tight text-white">{summary || p.name}</p>
             <div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
-              <p className={`tabular text-3xl md:text-4xl font-black tracking-tight text-[#ebd7be] ${soldOut ? "text-white/40 line-through decoration-1" : ""}`}>
+              <p className={`tabular text-3xl md:text-4xl font-black tracking-tight text-champagne ${soldOut ? "text-white/40 line-through decoration-1" : ""}`}>
                 {priceLabel(p)}
               </p>
               <StockNote product={p} dark />
@@ -281,15 +281,15 @@ export default async function ProductPage({ params }: { params: Params }) {
             {/* Reassurance trust points */}
             <div className="mt-6 grid grid-cols-1 gap-2 pt-6 border-t border-white/10 text-xs text-white/60">
               <div className="flex items-center gap-2">
-                <span className="text-[#ebd7be] font-bold">✓</span>
+                <span className="text-champagne font-bold">✓</span>
                 <span>{p.condition === "nuevo" ? "Garantía Oficial Apple de 1 año" : "Garantía escrita de 3 meses Vita"}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[#ebd7be] font-bold">✓</span>
+                <span className="text-champagne font-bold">✓</span>
                 <span>Envíos asegurados a todo el país o retiro en persona</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[#ebd7be] font-bold">✓</span>
+                <span className="text-champagne font-bold">✓</span>
                 <span>Aceptamos dólares billete, USDT y pesos al cambio del día</span>
               </div>
             </div>
@@ -375,14 +375,14 @@ function Tile({
       aria-current={active ? "true" : undefined}
       className={`flex items-center justify-between gap-4 rounded-2xl border px-5 py-5 transition-all duration-300 ${
         active
-          ? "border-[#ebd7be] bg-[#ebd7be]/10 text-white shadow-[0_0_24px_rgba(235,215,190,0.15)] ring-1 ring-[#ebd7be]/60"
+          ? "border-champagne bg-champagne/10 text-white shadow-[0_0_24px_rgba(235,215,190,0.15)] ring-1 ring-champagne/60"
           : "border-white/15 bg-white/[0.02] text-white/80 hover:border-white/40 hover:bg-white/[0.05]"
       }`}
     >
       <div className="flex items-center gap-3">
         <span
           className={`size-2.5 rounded-full transition-all duration-300 ${
-            active ? "bg-[#ebd7be] shadow-[0_0_8px_#ebd7be]" : "bg-white/20"
+            active ? "bg-champagne shadow-[0_0_8px_#ebd7be]" : "bg-white/20"
           }`}
         />
         <span className="text-lg font-bold">{label}</span>
