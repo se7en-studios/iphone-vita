@@ -312,12 +312,12 @@ export function ProductForm({
         {/* Banner de contexto rápido del producto */}
         {(mode.kind === "edit" || mode.kind === "duplicate") && (
           <div className="flex flex-col gap-3 rounded-2xl border border-[var(--a-border)] bg-[var(--a-surface-2)] p-3.5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex min-w-0 items-center gap-3">
+            <div className="flex min-w-0 flex-1 items-center gap-3">
               <ProductThumb
                 src={state.images[0] || mode.product.image}
                 size={48}
               />
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="truncate text-sm font-semibold text-[var(--a-text)]">
                     {mode.kind === "edit"
@@ -442,7 +442,7 @@ export function ProductForm({
         )}
 
         {/* Barra de navegación de secciones / tabs */}
-        <div className="no-scrollbar -mx-1 flex items-center gap-1.5 overflow-x-auto px-1 pb-1">
+        <div className="no-scrollbar sticky -top-5 z-20 -mx-5 flex shrink-0 items-center gap-2 overflow-x-auto border-y border-[var(--a-border)] bg-[var(--a-surface)]/95 px-5 py-2.5 backdrop-blur-md">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.key;
@@ -452,17 +452,17 @@ export function ProductForm({
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition ${
+                className={`relative inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-xs font-semibold whitespace-nowrap transition-all ${
                   isActive
                     ? "bg-[var(--a-text)] text-white shadow-sm"
                     : "border border-[var(--a-border-strong)] bg-[var(--a-surface)] text-[var(--a-muted)] hover:border-[var(--a-text)] hover:text-[var(--a-text)]"
                 }`}
               >
-                <Icon size={13} />
+                <Icon size={14} />
                 <span>{tab.label}</span>
                 {tab.key === "images" && state.images.length > 0 && (
                   <span
-                    className={`rounded-full px-1.5 py-0.2 text-[10px] tabular-nums font-semibold ${
+                    className={`rounded-full px-1.5 py-0.5 text-[10px] tabular-nums font-semibold ${
                       isActive
                         ? "bg-white/20 text-white"
                         : "bg-[var(--a-surface-3)] text-[var(--a-text)]"
@@ -473,7 +473,7 @@ export function ProductForm({
                 )}
                 {hasErr && (
                   <span
-                    className="h-1.5 w-1.5 rounded-full bg-[var(--a-danger)]"
+                    className="h-2 w-2 rounded-full bg-[var(--a-danger)] animate-pulse"
                     title="Esta sección tiene campos para corregir"
                   />
                 )}
