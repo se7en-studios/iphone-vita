@@ -75,7 +75,7 @@ export function InlineNumber({
         onClick={start}
         title={`Editar ${label.toLowerCase()}`}
         aria-label={`${label}: ${display}. Editar`}
-        className="-mx-2 min-h-[36px] rounded-lg border border-transparent px-2 text-left tabular-nums hover:border-[var(--a-border-strong)] hover:bg-white"
+        className="-mx-2 min-h-[36px] rounded-lg border border-transparent px-2 text-left tabular-nums hover:border-[var(--a-border-strong)] hover:bg-[var(--a-surface-2)]"
       >
         {display}
       </button>

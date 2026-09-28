@@ -1,16 +1,20 @@
 /*
- * Estilos del panel admin. Se importa solo desde app/admin/layout.tsx.
- * Paleta clara estilo Apple, independiente de las variables de la tienda
- * (--bg/--fg son negras por defecto y cambian con .store).
- * Los tokens van también en .admin-portal: modales y toasts se montan en
- * document.body, fuera de .vita-admin.
+ * Estilos del panel admin de iPhone Vita.
+ * Diseño Apple Pro / Executive Dark & Light con tokens refinados,
+ * glassmorphism, micro-animaciones y soporte nativo para selector de tema.
  */
+
+:root {
+  --admin-sidebar-w: 240px;
+}
+
+/* ── Light Theme (macOS Sonoma / Cupertino Clean) ── */
 .vita-admin,
 .admin-portal {
   --a-bg: #f5f5f7;
   --a-surface: #ffffff;
-  --a-surface-2: #f5f5f7;
-  --a-surface-3: #e8e8ed;
+  --a-surface-2: #f2f2f7;
+  --a-surface-3: #e5e5ea;
   --a-border: rgba(0, 0, 0, 0.08);
   --a-border-strong: rgba(0, 0, 0, 0.16);
   --a-text: #1d1d1f;
@@ -28,11 +32,18 @@
   --a-warning: #b25000;
   --a-warning-bg: rgba(255, 149, 0, 0.1);
   --a-warning-border: rgba(255, 149, 0, 0.3);
-  --a-radius-lg: 18px;
-  --a-radius-md: 12px;
-  --a-radius-sm: 8px;
-  --a-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --a-shadow-md: 0 8px 28px -8px rgba(0, 0, 0, 0.14);
+  --a-gold: #9d733c;
+  --a-gold-bg: rgba(181, 141, 89, 0.1);
+  --a-purple: #8944ab;
+  --a-purple-bg: rgba(137, 68, 171, 0.1);
+  --a-radius-lg: 20px;
+  --a-radius-md: 14px;
+  --a-radius-sm: 9px;
+  --a-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --a-shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.12);
+  --a-shadow-lg: 0 20px 45px -15px rgba(0, 0, 0, 0.16);
+  --a-glass: rgba(255, 255, 255, 0.85);
+  --a-glass-border: rgba(0, 0, 0, 0.08);
   font-family:
     var(--font-geist-sans),
     ui-sans-serif,
@@ -42,10 +53,60 @@
   color: var(--a-text);
 }
 
+/* ── Dark Theme (Signature Executive Obsidian Apple Pro) ── */
+/* Activo por defecto o vía data-admin-theme="dark" / .dark */
+html:not([data-admin-theme="light"]):has(.vita-admin) .vita-admin,
+html:not([data-admin-theme="light"]):has(.vita-admin) .admin-portal,
+html[data-admin-theme="dark"] .vita-admin,
+html[data-admin-theme="dark"] .admin-portal,
+.vita-admin.dark,
+.admin-portal.dark {
+  --a-bg: #08090d;
+  --a-surface: #111319;
+  --a-surface-2: #171a23;
+  --a-surface-3: #212532;
+  --a-border: rgba(255, 255, 255, 0.08);
+  --a-border-strong: rgba(255, 255, 255, 0.16);
+  --a-text: #f5f5f7;
+  --a-muted: #94949f;
+  --a-accent: #2997ff;
+  --a-accent-hover: #47a6ff;
+  --a-accent-bg: rgba(41, 151, 255, 0.12);
+  --a-accent-border: rgba(41, 151, 255, 0.35);
+  --a-danger: #ff453a;
+  --a-danger-bg: rgba(255, 69, 58, 0.14);
+  --a-danger-border: rgba(255, 69, 58, 0.32);
+  --a-success: #30d158;
+  --a-success-bg: rgba(48, 209, 88, 0.14);
+  --a-success-border: rgba(48, 209, 88, 0.32);
+  --a-warning: #ff9f0a;
+  --a-warning-bg: rgba(255, 159, 10, 0.14);
+  --a-warning-border: rgba(255, 159, 10, 0.32);
+  --a-gold: #ebd7be;
+  --a-gold-bg: rgba(235, 215, 190, 0.12);
+  --a-purple: #bf5af2;
+  --a-purple-bg: rgba(191, 90, 242, 0.14);
+  --a-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --a-shadow-md: 0 12px 34px -8px rgba(0, 0, 0, 0.7);
+  --a-shadow-lg: 0 24px 50px -12px rgba(0, 0, 0, 0.85);
+  --a-glass: rgba(17, 19, 25, 0.75);
+  --a-glass-border: rgba(255, 255, 255, 0.1);
+  color-scheme: dark;
+}
+
 html:has(.vita-admin) {
-  color-scheme: light;
+  color-scheme: dark;
 }
 html:has(.vita-admin) body {
+  background: #08090d;
+  color: #f5f5f7;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html[data-admin-theme="light"]:has(.vita-admin) {
+  color-scheme: light;
+}
+html[data-admin-theme="light"]:has(.vita-admin) body {
   background: #f5f5f7;
   color: #1d1d1f;
 }
@@ -55,6 +116,7 @@ html:has(.vita-admin) body {
   min-height: 100vh;
   font-size: 14px;
   letter-spacing: -0.01em;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .vita-admin :focus-visible,
@@ -62,6 +124,22 @@ html:has(.vita-admin) body {
   outline: 2px solid var(--a-accent);
   outline-offset: 2px;
   border-radius: var(--a-radius-sm);
+}
+
+/* ── Custom Scrollbar para el Admin ── */
+.vita-admin ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.vita-admin ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.vita-admin ::-webkit-scrollbar-thumb {
+  background: var(--a-border-strong);
+  border-radius: 999px;
+}
+.vita-admin ::-webkit-scrollbar-thumb:hover {
+  background: var(--a-muted);
 }
 
 /* ── Inputs ── */
@@ -78,7 +156,8 @@ html:has(.vita-admin) body {
   outline: none;
   transition:
     border-color 0.15s,
-    box-shadow 0.15s;
+    box-shadow 0.15s,
+    background-color 0.15s;
 }
 .admin-input:focus {
   border-color: var(--a-accent);
@@ -97,14 +176,20 @@ html:has(.vita-admin) body {
   background: var(--a-surface);
   border: 1px solid var(--a-border);
   border-radius: var(--a-radius-lg);
-  padding: 20px;
+  padding: 22px;
   box-shadow: var(--a-shadow-sm);
+  position: relative;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 .admin-card--interactive {
+  cursor: pointer;
   transition:
-    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
 .admin-card--interactive:hover {
   transform: translateY(-2px);
@@ -117,9 +202,9 @@ html:has(.vita-admin) body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 7px;
   min-height: 40px;
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 980px;
   font-size: 14px;
   font-weight: 500;
@@ -130,18 +215,19 @@ html:has(.vita-admin) body {
   transition:
     background-color 0.15s ease,
     filter 0.15s ease,
-    transform 0.1s ease;
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
 }
 .admin-btn:active:not(:disabled) {
   transform: scale(0.97);
 }
 .admin-btn:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.45;
 }
 .admin-btn--sm {
   min-height: 34px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 13px;
 }
 .admin-btn--full {
@@ -150,9 +236,11 @@ html:has(.vita-admin) body {
 .admin-btn--primary {
   background: var(--a-accent);
   color: #fff;
+  box-shadow: 0 4px 14px rgba(41, 151, 255, 0.28);
 }
 .admin-btn--primary:hover:not(:disabled) {
   background: var(--a-accent-hover);
+  box-shadow: 0 6px 18px rgba(41, 151, 255, 0.38);
 }
 .admin-btn--secondary {
   background: var(--a-surface);
@@ -161,6 +249,7 @@ html:has(.vita-admin) body {
 }
 .admin-btn--secondary:hover:not(:disabled) {
   background: var(--a-surface-2);
+  border-color: var(--a-muted);
 }
 .admin-btn--ghost {
   background: transparent;
@@ -176,7 +265,7 @@ html:has(.vita-admin) body {
   border-color: var(--a-danger-border);
 }
 .admin-btn--danger:hover:not(:disabled) {
-  filter: brightness(0.96);
+  filter: brightness(0.95);
 }
 
 .admin-icon-btn {
@@ -222,7 +311,7 @@ html:has(.vita-admin) body {
   align-items: center;
   gap: 6px;
   min-height: 34px;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 980px;
   font-size: 13px;
   font-weight: 500;
@@ -235,11 +324,13 @@ html:has(.vita-admin) body {
 }
 .admin-pill:hover {
   color: var(--a-text);
+  border-color: var(--a-muted);
 }
 .admin-pill--active {
   background: var(--a-text);
   border-color: var(--a-text);
-  color: #fff;
+  color: var(--a-bg);
+  font-weight: 600;
 }
 
 /* ── Toggle ── */
@@ -261,7 +352,7 @@ html:has(.vita-admin) body {
 }
 .admin-toggle-track {
   position: relative;
-  width: 40px;
+  width: 42px;
   height: 24px;
   border-radius: 999px;
   background: var(--a-surface-3);
@@ -280,10 +371,10 @@ html:has(.vita-admin) body {
   transition: transform 0.18s ease;
 }
 .admin-toggle input:checked + .admin-toggle-track {
-  background: #34c759;
+  background: #30d158;
 }
 .admin-toggle input:checked + .admin-toggle-track .admin-toggle-thumb {
-  transform: translateX(16px);
+  transform: translateX(18px);
 }
 .admin-toggle input:focus-visible + .admin-toggle-track {
   outline: 2px solid var(--a-accent);
@@ -294,29 +385,38 @@ html:has(.vita-admin) body {
 }
 
 /* ── Tabla ── */
+.admin-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
 .admin-table th {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
   background: var(--a-surface);
   text-align: left;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 12px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--a-muted);
   border-bottom: 1px solid var(--a-border);
   white-space: nowrap;
 }
 .admin-table td {
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-top: 1px solid var(--a-border);
   vertical-align: middle;
 }
+.admin-table tbody tr {
+  transition: background-color 0.12s ease;
+}
 .admin-table tbody tr:hover {
-  background: #fafafc;
+  background: var(--a-surface-2);
 }
 .admin-table tr[data-selected="true"] {
-  background: var(--a-accent-bg);
+  background: var(--a-accent-bg) !important;
 }
 
 /* ── Skeleton ── */
@@ -329,7 +429,12 @@ html:has(.vita-admin) body {
   }
 }
 .admin-skeleton {
-  background: linear-gradient(90deg, #ececf0 25%, #f5f5f7 37%, #ececf0 63%);
+  background: linear-gradient(
+    90deg,
+    var(--a-surface-2) 25%,
+    var(--a-surface-3) 37%,
+    var(--a-surface-2) 63%
+  );
   background-size: 200% 100%;
   animation: adminShimmer 1.6s ease-in-out infinite;
 }
@@ -408,13 +513,14 @@ html:has(.vita-admin) body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
-  border-radius: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
   font-size: 14px;
   font-weight: 500;
-  background: #1d1d1f;
-  color: #fff;
-  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.45);
+  background: var(--a-surface);
+  color: var(--a-text);
+  border: 1px solid var(--a-border-strong);
+  box-shadow: var(--a-shadow-md);
   animation: adminToastIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .admin-toast--leaving {
@@ -425,10 +531,10 @@ html:has(.vita-admin) body {
   height: 8px;
   border-radius: 999px;
   flex-shrink: 0;
-  background: #30d158;
+  background: var(--a-success);
 }
 .admin-toast--error .admin-toast-dot {
-  background: #ff453a;
+  background: var(--a-danger);
 }
 
 @keyframes adminRowIn {

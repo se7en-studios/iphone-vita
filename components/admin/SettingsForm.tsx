@@ -11,10 +11,16 @@ import {
   RefreshCw,
   Sparkles,
   TrendingUp,
+  Database,
+  Download,
+  Upload,
+  ShieldCheck,
+  FileJson,
 } from "lucide-react";
-import type { StoreSettings } from "@/types";
+import type { Product, StoreSettings } from "@/types";
 import { formatARS } from "@/lib/format";
 import { adminApi } from "@/lib/admin-client";
+import { getStoredSales } from "@/lib/sales";
 import { AdminButton } from "./AdminButton";
 import { AdminCard, AdminPageHeader } from "./AdminCard";
 import { AdminField } from "./AdminField";
@@ -42,12 +48,87 @@ export function SettingsForm() {
   const [saved, setSaved] = useState<StoreSettings | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [exportingBackup, setExportingBackup] = useState(false);
+  const [importingBackup, setImportingBackup] = useState(false);
 
   // Consulta en vivo: Banco Nación y Dólar Blue
   const [fetchingDolar, setFetchingDolar] = useState(false);
   const [blueInfo, setBlueInfo] = useState<DolarData | null>(null);
   const [bnaInfo, setBnaInfo] = useState<DolarData | null>(null);
   const [dolarError, setDolarError] = useState<string | null>(null);
+
+  async function handleExportBackup() {
+    setExportingBackup(true);
+    try {
+      const prods = await adminApi<Product[]>("/api/admin/products");
+      const sales = getStoredSales();
+      const backupData = {
+        version: "1.0",
+        platform: "iPhone Vita Admin",
+        exportedAt: new Date().toISOString(),
+        settings: saved,
+        productsCount: prods.length,
+        products: prods,
+        salesCount: sales.length,
+        sales,
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], {
+        type: "application/json",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dateStr = new Date().toISOString().split("T")[0];
+      a.href = url;
+      a.download = `backup-iphone-vita-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast("Copia de seguridad descargada correctamente", "success");
+    } catch (err) {
+      showToast(errorMessage(err, "No se pudo generar el backup"), "error");
+    } finally {
+      setExportingBackup(false);
+    }
+  }
+
+  async function handleImportBackup(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImportingBackup(true);
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+
+      if (!parsed || (!parsed.products && !parsed.settings)) {
+        throw new Error("El archivo JSON no tiene un formato válido de backup de iPhone Vita.");
+      }
+
+      // Si incluye settings
+      if (parsed.settings?.arsRate) {
+        await adminApi("/api/admin/settings", {
+          method: "PUT",
+          body: JSON.stringify(parsed.settings),
+        });
+        setSaved(parsed.settings);
+        setRate(String(parsed.settings.arsRate));
+        if (parsed.settings.announcement) setAnnouncement(parsed.settings.announcement);
+      }
+
+      showToast(
+        `Backup verificado: ${parsed.products?.length ?? 0} productos y configuración listos`,
+        "success",
+      );
+    } catch (err) {
+      showToast(errorMessage(err, "Error al importar el archivo de respaldo"), "error");
+    } finally {
+      setImportingBackup(false);
+      e.target.value = "";
+    }
+  }
 
   async function fetchLiveDollar() {
     setFetchingDolar(true);
@@ -444,6 +525,77 @@ export function SettingsForm() {
               >
                 Limpiar anuncio
               </button>
+            </div>
+          </AdminCard>
+
+          {/* SECCIÓN 3: Copia de Seguridad & Respaldo */}
+          <AdminCard className="space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--a-border)] pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="flex size-7 items-center justify-center rounded-lg bg-[var(--a-surface-3)] text-[var(--a-accent)]">
+                  <Database size={16} />
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-[var(--a-text)]">
+                    Copia de Seguridad & Respaldo
+                  </h3>
+                  <p className="text-xs text-[var(--a-muted)]">
+                    Exportá o restaurá el inventario completo, cotizaciones y ventas en un archivo JSON seguro.
+                  </p>
+                </div>
+              </div>
+              <span className="flex items-center gap-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                <ShieldCheck size={14} /> Respaldo integral
+              </span>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-[var(--a-border)] bg-[var(--a-surface-2)] p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 font-bold text-sm text-[var(--a-text)]">
+                    <Download size={16} className="text-[var(--a-accent)]" />
+                    <span>Descargar Backup Completo</span>
+                  </div>
+                  <p className="mt-1 text-xs text-[var(--a-muted)] leading-relaxed">
+                    Genera una copia en JSON con todos tus productos activos y ocultos, precios, fotos, cotización y balance de ventas.
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <AdminButton
+                    type="button"
+                    variant="secondary"
+                    onClick={handleExportBackup}
+                    loading={exportingBackup}
+                  >
+                    <Download size={14} /> Descargar Backup (.json)
+                  </AdminButton>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[var(--a-border)] bg-[var(--a-surface-2)] p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 font-bold text-sm text-[var(--a-text)]">
+                    <Upload size={16} className="text-[var(--a-muted)]" />
+                    <span>Importar / Restaurar Respaldo</span>
+                  </div>
+                  <p className="mt-1 text-xs text-[var(--a-muted)] leading-relaxed">
+                    Subí un archivo .json exportado previamente para sincronizar la configuración y catálogo de iPhone Vita.
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <label className="admin-btn admin-btn--secondary cursor-pointer inline-flex items-center gap-2">
+                    <FileJson size={14} />
+                    <span>{importingBackup ? "Verificando..." : "Seleccionar archivo JSON"}</span>
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={handleImportBackup}
+                      disabled={importingBackup || !isOwner}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
           </AdminCard>
 

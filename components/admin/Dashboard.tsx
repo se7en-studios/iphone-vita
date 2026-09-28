@@ -38,6 +38,7 @@ import { ProductThumb } from "./products/ProductThumb";
 import { useAdminProducts } from "./products/useAdminProducts";
 import { RecordSaleModal } from "./products/RecordSaleModal";
 import { TradeInCalculatorModal } from "./TradeInCalculatorModal";
+import { SaleReceiptModal } from "./SaleReceiptModal";
 
 const ATTENTION_LIMIT = 15;
 
@@ -65,6 +66,7 @@ export function Dashboard() {
     useState<Product | null>(null);
   const [showTradeInModal, setShowTradeInModal] = useState(false);
   const [showNewSaleModal, setShowNewSaleModal] = useState(false);
+  const [receiptSale, setReceiptSale] = useState<SaleRecord | null>(null);
 
   function reloadSales() {
     setSales(getStoredSales());
@@ -386,13 +388,21 @@ export function Dashboard() {
                   Registro de ventas con desglose de ganancia, método de pago y cliente.
                 </p>
               </div>
-              <AdminButton
-                variant="secondary"
-                size="sm"
-                onClick={() => setShowNewSaleModal(true)}
-              >
-                <Plus size={14} /> Nueva Venta
-              </AdminButton>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/admin/ventas"
+                  className="text-xs font-semibold text-[var(--a-accent)] hover:underline mr-1 hidden sm:inline"
+                >
+                  Ver todas ({sales.length}) ›
+                </Link>
+                <AdminButton
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowNewSaleModal(true)}
+                >
+                  <Plus size={14} /> Nueva Venta
+                </AdminButton>
+              </div>
             </div>
 
             {sales.length === 0 ? (
@@ -417,7 +427,7 @@ export function Dashboard() {
                   </thead>
                   <tbody className="divide-y divide-[var(--a-border)]">
                     {sales.slice(0, 10).map((s) => (
-                      <tr key={s.id} className="hover:bg-[#fafafc]">
+                      <tr key={s.id} className="hover:bg-[var(--a-surface-2)] transition">
                         <td className="whitespace-nowrap px-4 py-3 font-mono text-[11px] text-[var(--a-muted)]">
                           {new Date(s.createdAt).toLocaleDateString("es-AR", {
                             day: "2-digit",
@@ -475,14 +485,24 @@ export function Dashboard() {
                           {!s.customerName && !s.tradeInModel && !s.notes && "—"}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 text-right">
-                          <button
-                            type="button"
-                            onClick={() => deleteSale(s.id)}
-                            title="Eliminar venta registrada"
-                            className="text-[var(--a-muted)] hover:text-[var(--a-danger)] transition"
-                          >
-                            <Trash2 size={14} />
-                          </button>
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => setReceiptSale(s)}
+                              title="Ver comprobante para WhatsApp"
+                              className="admin-icon-btn !size-7 text-[var(--a-muted)] hover:text-[var(--a-accent)]"
+                            >
+                              <Receipt size={13} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => deleteSale(s.id)}
+                              title="Eliminar venta registrada"
+                              className="admin-icon-btn admin-icon-btn--danger !size-7"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -512,7 +532,7 @@ export function Dashboard() {
                     key={p.id}
                     className="border-t border-[var(--a-border)] first:border-t-0"
                   >
-                    <div className="flex min-h-[56px] items-center gap-3 px-5 py-2.5 hover:bg-[#fafafc]">
+                    <div className="flex min-h-[56px] items-center gap-3 px-5 py-2.5 hover:bg-[var(--a-surface-2)] transition">
                       <ProductThumb src={p.image} size={40} />
                       <span className="min-w-0 flex-1 truncate text-sm font-medium">
                         {fullName(p)}
@@ -568,9 +588,9 @@ export function Dashboard() {
       )}
 
       {/* Modal para Registrar Venta */}
-      {showNewSaleModal && defaultSaleProduct && (
+      {showNewSaleModal && (
         <RecordSaleModal
-          product={defaultSaleProduct}
+          product={selectedProductForSale}
           arsRate={arsRate}
           onClose={() => {
             setShowNewSaleModal(false);
@@ -579,8 +599,15 @@ export function Dashboard() {
           onStockDeducted={(p, newStock) => {
             patch([p.id], { stock: newStock });
           }}
+          onSaved={reloadSales}
         />
       )}
+
+      {/* Modal de Comprobante / Recibo Digital */}
+      <SaleReceiptModal
+        sale={receiptSale}
+        onClose={() => setReceiptSale(null)}
+      />
 
       {/* Modal de Tasador Plan Canje */}
       {showTradeInModal && (

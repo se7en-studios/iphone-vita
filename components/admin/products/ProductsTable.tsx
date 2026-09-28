@@ -103,7 +103,7 @@ function MobileCard({ product, props }: { product: Product; props: Props }) {
   const { handlers } = props;
   return (
     <div
-      className={`rounded-2xl border bg-white p-3.5 ${
+      className={`rounded-2xl border bg-[var(--a-surface)] p-3.5 ${
         selected
           ? "border-[var(--a-accent)] ring-1 ring-[var(--a-accent)]"
           : "border-[var(--a-border)]"
