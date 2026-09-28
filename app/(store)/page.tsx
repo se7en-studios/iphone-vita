@@ -4,6 +4,7 @@ import { isOutOfStock } from "@/lib/format";
 import { Hero } from "@/components/sections/Hero";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { CategoryTiles } from "@/components/sections/CategoryTiles";
+import { BrandMarquee } from "@/components/sections/BrandMarquee";
 import { BestSellers } from "@/components/sections/BestSellers";
 import { SemiNuevos } from "@/components/sections/SemiNuevos";
 import {
@@ -65,6 +66,7 @@ export default async function Home() {
       <Hero group={bestSellers[0]} />
       <TrustBar />
       <CategoryTiles products={available} />
+      <BrandMarquee products={available} />
       <BestSellers groups={bestSellers} />
       <SemiNuevos
         items={available.filter((p) => p.condition === "semi-nuevo")}

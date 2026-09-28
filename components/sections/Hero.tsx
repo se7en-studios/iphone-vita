@@ -110,13 +110,13 @@ export function Hero({ group }: { group?: ModelGroup }) {
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 705px"
-                className="object-contain object-bottom"
+                className="hero-float object-contain object-bottom"
               />
             ) : (
               <ProductVisual
                 product={lead}
                 priority
-                className="size-full !bg-none"
+                className="hero-float size-full !bg-none"
                 sizes="(max-width: 768px) 100vw, 705px"
               />
             )}

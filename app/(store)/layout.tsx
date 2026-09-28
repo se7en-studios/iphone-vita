@@ -23,6 +23,7 @@ export default async function StoreLayout({
   return (
     <StoreSettingsProvider settings={settings}>
       <CartProvider products={products}>
+        <div aria-hidden="true" className="scroll-progress" />
         <AnnouncementBar />
         <Navbar />
         <main>{children}</main>
