@@ -10,8 +10,6 @@ import {
   CreditCard,
   Coins,
   ArrowRightLeft,
-  Check,
-  Copy,
   ExternalLink,
   ShieldCheck,
   Sparkles,
@@ -41,7 +39,6 @@ export function PaymentCalculator({ product }: { product: Product }) {
   const { arsRate } = useStoreSettings();
   const [activeTab, setActiveTab] = useState<TabType>("cash");
   const [installments, setInstallments] = useState<1 | 3 | 6 | 12>(3);
-  const [copiedAlias, setCopiedAlias] = useState(false);
 
   // Plan canje state
   const [selectedTradeInIdx, setSelectedTradeInIdx] = useState(2); // default iPhone 12 64GB
@@ -72,11 +69,6 @@ export function PaymentCalculator({ product }: { product: Product }) {
   const tradeInDiffUsd = Math.max(0, priceUsd - tradeInEstimatedUsd);
   const tradeInDiffArs = tradeInDiffUsd * arsRate;
 
-  const handleCopyAlias = () => {
-    navigator.clipboard.writeText("IPHONE.VITA.MP");
-    setCopiedAlias(true);
-    setTimeout(() => setCopiedAlias(false), 2200);
-  };
 
   return (
     <div className="mt-6 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4.5 sm:p-5 shadow-xl backdrop-blur-md">
@@ -182,28 +174,9 @@ export function PaymentCalculator({ product }: { product: Product }) {
             </div>
           </div>
 
-          <div className="pt-1 flex items-center justify-between gap-2 border-t border-white/5">
-            <div className="text-[11px] text-fg/50">
-              Alias de cobro: <span className="font-mono text-fg/80 font-medium">IPHONE.VITA.MP</span>
-            </div>
-            <button
-              type="button"
-              onClick={handleCopyAlias}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-fg/80 hover:bg-white/10 transition"
-            >
-              {copiedAlias ? (
-                <>
-                  <Check className="size-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">¡Copiado!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="size-3.5 text-fg/60" />
-                  <span>Copiar Alias</span>
-                </>
-              )}
-            </button>
-          </div>
+          <p className="border-t border-white/5 pt-2 text-[11px] text-fg/50">
+            Los datos para transferir te los pasamos por WhatsApp al confirmar el pedido.
+          </p>
         </div>
       )}
 

@@ -27,7 +27,7 @@ export function CartDrawer() {
       <aside
         role="dialog"
         aria-label="Carrito"
-        className={`absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-[#0a0a0c] text-white border-l border-white/10 shadow-2xl transition-transform duration-[600ms] ease-[var(--ease-sheet)] ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`absolute right-0 top-0 theme-dark flex h-full w-full max-w-md flex-col bg-[#0a0a0c] text-white border-l border-white/10 shadow-2xl transition-transform duration-[600ms] ease-[var(--ease-sheet)] ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <header className="flex items-center justify-between border-b border-white/10 px-6 py-5">
           <p className="text-lg font-bold tracking-tight">Tu carrito <span className="tabular font-sans text-xs text-champagne">({count})</span></p>

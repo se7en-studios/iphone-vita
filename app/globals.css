@@ -28,8 +28,10 @@
   --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Tema: negro (páginas de marketing) por defecto; claro estilo Apple Store en páginas con .store. */
-:root {
+/* Tema: negro (páginas de marketing) por defecto; claro estilo Apple Store en páginas con .store.
+   .theme-dark vuelve al tema negro dentro de una caja oscura en una página clara (buy box, carrito). */
+:root,
+.theme-dark {
   --bg: #000000;
   --surface: #0a0a0a;
   --surface-2: #1d1d1f;
@@ -67,6 +69,11 @@
   --vita: #a8844f;
   --vita-soft: rgba(168, 132, 79, 0.12);
   --card-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.theme-dark {
+  color-scheme: dark;
+  color: var(--fg);
 }
 
 @theme inline {
@@ -163,6 +170,11 @@ h3 {
   animation: rise 0.8s var(--ease-out-expo) both;
   animation-delay: calc(var(--d, 0) * 80ms + 60ms);
 }
+/* Cascada automática para bloques .intro sin --d propio (ficha de producto). */
+.intro > :nth-child(2) { --d: 1; }
+.intro > :nth-child(3) { --d: 2; }
+.intro > :nth-child(4) { --d: 3; }
+.intro > :nth-child(n + 5) { --d: 4; }
 .intro-media {
   animation: settle 1s var(--ease-out-expo) 0.35s both;
 }
@@ -249,6 +261,56 @@ h3 {
   transform: scale(0.97);
 }
 
+/* Producto del hero flotando apenas, como en una vidriera. */
+@keyframes float {
+  50% {
+    translate: 0 -10px;
+  }
+}
+.hero-float {
+  animation: float 6s ease-in-out 1.4s infinite;
+}
+
+/* Cinta de marcas: loop infinito, bordes que se desvanecen, pausa al hover. */
+@keyframes marquee {
+  to {
+    translate: -50% 0;
+  }
+}
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Barra de progreso de lectura (solo navegadores con scroll-driven animations). */
+.scroll-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  @keyframes progress {
+    from {
+      scale: 0 1;
+    }
+  }
+  .scroll-progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 70;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-champagne), var(--color-champagne-light));
+    transform-origin: left;
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -263,7 +325,9 @@ h3 {
   .pop,
   .hero-glow,
   .hero-copy,
-  .hero-stage {
+  .hero-stage,
+  .hero-float,
+  .marquee-track {
     animation: none;
   }
   .reveal-ready [data-reveal] {

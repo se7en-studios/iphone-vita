@@ -170,11 +170,11 @@ export default async function ProductPage({ params }: { params: Params }) {
       </header>
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 pb-16 md:gap-12 md:px-8 md:pb-24 lg:grid-cols-[1.25fr_1fr] lg:gap-20">
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="intro-media lg:sticky lg:top-24 lg:self-start">
           <ProductGallery product={p} />
         </div>
 
-        <div className="space-y-10 md:space-y-14">
+        <div className="intro space-y-10 md:space-y-14">
           {colorOptions.length > 1 && (
             <Step title="Acabado." hint="Elegí tu color.">
               <div className="flex flex-wrap gap-4">
@@ -247,7 +247,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
           <div
             id="buy-box"
-            className="rounded-[32px] bg-[#0c0c0e] p-6 ring-1 ring-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] md:p-8 relative overflow-hidden"
+            className="theme-dark rounded-[32px] bg-[#0c0c0e] p-6 ring-1 ring-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] md:p-8 relative overflow-hidden"
           >
             <p className="text-sm text-white/50">
               {p.condition === "semi-nuevo"
@@ -301,7 +301,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
       <section className="border-t border-fg/10 py-14 md:py-32">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 md:px-8 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
-          <div>
+          <div data-reveal>
             <h2 className="text-[28px] font-bold md:text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-[-0.03em]">
               Especificaciones.
             </h2>
@@ -311,7 +311,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               </p>
             )}
           </div>
-          <dl className="divide-y divide-fg/10 border-y border-fg/10">
+          <dl data-stagger className="divide-y divide-fg/10 border-y border-fg/10">
             <Spec label="Marca" value={p.brand} />
             <Spec label="Categoría" value={categoryName(p.category)} />
             {Object.entries(p.specifications).map(([k, v]) => (
