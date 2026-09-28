@@ -202,6 +202,14 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} iPhone Vita. Precios de referencia en
             USD · Se aceptan Pesos (Dólar Blue del día), USDT y transferencias.
+            {" · "}
+            <Link
+              href="/admin"
+              rel="nofollow"
+              className="transition hover:text-white/70"
+            >
+              Acceso
+            </Link>
           </p>
           <p className="text-champagne/80 font-medium">
             Funda y templado de regalo con tu iPhone nuevo.
