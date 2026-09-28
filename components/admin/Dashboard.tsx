@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   AlertTriangle,
@@ -18,7 +18,6 @@ import {
   RotateCcw,
   Sparkles,
   Star,
-  Trash2,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
@@ -26,8 +25,6 @@ import type { Product } from "@/types";
 import { formatARS, formatUSD, fullName } from "@/lib/format";
 import {
   computeSalesMetrics,
-  deleteSale,
-  getStoredSales,
   type SaleRecord,
 } from "@/lib/sales";
 import { AdminButton } from "./AdminButton";
@@ -37,6 +34,7 @@ import { KpiSkeleton, TableSkeleton } from "./TableSkeleton";
 import { ProductThumb } from "./products/ProductThumb";
 import { useAdminProducts } from "./products/useAdminProducts";
 import { SaleCard } from "./SaleCard";
+import { useSales } from "./useSales";
 import { RecordSaleModal } from "./products/RecordSaleModal";
 import { TradeInCalculatorModal } from "./TradeInCalculatorModal";
 import { SaleReceiptModal } from "./SaleReceiptModal";
@@ -62,25 +60,12 @@ export function Dashboard() {
   const { products, arsRate, loading, loadError, load, patch } =
     useAdminProducts();
 
-  const [sales, setSales] = useState<SaleRecord[]>([]);
+  const { sales, loading: salesLoading, loadError: salesError } = useSales();
   const [selectedProductForSale, setSelectedProductForSale] =
     useState<Product | null>(null);
   const [showTradeInModal, setShowTradeInModal] = useState(false);
   const [showNewSaleModal, setShowNewSaleModal] = useState(false);
   const [receiptSale, setReceiptSale] = useState<SaleRecord | null>(null);
-
-  function reloadSales() {
-    setSales(getStoredSales());
-  }
-
-  useEffect(() => {
-    reloadSales();
-    function onUpdate() {
-      reloadSales();
-    }
-    window.addEventListener("vita-sales-updated", onUpdate);
-    return () => window.removeEventListener("vita-sales-updated", onUpdate);
-  }, []);
 
   const metrics = computeSalesMetrics(sales);
 
@@ -407,7 +392,14 @@ export function Dashboard() {
               </div>
             </div>
 
-            {sales.length === 0 ? (
+            {salesLoading || salesError ? (
+              <p
+                role={salesError ? "alert" : "status"}
+                className={`p-6 text-center text-sm ${salesError ? "text-[var(--a-danger)]" : "text-[var(--a-muted)]"}`}
+              >
+                {salesError ?? "Cargando ventas…"}
+              </p>
+            ) : sales.length === 0 ? (
               <p className="p-6 text-center text-sm text-[var(--a-muted)]">
                 Aún no registraste ninguna venta. Tocá en{" "}
                 <strong>Registrar Venta</strong> para cargar la primera.
@@ -508,14 +500,6 @@ export function Dashboard() {
                             >
                               <Receipt size={13} />
                             </button>
-                            <button
-                              type="button"
-                              onClick={() => deleteSale(s.id)}
-                              title="Eliminar venta registrada"
-                              className="admin-icon-btn admin-icon-btn--danger !size-7"
-                            >
-                              <Trash2 size={13} />
-                            </button>
                           </div>
                         </td>
                       </tr>
@@ -615,7 +599,6 @@ export function Dashboard() {
           onStockDeducted={(p, newStock) => {
             patch([p.id], { stock: newStock });
           }}
-          onSaved={reloadSales}
         />
       )}
 

@@ -20,7 +20,7 @@ import {
 import type { Product, StoreSettings } from "@/types";
 import { formatARS } from "@/lib/format";
 import { adminApi } from "@/lib/admin-client";
-import { getStoredSales } from "@/lib/sales";
+import { fetchSales } from "@/lib/sales";
 import { AdminButton } from "./AdminButton";
 import { AdminCard, AdminPageHeader } from "./AdminCard";
 import { AdminField } from "./AdminField";
@@ -60,8 +60,10 @@ export function SettingsForm() {
   async function handleExportBackup() {
     setExportingBackup(true);
     try {
-      const prods = await adminApi<Product[]>("/api/admin/products");
-      const sales = getStoredSales();
+      const [prods, sales] = await Promise.all([
+        adminApi<Product[]>("/api/admin/products"),
+        fetchSales(),
+      ]);
       const backupData = {
         version: "1.0",
         platform: "iPhone Vita Admin",

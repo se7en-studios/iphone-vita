@@ -1,4 +1,5 @@
 import type { Condition } from "@/types";
+import { adminApi } from "./admin-client";
 
 export interface SaleRecord {
   id: string;
@@ -22,124 +23,118 @@ export interface SaleRecord {
   createdAt: string;
 }
 
-const STORAGE_KEY = "vita_sales_history_v1";
-
-// Ventas demo iniciales para que el panel arranque con métricas reales y útiles si está vacío
-const INITIAL_DEMO_SALES: SaleRecord[] = [
-  {
-    id: "sale-1",
-    productName: "iPhone 15 Pro 128GB Titán Natural",
-    condition: "nuevo",
-    quantity: 1,
-    salePriceUSD: 1050,
-    costUSD: 870,
-    profitUSD: 180,
-    salePriceARS: 1449000,
-    paymentMethod: "efectivo_usd",
-    customerName: "Lucas M.",
-    notes: "Retiró en persona en Neuquén",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 20).toISOString(),
-  },
-  {
-    id: "sale-2",
-    productName: "iPhone 13 128GB Midnight (Batería 88%)",
-    condition: "semi-nuevo",
-    quantity: 1,
-    salePriceUSD: 520,
-    costUSD: 410,
-    profitUSD: 110,
-    salePriceARS: 717600,
-    paymentMethod: "transferencia_ars",
-    customerName: "Camila R.",
-    notes: "Envío a Cipolletti",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 50).toISOString(),
-  },
-  {
-    id: "sale-3",
-    productName: "iPhone 14 Pro Max 256GB Deep Purple",
-    condition: "semi-nuevo",
-    quantity: 1,
-    salePriceUSD: 890,
-    costUSD: 720,
-    profitUSD: 170,
-    salePriceARS: 1228200,
-    paymentMethod: "canje",
-    customerName: "Martín G.",
-    tradeInModel: "Entregó iPhone 11 128GB ($220 USD)",
-    notes: "Diferencia abonada en efectivo",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 95).toISOString(),
-  },
-  {
-    id: "sale-4",
-    productName: "Apple Watch Series 9 45mm Midnight",
-    condition: "nuevo",
-    quantity: 1,
-    salePriceUSD: 460,
-    costUSD: 380,
-    profitUSD: 80,
-    salePriceARS: 634800,
-    paymentMethod: "transferencia_ars",
-    customerName: "Sofía V.",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 140).toISOString(),
-  },
+export const PAYMENT_METHODS: SaleRecord["paymentMethod"][] = [
+  "efectivo_usd",
+  "transferencia_ars",
+  "canje",
+  "tarjeta",
+  "mixto",
 ];
 
-export function getStoredSales(): SaleRecord[] {
-  if (typeof window === "undefined") return INITIAL_DEMO_SALES;
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_DEMO_SALES));
-      return INITIAL_DEMO_SALES;
-    }
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : INITIAL_DEMO_SALES;
-  } catch {
-    return INITIAL_DEMO_SALES;
-  }
-}
+export const SALE_COLUMNS =
+  "id,product_id,product_name,condition,quantity,sale_price_usd,cost_usd,sale_price_ars,payment_method,customer_name,trade_in_model,notes,created_at";
 
-export function saveSale(
-  sale: Omit<SaleRecord, "id" | "createdAt" | "profitUSD"> & {
-    profitUSD?: number;
-  },
-): SaleRecord {
-  const current = getStoredSales();
-  const profitUSD =
-    sale.profitUSD ??
-    (sale.salePriceUSD != null && sale.costUSD != null
-      ? sale.salePriceUSD - sale.costUSD
-      : 0);
+type SaleRow = {
+  id: string;
+  product_id: string | null;
+  product_name: string;
+  condition: Condition;
+  quantity: number;
+  sale_price_usd: number | string;
+  cost_usd: number | string;
+  sale_price_ars: number | string;
+  payment_method: SaleRecord["paymentMethod"];
+  customer_name: string | null;
+  trade_in_model: string | null;
+  notes: string | null;
+  created_at: string;
+};
 
-  const newRecord: SaleRecord = {
-    ...sale,
-    profitUSD,
-    id: `sale-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    createdAt: new Date().toISOString(),
+/** Fila de Supabase → venta. La ganancia se deriva: sin costo cargado es 0. */
+export function rowToSale(r: SaleRow): SaleRecord {
+  const salePriceUSD = Number(r.sale_price_usd);
+  const costUSD = Number(r.cost_usd);
+  return {
+    id: r.id,
+    productId: r.product_id ?? undefined,
+    productName: r.product_name,
+    condition: r.condition,
+    quantity: r.quantity,
+    salePriceUSD,
+    costUSD,
+    profitUSD: costUSD > 0 ? salePriceUSD - costUSD : 0,
+    salePriceARS: Number(r.sale_price_ars),
+    paymentMethod: r.payment_method,
+    customerName: r.customer_name ?? undefined,
+    tradeInModel: r.trade_in_model ?? undefined,
+    notes: r.notes ?? undefined,
+    createdAt: r.created_at,
   };
-
-  const updated = [newRecord, ...current];
-  if (typeof window !== "undefined") {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      window.dispatchEvent(new Event("vita-sales-updated"));
-    } catch (e) {
-      console.error("Error saving sale:", e);
-    }
-  }
-  return newRecord;
 }
 
-export function deleteSale(id: string): void {
-  const current = getStoredSales();
-  const updated = current.filter((s) => s.id !== id);
-  if (typeof window !== "undefined") {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      window.dispatchEvent(new Event("vita-sales-updated"));
-    } catch (e) {
-      console.error("Error deleting sale:", e);
+export type NewSale = Omit<SaleRecord, "id" | "createdAt" | "profitUSD">;
+
+/* Avisa a Resumen y Ventas que recarguen, esté abierta la pantalla que esté. */
+const SALES_EVENT = "vita-sales-updated";
+const notify = () => window.dispatchEvent(new Event(SALES_EVENT));
+
+export function onSalesUpdated(fn: () => void): () => void {
+  window.addEventListener(SALES_EVENT, fn);
+  return () => window.removeEventListener(SALES_EVENT, fn);
+}
+
+export async function fetchSales(): Promise<SaleRecord[]> {
+  await importLocalSales();
+  return adminApi<SaleRecord[]>("/api/admin/sales");
+}
+
+export async function createSale(sale: NewSale): Promise<SaleRecord> {
+  const saved = await adminApi<SaleRecord>("/api/admin/sales", {
+    method: "POST",
+    body: JSON.stringify(sale),
+  });
+  notify();
+  return saved;
+}
+
+export async function removeSale(id: string): Promise<void> {
+  await adminApi(`/api/admin/sales/${id}`, { method: "DELETE" });
+  notify();
+}
+
+/*
+ * Una sola vez por navegador: sube a la base las ventas que se cargaron cuando vivían en
+ * localStorage y borra la copia local. Las 4 de ejemplo (ids "sale-1".."sale-4") se descartan.
+ * ponytail: se puede borrar cuando ya nadie tenga ventas viejas en el navegador.
+ */
+const LEGACY_KEY = "vita_sales_history_v1";
+const DEMO_IDS = new Set(["sale-1", "sale-2", "sale-3", "sale-4"]);
+
+async function importLocalSales(): Promise<void> {
+  let legacy: SaleRecord[];
+  try {
+    const raw = localStorage.getItem(LEGACY_KEY);
+    if (!raw) return;
+    const parsed: unknown = JSON.parse(raw);
+    legacy = Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return;
+  }
+  // Sin productId: el producto puede haberse borrado y la base rechazaría la venta.
+  const real = legacy
+    .filter((s) => s && !DEMO_IDS.has(s.id))
+    .map((s) => ({ ...s, productId: undefined }));
+  try {
+    if (real.length > 0) {
+      await adminApi("/api/admin/sales", {
+        method: "POST",
+        body: JSON.stringify(real),
+      });
     }
+    localStorage.removeItem(LEGACY_KEY);
+  } catch (error) {
+    // La copia local queda y se reintenta en la próxima carga; no bloquea el panel.
+    console.error("[ventas] no se pudieron subir las ventas del navegador:", error);
   }
 }
 

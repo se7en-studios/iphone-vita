@@ -28,7 +28,7 @@ const FAQS: FaqItem[] = [
     id: "envios",
     question: "¿Cómo son los envíos al interior del país y qué tan seguros son?",
     answer:
-      "Realizamos envíos a todo el territorio argentino a través de encomiendas de máxima seguridad (Andreani Express / Correo Argentino prioritario) con código de seguimiento en tiempo real y seguro de carga incluido. El equipo viaja blindado y embalado con protección antigolpes. En Córdoba y zonas coordinadas, realizamos entregas presenciales.",
+      "Realizamos envíos a todo el territorio argentino a través de encomiendas de máxima seguridad (Andreani Express / Correo Argentino prioritario) con código de seguimiento en tiempo real y seguro de carga incluido. El equipo viaja blindado y embalado con protección antigolpes. En Neuquén y zonas coordinadas, realizamos entregas presenciales.",
   },
   {
     id: "canje",

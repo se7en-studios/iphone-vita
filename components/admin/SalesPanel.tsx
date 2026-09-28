@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Calendar,
   Check,
@@ -24,9 +24,7 @@ import type { Condition, Product } from "@/types";
 import { formatARS, formatUSD } from "@/lib/format";
 import {
   computeSalesMetrics,
-  deleteSale,
   exportSalesToCSV,
-  getStoredSales,
   paymentMethodLabel,
   type SaleRecord,
 } from "@/lib/sales";
@@ -38,6 +36,7 @@ import { EmptyState } from "./EmptyState";
 import { RecordSaleModal } from "./products/RecordSaleModal";
 import { SaleReceiptModal } from "./SaleReceiptModal";
 import { SaleCard } from "./SaleCard";
+import { useSales } from "./useSales";
 import { useAdminProducts } from "./products/useAdminProducts";
 
 type Timeframe = "all" | "today" | "7days" | "month" | "30days";
@@ -45,7 +44,7 @@ type PaymentFilter = "all" | SaleRecord["paymentMethod"];
 
 export function SalesPanel() {
   const { products, arsRate } = useAdminProducts();
-  const [sales, setSales] = useState<SaleRecord[]>([]);
+  const { sales, loading: salesLoading, loadError: salesError, deleteSale } = useSales();
   const [query, setQuery] = useState("");
   const [timeframe, setTimeframe] = useState<Timeframe>("all");
   const [paymentFilter, setPaymentFilter] = useState<PaymentFilter>("all");
@@ -54,19 +53,6 @@ export function SalesPanel() {
   const [showNewSaleModal, setShowNewSaleModal] = useState(false);
   const [receiptSale, setReceiptSale] = useState<SaleRecord | null>(null);
   const [saleToDelete, setSaleToDelete] = useState<SaleRecord | null>(null);
-
-  function reloadSales() {
-    setSales(getStoredSales());
-  }
-
-  useEffect(() => {
-    reloadSales();
-    function onUpdate() {
-      reloadSales();
-    }
-    window.addEventListener("vita-sales-updated", onUpdate);
-    return () => window.removeEventListener("vita-sales-updated", onUpdate);
-  }, []);
 
   // Filtrado reactivo
   const filteredSales = useMemo(() => {
@@ -311,7 +297,14 @@ export function SalesPanel() {
 
       {/* ── Tabla de Ventas ── */}
       <AdminCard className="!p-0 overflow-hidden">
-        {filteredSales.length === 0 ? (
+        {salesLoading || salesError ? (
+          <p
+            role={salesError ? "alert" : "status"}
+            className={`p-6 text-center text-sm ${salesError ? "text-[var(--a-danger)]" : "text-[var(--a-muted)]"}`}
+          >
+            {salesError ?? "Cargando ventas…"}
+          </p>
+        ) : filteredSales.length === 0 ? (
           <div className="py-12">
             <EmptyState
               icon={Receipt}
@@ -509,10 +502,7 @@ export function SalesPanel() {
           product={null}
           arsRate={arsRate}
           onClose={() => setShowNewSaleModal(false)}
-          onSaved={() => {
-            reloadSales();
-            setShowNewSaleModal(false);
-          }}
+          onSaved={() => setShowNewSaleModal(false)}
         />
       )}
 

@@ -13,11 +13,11 @@ import {
 } from "lucide-react";
 import type { Condition, Product } from "@/types";
 import { formatARS, formatUSD, fullName } from "@/lib/format";
-import { saveSale, type SaleRecord } from "@/lib/sales";
+import { createSale, type SaleRecord } from "@/lib/sales";
 import { AdminModal } from "../AdminModal";
 import { AdminButton } from "../AdminButton";
 import { AdminField } from "../AdminField";
-import { useAdminToast } from "../AdminToast";
+import { errorMessage, useAdminToast } from "../AdminToast";
 import { ProductThumb } from "./ProductThumb";
 import { useAdminProducts } from "./useAdminProducts";
 
@@ -128,14 +128,13 @@ export function RecordSaleModal({
 
     setSaving(true);
     try {
-      saveSale({
+      await createSale({
         productId: activeProduct?.id,
         productName: finalProductName,
         condition: activeProduct?.condition || condition,
         quantity: 1,
         salePriceUSD: priceNum,
         costUSD: hasCost ? costNum : 0,
-        profitUSD,
         salePriceARS: priceARS,
         paymentMethod,
         customerName: customerName.trim() || undefined,
@@ -161,8 +160,8 @@ export function RecordSaleModal({
       );
       if (onSaved) onSaved();
       onClose();
-    } catch {
-      showToast("No se pudo registrar la venta", "error");
+    } catch (err) {
+      showToast(errorMessage(err, "No se pudo registrar la venta"), "error");
     } finally {
       setSaving(false);
     }
