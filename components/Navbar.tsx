@@ -43,7 +43,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className="sticky top-0 z-50 border-b border-white/10 bg-black/75 backdrop-blur-2xl text-fg transition-all duration-300"
+        className="sticky top-0 z-50 border-b border-white/10 bg-black/75 backdrop-blur-2xl text-fg [--fg:#fff] transition-all duration-300"
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-6 px-4 md:px-8">
@@ -67,7 +67,7 @@ export function Navbar() {
           <div className="ml-auto flex items-center gap-1.5 lg:ml-0">
             <Link
               href="/encontra-tu-iphone"
-              className="mr-2 hidden items-center gap-1.5 rounded-full border border-[#ebd7be]/30 bg-[#ebd7be]/10 px-3 py-1 text-xs font-medium text-[#ebd7be] transition-all duration-200 hover:bg-[#ebd7be]/20 hover:border-[#ebd7be]/50 hover:shadow-[0_0_15px_rgba(235,215,190,0.2)] xl:flex"
+              className="mr-2 hidden items-center gap-1.5 rounded-full border border-champagne/30 bg-champagne/10 px-3 py-1 text-xs font-medium text-champagne transition-all duration-200 hover:bg-champagne/20 hover:border-champagne/50 hover:shadow-[0_0_15px_rgba(235,215,190,0.2)] xl:flex"
             >
               <span>Encontrá tu iPhone</span>
               <ArrowIcon className="size-3" />
@@ -90,7 +90,7 @@ export function Navbar() {
               {count > 0 && (
                 <span
                   key={count}
-                  className="pop tabular absolute right-0.5 top-0.5 grid min-w-4 place-items-center rounded-full bg-[#ebd7be] px-1 text-[10px] font-bold leading-4 text-black shadow-[0_0_8px_rgba(235,215,190,0.5)]"
+                  className="pop tabular absolute right-0.5 top-0.5 grid min-w-4 place-items-center rounded-full bg-champagne px-1 text-[10px] font-bold leading-4 text-black shadow-[0_0_8px_rgba(235,215,190,0.5)]"
                 >
                   {count}
                 </span>

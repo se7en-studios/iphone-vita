@@ -137,30 +137,51 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 md:px-8">
-      <div className="sticky top-14 z-30 -mx-4 border-b border-line bg-bg/80 px-4 py-3 backdrop-blur-xl md:-mx-8 md:px-8">
+      <div className="sticky top-14 z-30 -mx-4 border-b border-fg/10 bg-bg/80 px-4 py-3.5 backdrop-blur-xl md:-mx-8 md:px-8 transition-colors">
         <div className="flex items-center justify-between gap-3">
-        <p className="tabular whitespace-nowrap text-sm text-muted">{resultsLabel}</p>
-        <div className="flex items-center gap-2">
-          <label htmlFor="orden" className="sr-only">Ordenar</label>
-          <select id="orden" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="min-w-0 rounded-full border border-line bg-paper px-3 py-2 text-sm outline-none focus:border-accent sm:px-4">
-            <option value="destacados">Destacados</option>
-            <option value="precio-asc">Precio menor</option>
-            <option value="precio-desc">Precio mayor</option>
-            <option value="recientes">Más recientes</option>
-          </select>
-          <button type="button" onClick={() => setDrawer(true)} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm lg:hidden">
-            <FilterIcon /> Filtros{active ? <span className="grid size-5 place-items-center rounded-full bg-accent text-[11px] font-semibold text-accent-fg">{active}</span> : null}
-          </button>
-        </div>
+          <p className="tabular whitespace-nowrap text-sm text-fg/60 font-medium">{resultsLabel}</p>
+          <div className="flex items-center gap-2">
+            <label htmlFor="orden" className="sr-only">Ordenar</label>
+            <select
+              id="orden"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as Sort)}
+              className="min-w-0 rounded-full border border-fg/15 bg-surface px-3.5 py-2 text-xs font-semibold text-fg outline-none focus:border-vita transition-colors sm:px-4"
+            >
+              <option value="destacados">Destacados</option>
+              <option value="precio-asc">Precio menor</option>
+              <option value="precio-desc">Precio mayor</option>
+              <option value="recientes">Más recientes</option>
+            </select>
+            <button
+              type="button"
+              onClick={() => setDrawer(true)}
+              className="flex items-center gap-2 whitespace-nowrap rounded-full border border-fg/15 bg-fg/5 px-4 py-2 text-xs font-semibold text-fg transition hover:border-vita/40 hover:bg-fg/10 lg:hidden"
+            >
+              <FilterIcon /> Filtros{active ? <span className="grid size-5 place-items-center rounded-full bg-accent text-[11px] font-bold text-accent-fg">{active}</span> : null}
+            </button>
+          </div>
         </div>
         {chips.length > 0 && (
           <div className="no-scrollbar -mx-4 mt-3 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0">
             {chips.map((c) => (
-              <button key={c.key} type="button" onClick={c.remove} aria-label={`Quitar filtro ${c.label}`} className="flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-fg/10 pl-3.5 pr-2.5 text-xs text-fg transition hover:bg-fg/20">
-                {c.label} <CloseIcon className="size-3.5 text-fg/60" />
+              <button
+                key={c.key}
+                type="button"
+                onClick={c.remove}
+                aria-label={`Quitar filtro ${c.label}`}
+                className="flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-vita/30 bg-vita/10 pl-3 pr-2 text-xs font-medium text-vita transition hover:bg-vita/20 hover:border-vita/50"
+              >
+                {c.label} <CloseIcon className="size-3.5 text-vita" />
               </button>
             ))}
-            <button type="button" onClick={() => setF(empty)} className="h-9 shrink-0 px-2 text-xs text-vita hover:underline">Limpiar</button>
+            <button
+              type="button"
+              onClick={() => setF(empty)}
+              className="h-8 shrink-0 px-2 text-xs font-semibold text-vita hover:underline"
+            >
+              Limpiar todos
+            </button>
           </div>
         )}
       </div>
@@ -177,16 +198,25 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
               ))}
             </div>
           ) : (
-            <div className="rounded-[28px] bg-surface p-8 text-center ring-1 ring-fg/10 md:p-12">
-              <p className="text-xl font-semibold">No encontramos productos con esos filtros.</p>
+            <div className="rounded-[28px] bg-surface p-8 text-center ring-1 ring-fg/10 md:p-12 shadow-xl">
+              <p className="text-xl font-bold text-fg">No encontramos productos con esos filtros.</p>
               <p className="mx-auto mt-2 max-w-md text-sm text-fg/60">
-                Probá sacando alguno, o escribinos y te decimos si tenemos el equipo que buscás.
+                Probá sacando alguno, o escribinos directo por WhatsApp y te decimos si tenemos el equipo que buscás en stock.
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <button type="button" onClick={() => setF(empty)} className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-fg transition hover:brightness-110">
+                <button
+                  type="button"
+                  onClick={() => setF(empty)}
+                  className="rounded-full bg-accent px-6 py-3 text-sm font-bold text-accent-fg transition-all hover:brightness-110"
+                >
                   Ver todos los productos
                 </button>
-                <a href={waLink(GENERAL_MESSAGE)} target="_blank" rel="noopener noreferrer" className="rounded-full border border-fg/20 px-6 py-3 text-sm font-medium transition hover:border-fg/50">
+                <a
+                  href={waLink(GENERAL_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-fg/20 bg-fg/5 px-6 py-3 text-sm font-semibold text-fg transition hover:border-vita/40 hover:bg-fg/10"
+                >
                   Consultar por WhatsApp
                 </a>
               </div>
@@ -197,15 +227,19 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
       {/* Drawer de filtros en mobile */}
       <div className={`fixed inset-0 z-[60] lg:hidden ${drawer ? "" : "pointer-events-none"}`} aria-hidden={!drawer}>
-        <div onClick={() => setDrawer(false)} className={`absolute inset-0 bg-black/30 transition-opacity ${drawer ? "opacity-100" : "opacity-0"}`} />
-        <div className={`absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-[32px] bg-paper px-6 pb-8 pt-4 transition-transform duration-500 ease-[var(--ease-soft)] ${drawer ? "translate-y-0" : "translate-y-full"}`}>
-          <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-fog" />
+        <div onClick={() => setDrawer(false)} className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity ${drawer ? "opacity-100" : "opacity-0"}`} />
+        <div className={`absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-[32px] border-t border-fg/15 bg-surface px-6 pb-8 pt-4 text-fg shadow-2xl transition-transform duration-500 ease-[var(--ease-soft)] ${drawer ? "translate-y-0" : "translate-y-full"}`}>
+          <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-fg/20" />
           <div className="mb-6 flex items-center justify-between">
-            <p className="text-lg font-semibold">Filtros</p>
-            <button type="button" onClick={() => setDrawer(false)} aria-label="Cerrar filtros" className="grid size-9 place-items-center rounded-full hover:bg-mist"><CloseIcon /></button>
+            <p className="text-lg font-bold">Filtros</p>
+            <button type="button" onClick={() => setDrawer(false)} aria-label="Cerrar filtros" className="grid size-9 place-items-center rounded-full text-fg/70 hover:bg-fg/10 hover:text-fg transition"><CloseIcon /></button>
           </div>
           {panel}
-          <button type="button" onClick={() => setDrawer(false)} className="mt-8 w-full rounded-full bg-accent py-3.5 text-sm font-semibold text-accent-fg">
+          <button
+            type="button"
+            onClick={() => setDrawer(false)}
+            className="mt-8 w-full rounded-full bg-accent py-4 text-sm font-bold text-accent-fg transition hover:brightness-110"
+          >
             Ver {resultsLabel}
           </button>
         </div>
@@ -217,16 +251,21 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset>
-      <legend className="mb-3 text-sm font-semibold text-fg/80">{title}</legend>
-      <div className="space-y-1">{children}</div>
+      <legend className="mb-3 text-xs font-bold uppercase tracking-wider text-vita">{title}</legend>
+      <div className="space-y-1.5">{children}</div>
     </fieldset>
   );
 }
 
 function Check({ label, checked, onChange, small }: { label: string; checked: boolean; onChange: () => void; small?: boolean }) {
   return (
-    <label className={`flex cursor-pointer items-center gap-3 rounded-lg py-1 ${small ? "text-[13px] text-muted" : "text-sm"}`}>
-      <input type="checkbox" checked={checked} onChange={onChange} className="size-4 accent-[var(--color-vita)]" />
+    <label className={`flex cursor-pointer items-center gap-3 rounded-lg py-1 transition-colors hover:text-fg ${checked ? "text-fg font-medium" : "text-fg/60"} ${small ? "text-xs" : "text-sm"}`}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="size-4 rounded border-fg/20 bg-fg/5 accent-vita cursor-pointer"
+      />
       {label}
     </label>
   );
