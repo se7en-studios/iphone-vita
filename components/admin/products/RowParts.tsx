@@ -1,6 +1,7 @@
 "use client";
 
-import { Copy, ExternalLink, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Check, Copy, ExternalLink, Pencil, Share2, Trash2 } from "lucide-react";
 import type { Product } from "@/types";
 import { formatARS, formatUSD, fullName, STOCK_LABEL } from "@/lib/format";
 import { categoryName } from "@/lib/catalog";
@@ -8,6 +9,7 @@ import { categories } from "@/data/products";
 import type { ProductPatch } from "@/lib/validation";
 import { AdminToggle } from "../AdminToggle";
 import { InlineNumber } from "./InlineNumber";
+import { useAdminToast } from "../AdminToast";
 
 // Mismos topes que lib/validation.ts (MAX_PRICE / MAX_STOCK).
 const MAX_PRICE = 1_000_000;
@@ -97,16 +99,41 @@ export function StockCell({
   onPatch: RowHandlers["onPatch"];
 }) {
   const out = product.stock === 0;
+  const currentStock = product.stock ?? 0;
+
   return (
     <div>
-      <InlineNumber
-        label="Stock"
-        integer
-        value={product.stock}
-        display={product.stock == null ? "—" : `${product.stock} u.`}
-        max={MAX_STOCK}
-        onSave={(stock) => onPatch(product, { stock })}
-      />
+      <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() =>
+            onPatch(product, { stock: Math.max(0, currentStock - 1) })
+          }
+          disabled={currentStock <= 0}
+          title="Restar 1 unidad"
+          aria-label={`Restar 1 unidad de ${fullName(product)}`}
+          className="flex size-5 items-center justify-center rounded border border-[var(--a-border)] bg-[var(--a-surface-1)] text-xs font-semibold text-[var(--a-muted)] transition hover:bg-[var(--a-surface-3)] hover:text-[var(--a-fg)] disabled:opacity-20"
+        >
+          -
+        </button>
+        <InlineNumber
+          label="Stock"
+          integer
+          value={product.stock}
+          display={product.stock == null ? "—" : `${product.stock} u.`}
+          max={MAX_STOCK}
+          onSave={(stock) => onPatch(product, { stock })}
+        />
+        <button
+          type="button"
+          onClick={() => onPatch(product, { stock: currentStock + 1 })}
+          title="Sumar 1 unidad"
+          aria-label={`Sumar 1 unidad de ${fullName(product)}`}
+          className="flex size-5 items-center justify-center rounded border border-[var(--a-border)] bg-[var(--a-surface-1)] text-xs font-semibold text-[var(--a-muted)] transition hover:bg-[var(--a-surface-3)] hover:text-[var(--a-fg)]"
+        >
+          +
+        </button>
+      </div>
       <span
         className={`block text-xs ${
           out
@@ -150,16 +177,70 @@ export function VisibilityToggles({
   );
 }
 
+function formatQuote(p: Product, rate?: number | null): string {
+  const name = fullName(p);
+  const cond =
+    p.condition === "nuevo"
+      ? "Nuevo y sellado (1 año garantía oficial Apple)"
+    : `Semi-Nuevo revisado${p.batteryHealth ? ` · Batería ${p.batteryHealth}%` : ""}`;
+  const price =
+    p.priceType === "consultar" || p.price == null
+      ? "Consultar precio especial"
+      : `${formatUSD(p.price)} (aprox. ${formatARS(p.price, rate ?? undefined)})`;
+
+  return [
+    `📱 *${name}*`,
+    `✨ *Estado:* ${cond}`,
+    `💵 *Precio:* ${price}`,
+    `🛡️ *Garantía:* ${p.condition === "nuevo" ? "1 año oficial Apple a nivel mundial" : "Garantía de funcionamiento por escrito"}`,
+    p.category === "iphone" ? "🎁 *Regalo:* Funda de silicona + templado 9D de regalo" : "",
+    "🚚 *Envío:* Seguro prioritario a todo el país o entrega presencial",
+    `🌐 *Ver fotos:* ${typeof window !== "undefined" ? window.location.origin : ""}/producto/${p.slug}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 export function RowActions({
   product,
   handlers,
+  arsRate,
 }: {
   product: Product;
   handlers: RowHandlers;
+  arsRate?: number | null;
 }) {
+  const showToast = useAdminToast();
+  const [copied, setCopied] = useState(false);
   const hidden = product.active === false;
+
+  async function handleCopyQuote() {
+    try {
+      const text = formatQuote(product, arsRate);
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      showToast("Presupuesto copiado al portapapeles", "success");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      showToast("No se pudo copiar al portapapeles", "error");
+    }
+  }
+
   return (
     <div className="flex items-center justify-end gap-0.5">
+      <button
+        type="button"
+        className="admin-icon-btn"
+        title={copied ? "¡Copiado!" : "Copiar presupuesto para WhatsApp"}
+        aria-label={`Copiar presupuesto de ${fullName(product)} para WhatsApp`}
+        onClick={handleCopyQuote}
+      >
+        {copied ? (
+          <Check size={16} className="text-[var(--a-success)]" />
+        ) : (
+          <Share2 size={16} />
+        )}
+      </button>
       <button
         type="button"
         className="admin-icon-btn"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Download, PackageSearch, Plus, RefreshCw } from "lucide-react";
+import { Download, PackageSearch, Plus, RefreshCw, Share2 } from "lucide-react";
 import type { Product } from "@/types";
 import { fullName } from "@/lib/format";
 import type { ProductPatch } from "@/lib/validation";
@@ -23,6 +23,7 @@ import { ProductsToolbar } from "./ProductsToolbar";
 import { ProductsTable } from "./ProductsTable";
 import { BulkBar } from "./BulkBar";
 import { BulkPriceModal } from "./BulkPriceModal";
+import { PriceListModal } from "./PriceListModal";
 import { ProductForm, type FormMode } from "./form/ProductForm";
 
 type Deleting =
@@ -54,6 +55,7 @@ export function ProductsPanel({
   const [form, setForm] = useState<FormMode | null>(null);
   const [deleting, setDeleting] = useState<Deleting | null>(null);
   const [priceModal, setPriceModal] = useState(false);
+  const [priceListModal, setPriceListModal] = useState(false);
   const [bulkBusy, setBulkBusy] = useState(false);
   const [editParam, setEditParam] = useState<string | null>(initialParams.edit ?? null);
 
@@ -147,6 +149,13 @@ export function ProductsPanel({
           <>
             <AdminButton
               variant="secondary"
+              onClick={() => setPriceListModal(true)}
+              disabled={filtered.length === 0}
+            >
+              <Share2 size={16} /> Lista WhatsApp / Redes
+            </AdminButton>
+            <AdminButton
+              variant="secondary"
               onClick={() => downloadCsv(filtered)}
               disabled={filtered.length === 0}
             >
@@ -228,6 +237,14 @@ export function ProductsPanel({
           arsRate={arsRate}
           onSave={save}
           onClose={() => setForm(null)}
+        />
+      )}
+
+      {priceListModal && (
+        <PriceListModal
+          products={filtered}
+          arsRate={arsRate}
+          onClose={() => setPriceListModal(false)}
         />
       )}
 

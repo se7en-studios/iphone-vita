@@ -20,6 +20,7 @@ const cols: { title: string; links: FooterLink[] }[] = [
   {
     title: "Ayuda",
     links: [
+      { label: "Preguntas Frecuentes", href: "/#faq" },
       { label: "Plan Canje Usados", href: "/#plan-canje" },
       {
         label: "Contacto Directo",
@@ -46,8 +47,8 @@ const cols: { title: string; links: FooterLink[] }[] = [
   {
     title: "Empresa",
     links: [
-      { label: "Sobre nosotros", href: "/#nosotros" },
-      { label: "Instagram", href: INSTAGRAM, external: true },
+      { label: "Comunidad & Reseñas", href: "/#testimonios" },
+      { label: "Instagram Oficial", href: INSTAGRAM, external: true },
     ],
   },
   {

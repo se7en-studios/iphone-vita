@@ -88,7 +88,11 @@ function DesktopRow({ product, props }: { product: Product; props: Props }) {
         <VisibilityToggles product={product} onPatch={handlers.onPatch} />
       </td>
       <td>
-        <RowActions product={product} handlers={handlers} />
+        <RowActions
+          product={product}
+          handlers={handlers}
+          arsRate={props.arsRate}
+        />
       </td>
     </tr>
   );
@@ -135,7 +139,11 @@ function MobileCard({ product, props }: { product: Product; props: Props }) {
           onPatch={handlers.onPatch}
           hideLabels={false}
         />
-        <RowActions product={product} handlers={handlers} />
+        <RowActions
+          product={product}
+          handlers={handlers}
+          arsRate={props.arsRate}
+        />
       </div>
     </div>
   );

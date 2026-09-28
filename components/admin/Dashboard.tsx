@@ -13,7 +13,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 import type { Product } from "@/types";
-import { fullName } from "@/lib/format";
+import { formatARS, formatUSD, fullName } from "@/lib/format";
 import { AdminButton } from "./AdminButton";
 import { AdminCard, AdminKpiCard, AdminPageHeader } from "./AdminCard";
 import { EmptyState } from "./EmptyState";
@@ -28,11 +28,14 @@ function issuesOf(p: Product): string[] {
   if (!p.image) issues.push("Sin foto");
   if (p.stock === 0) issues.push("Sin stock");
   if (p.price == null) issues.push("Sin precio");
+  if (p.condition === "semi-nuevo" && p.batteryHealth != null && p.batteryHealth < 85) {
+    issues.push(`Batería ${p.batteryHealth}%`);
+  }
   return issues;
 }
 
 export function Dashboard() {
-  const { products, loading, loadError, load } = useAdminProducts();
+  const { products, arsRate, loading, loadError, load } = useAdminProducts();
 
   const count = (fn: (p: Product) => boolean) => products.filter(fn).length;
   // Ocultos no molestan en la tienda: la lista de atención mira solo lo visible.
@@ -40,6 +43,28 @@ export function Dashboard() {
     .filter((p) => p.active !== false)
     .map((p) => ({ p, issues: issuesOf(p) }))
     .filter((x) => x.issues.length > 0);
+
+  const totalValuationUSD = products
+    .filter((p) => p.active !== false && p.price != null && (p.stock ?? 1) > 0)
+    .reduce(
+      (sum, p) =>
+        sum + (p.price as number) * (p.stock ?? (p.condition === "semi-nuevo" ? 1 : 1)),
+      0,
+    );
+
+  const totalUnits = products
+    .filter((p) => p.active !== false && (p.stock == null || p.stock > 0))
+    .reduce(
+      (sum, p) => sum + (p.stock ?? (p.condition === "semi-nuevo" ? 1 : 1)),
+      0,
+    );
+
+  const nuevosCount = products.filter(
+    (p) => p.active !== false && p.condition === "nuevo",
+  ).length;
+  const semiNuevosCount = products.filter(
+    (p) => p.active !== false && p.condition === "semi-nuevo",
+  ).length;
 
   const kpis = [
     {
@@ -121,6 +146,57 @@ export function Dashboard() {
         </div>
       ) : (
         <div className="space-y-6">
+          {/* Valorización y Resumen Financiero de Inventario */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="admin-card">
+              <div className="text-[12px] font-semibold uppercase tracking-wider text-[var(--a-muted)]">
+                Valorización de Inventario
+              </div>
+              <div className="mt-1 text-2xl font-bold tracking-tight text-[var(--a-fg)]">
+                {formatUSD(totalValuationUSD)}
+              </div>
+              <div className="mt-1 text-xs text-[var(--a-muted)]">
+                {arsRate
+                  ? `≈ ${formatARS(totalValuationUSD, arsRate)} (cotiz. $${arsRate.toLocaleString("es-AR")})`
+                  : "En stock activo"}
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="text-[12px] font-semibold uppercase tracking-wider text-[var(--a-muted)]">
+                Unidades Físicas Disponibles
+              </div>
+              <div className="mt-1 text-2xl font-bold tracking-tight text-[var(--a-fg)]">
+                {totalUnits.toLocaleString("es-AR")}{" "}
+                <span className="text-sm font-normal text-[var(--a-muted)]">
+                  unidades
+                </span>
+              </div>
+              <div className="mt-1 text-xs text-[var(--a-muted)]">
+                {products.filter((p) => p.stock === 0).length} agotados sin unidades
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="text-[12px] font-semibold uppercase tracking-wider text-[var(--a-muted)]">
+                Distribución de Catálogo
+              </div>
+              <div className="mt-1 text-2xl font-bold tracking-tight text-[var(--a-fg)]">
+                {nuevosCount}{" "}
+                <span className="text-sm font-normal text-[var(--a-muted)]">
+                  nuevos
+                </span>{" "}
+                · {semiNuevosCount}{" "}
+                <span className="text-sm font-normal text-[var(--a-muted)]">
+                  semi-nuevos
+                </span>
+              </div>
+              <div className="mt-1 text-xs text-[var(--a-muted)]">
+                {count((p) => Boolean(p.featured))} productos destacados en portada
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {kpis.map((k) => (
               <AdminKpiCard key={k.label} {...k} />
