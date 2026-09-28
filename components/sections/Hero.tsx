@@ -39,56 +39,75 @@ export function Hero({ group }: { group?: ModelGroup }) {
       id="hero"
       className="relative overflow-hidden bg-black pb-14 pt-14 text-center text-white md:pb-24 md:pt-24"
     >
-      <div className="intro mx-auto max-w-[980px] px-4 md:px-8">
+      {/* ── Luz volumétrica ambiental de Titanio Natural ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] md:w-[1100px] md:h-[650px] rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(235,215,190,0.14),transparent_70%)] blur-3xl opacity-80"
+      />
+
+      <div className="intro relative z-10 mx-auto max-w-[980px] px-4 md:px-8">
+        {/* Floating Luxury Badge */}
+        <div style={d(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-[#ebd7be] backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
+          <span className="size-1.5 rounded-full bg-[#ebd7be] animate-pulse" />
+          <span>Garantía Oficial Apple · Equipos Nuevos Sellados & Semi-nuevos</span>
+        </div>
+
         <p
-          style={d(0)}
-          className="text-base font-semibold text-[#ebd7be] md:text-lg"
+          style={d(0.5)}
+          className="text-base font-semibold text-[#ebd7be] md:text-lg tracking-wide uppercase"
         >
-          iPhone, Mac, iPad y más · nuevos y semi nuevos
+          iPhone · Mac · iPad · Apple Watch
         </p>
+
         <h1
           style={d(1)}
-          className="mt-3 text-[clamp(3rem,9vw,7.5rem)] font-bold leading-[0.95] tracking-[-0.04em]"
+          className="mt-3 text-[clamp(3.2rem,9.5vw,7.8rem)] font-bold leading-[0.95] tracking-[-0.04em] bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent"
         >
           {group ? group.name : "Tu próxima tecnología."}
         </h1>
+
         <p
           style={d(2)}
-          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-white/60 md:text-xl"
+          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-white/65 md:text-xl font-normal"
         >
           {group
             ? pitch(group)
-            : "Equipos sellados con garantía oficial y semi nuevos revisados. Aceptamos pesos y enviamos a todo el país."}
+            : "Equipos sellados con garantía oficial y semi nuevos seleccionados. Aceptamos pesos y enviamos a todo el país."}
         </p>
+
         {group?.fromPrice != null && (
-          <p style={d(3)} className="tabular mt-5 text-lg text-white">
-            Desde {formatUSD(group.fromPrice)}
+          <p style={d(3)} className="tabular mt-5 text-xl font-medium text-white">
+            Desde <span className="text-[#ebd7be] font-bold">{formatUSD(group.fromPrice)}</span>
             <span className="ml-2 text-sm text-white/50">
               ≈ <Ars usd={group.fromPrice} />
             </span>
           </p>
         )}
+
         <div
           style={d(4)}
-          className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3.5"
         >
           <Link
             href={lead ? `/producto/${lead.slug}` : "/productos"}
-            className="rounded-full bg-[#ebd7be] px-8 py-3.5 text-base font-semibold text-black transition hover:bg-white"
+            className="rounded-full bg-[#ebd7be] px-8 py-3.5 text-base font-bold text-black transition duration-300 hover:bg-[#f7ede0] hover:scale-105 shadow-[0_0_25px_rgba(235,215,190,0.3)] hover:shadow-[0_0_35px_rgba(235,215,190,0.5)]"
           >
-            {lead ? "Comprar" : "Ver productos"}
+            {lead ? "Comprar ahora" : "Ver productos"}
           </Link>
           <Link
             href="/productos"
-            className="py-2 text-base text-[#ebd7be] transition hover:underline"
+            className="py-2 text-base font-medium text-[#ebd7be] transition hover:text-white hover:underline flex items-center gap-1.5"
           >
-            Ver todo el catálogo ›
+            <span>Ver todo el catálogo</span>
+            <span aria-hidden>›</span>
           </Link>
         </div>
       </div>
 
       {lead && (
-        <div className="mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[28px] bg-[#1d1d1f] px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14">
+        <div className="relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-white/10 bg-[#1d1d1f] px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
+          {/* Top subtle champagne rim highlight */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(235,215,190,0.5)] to-transparent" />
           {/* La foto de campaña trae fondo #1d1d1f: la tarjeta usa el mismo gris para que no se vea el borde. */}
           <div className="intro-media relative mx-auto aspect-[705/656] w-full max-w-[705px]">
             {art ? (

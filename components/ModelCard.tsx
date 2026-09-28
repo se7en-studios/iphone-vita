@@ -23,6 +23,20 @@ export function ModelCard({
 }) {
   const colors = uniqueColors(group.variants);
   const [active, setActive] = useState(colors[0]);
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  }
+
+  function handleMouseLeave() {
+    setMousePos(null);
+  }
+
   const specs = [
     ...new Set(
       group.variants.map((v) =>
@@ -34,12 +48,24 @@ export function ModelCard({
   return (
     <Link
       href={`/producto/${active.slug}`}
-      className={`group flex h-full flex-col overflow-hidden rounded-[28px] transition duration-500 hover:-translate-y-1 ${
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[28px] transition-all duration-500 hover:-translate-y-1.5 ${
         dark
-          ? "bg-surface text-fg ring-1 ring-fg/10 hover:ring-accent/40 hover:shadow-[var(--card-shadow)]"
+          ? "bg-surface text-fg ring-1 ring-fg/10 hover:ring-[#ebd7be]/40 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.7),0_0_30px_rgba(235,215,190,0.12)]"
           : "bg-mist"
       }`}
     >
+      {/* Spotlight cursor glow */}
+      {dark && mousePos && (
+        <div
+          className="pointer-events-none absolute -inset-px rounded-[28px] opacity-100 transition-opacity duration-300 z-10"
+          style={{
+            background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(235, 215, 190, 0.14), transparent 70%)`,
+          }}
+          aria-hidden="true"
+        />
+      )}
       <ProductVisual
         product={active}
         className={

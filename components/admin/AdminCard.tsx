@@ -59,6 +59,7 @@ export function AdminKpiCard({
   label,
   value,
   subvalue,
+  trend,
   icon: Icon,
   href,
   tone = "default",
@@ -66,6 +67,7 @@ export function AdminKpiCard({
   label: string;
   value: number | string;
   subvalue?: string;
+  trend?: { value: string; positive?: boolean };
   icon: LucideIcon;
   href?: string;
   tone?: Tone;
@@ -73,7 +75,7 @@ export function AdminKpiCard({
   const t = TONE_STYLES[tone] || TONE_STYLES.default;
 
   const body = (
-    <div className="flex flex-col justify-between h-full">
+    <div className="relative flex flex-col justify-between h-full">
       <div className="mb-3 flex items-start justify-between gap-2">
         <span className="text-[13px] font-medium text-[var(--a-muted)]">
           {label}
@@ -85,8 +87,21 @@ export function AdminKpiCard({
         </span>
       </div>
       <div>
-        <div className="text-[28px] sm:text-[32px] font-bold tabular-nums tracking-tight text-[var(--a-text)]">
-          {value}
+        <div className="flex items-baseline gap-2">
+          <div className="text-[28px] sm:text-[32px] font-bold tabular-nums tracking-tight text-[var(--a-text)]">
+            {value}
+          </div>
+          {trend && (
+            <span
+              className={`inline-flex items-center text-[11px] font-semibold px-1.5 py-0.5 rounded-md ${
+                trend.positive
+                  ? "bg-[rgba(48,209,88,0.15)] text-[#30d158]"
+                  : "bg-[rgba(255,69,58,0.15)] text-[#ff453a]"
+              }`}
+            >
+              {trend.positive ? "↑" : "↓"} {trend.value}
+            </span>
+          )}
         </div>
         {subvalue && (
           <p className="mt-1 text-xs text-[var(--a-muted)] font-medium">
@@ -97,7 +112,7 @@ export function AdminKpiCard({
     </div>
   );
 
-  const containerClasses = `admin-card group transition-all duration-200 ${t.glow} ${t.border}`;
+  const containerClasses = `admin-card group relative overflow-hidden transition-all duration-300 ${t.glow} ${t.border}`;
 
   if (!href) return <div className={containerClasses}>{body}</div>;
   return (

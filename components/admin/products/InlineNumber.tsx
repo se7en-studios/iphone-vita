@@ -29,6 +29,7 @@ export function InlineNumber({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
   const [invalid, setInvalid] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   // Evita guardar dos veces (Enter + blur al desmontar) o guardar después de Esc.
   const closedRef = useRef(false);
@@ -65,7 +66,11 @@ export function InlineNumber({
       return;
     }
     close();
-    if (next !== value) onSave(next);
+    if (next !== value) {
+      onSave(next);
+      setJustSaved(true);
+      setTimeout(() => setJustSaved(false), 1400);
+    }
   }
 
   if (!editing) {
@@ -75,7 +80,11 @@ export function InlineNumber({
         onClick={start}
         title={`Editar ${label.toLowerCase()}`}
         aria-label={`${label}: ${display}. Editar`}
-        className="-mx-2 min-h-[36px] rounded-lg border border-transparent px-2 text-left tabular-nums hover:border-[var(--a-border-strong)] hover:bg-[var(--a-surface-2)]"
+        className={`-mx-2 min-h-[36px] rounded-lg border px-2 text-left tabular-nums transition-all duration-300 ${
+          justSaved
+            ? "border-[#ebd7be] bg-[#ebd7be]/15 text-[#ebd7be] shadow-[0_0_12px_rgba(235,215,190,0.3)]"
+            : "border-transparent hover:border-[var(--a-border-strong)] hover:bg-[var(--a-surface-2)]"
+        }`}
       >
         {display}
       </button>
