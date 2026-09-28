@@ -454,7 +454,7 @@ export function ProductForm({
                 onClick={() => setActiveTab(tab.key)}
                 className={`relative inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-xs font-semibold whitespace-nowrap transition-all ${
                   isActive
-                    ? "bg-[var(--a-text)] text-white shadow-sm"
+                    ? "bg-[var(--a-text)] text-[var(--a-bg)] shadow-sm"
                     : "border border-[var(--a-border-strong)] bg-[var(--a-surface)] text-[var(--a-muted)] hover:border-[var(--a-text)] hover:text-[var(--a-text)]"
                 }`}
               >
@@ -464,7 +464,7 @@ export function ProductForm({
                   <span
                     className={`rounded-full px-1.5 py-0.5 text-[10px] tabular-nums font-semibold ${
                       isActive
-                        ? "bg-white/20 text-white"
+                        ? "bg-[var(--a-bg)]/20 text-[var(--a-bg)]"
                         : "bg-[var(--a-surface-3)] text-[var(--a-text)]"
                     }`}
                   >

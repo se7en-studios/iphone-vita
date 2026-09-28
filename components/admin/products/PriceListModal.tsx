@@ -117,6 +117,24 @@ export function PriceListModal({
       title="Generador de Lista de Precios"
       onClose={onClose}
       maxWidth={640}
+      footer={
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <AdminButton variant="secondary" onClick={onClose}>
+            Cerrar
+          </AdminButton>
+          <AdminButton onClick={handleCopy}>
+            {copied ? (
+              <>
+                <Check size={16} /> ¡Copiado!
+              </>
+            ) : (
+              <>
+                <Copy size={16} /> Copiar Lista Completa
+              </>
+            )}
+          </AdminButton>
+        </div>
+      }
     >
       <div className="space-y-4">
         <p className="text-xs text-[var(--a-muted)]">
@@ -177,30 +195,11 @@ export function PriceListModal({
             rows={14}
             className="admin-input font-mono text-xs leading-relaxed"
           />
+          <p className="mt-2 text-xs text-[var(--a-muted)]">
+            Tip: Podés pegarla directamente en listas de difusión de WhatsApp o historias.
+          </p>
         </div>
 
-        {/* Botones de acción */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--a-border)] pt-4">
-          <span className="text-xs text-[var(--a-muted)]">
-            Tip: Podés pegarla directamente en listas de difusión de WhatsApp o historias.
-          </span>
-          <div className="flex items-center gap-2">
-            <AdminButton variant="secondary" onClick={onClose}>
-              Cerrar
-            </AdminButton>
-            <AdminButton onClick={handleCopy}>
-              {copied ? (
-                <>
-                  <Check size={16} /> ¡Copiado!
-                </>
-              ) : (
-                <>
-                  <Copy size={16} /> Copiar Lista Completa
-                </>
-              )}
-            </AdminButton>
-          </div>
-        </div>
       </div>
     </AdminModal>
   );

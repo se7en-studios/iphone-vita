@@ -106,7 +106,7 @@ export function ImagesSection({ state, set, errors }: SectionProps) {
                 className="h-full w-full object-contain"
               />
               {i === 0 && (
-                <span className="absolute inset-x-1 bottom-1 rounded bg-[var(--a-accent)] py-0.5 text-center text-[10px] font-semibold text-white">
+                <span className="absolute inset-x-1 bottom-1 rounded bg-[var(--a-accent)] py-0.5 text-center text-[10px] font-semibold text-[var(--a-accent-fg)]">
                   Principal
                 </span>
               )}

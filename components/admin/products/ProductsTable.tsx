@@ -139,10 +139,12 @@ function MobileCard({ product, props }: { product: Product; props: Props }) {
           onPatch={handlers.onPatch}
           hideLabels={false}
         />
+        {/* En celular: botones del ancho de la tarjeta y 44px de alto, para el dedo. */}
         <RowActions
           product={product}
           handlers={handlers}
           arsRate={props.arsRate}
+          className="grid w-full auto-cols-fr grid-flow-col gap-1 [&>*]:!h-11 [&>*]:!w-full"
         />
       </div>
     </div>

@@ -50,7 +50,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const [commandOpen, setCommandOpen] = useState(false);
   const [attentionCount, setAttentionCount] = useState<number>(0);
 
-  const { email, isOwner } = useAdminUser();
+  const { email, name, isOwner } = useAdminUser();
   const showToast = useAdminToast();
   const pathname = usePathname();
   const active = activeNavItem(pathname);
@@ -231,7 +231,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div className="flex items-center justify-between border-b border-[var(--a-border)] pb-3">
               <div className="min-w-0">
                 <span className="block truncate text-sm font-semibold text-[var(--a-text)]">
-                  {email}
+                  {name ?? email}
                 </span>
                 <div className="mt-1">
                   <RoleBadge isOwner={isOwner} />
@@ -448,7 +448,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div className="px-2 py-1 flex items-center justify-between">
               <div className="min-w-0 pr-2">
                 <div className="truncate text-xs font-semibold text-[var(--a-text)]" title={email}>
-                  {email}
+                  {name ?? email}
                 </div>
                 <div className="mt-0.5">
                   <RoleBadge isOwner={isOwner} />

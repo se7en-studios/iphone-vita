@@ -101,8 +101,8 @@ export function TradeInCalculatorModal({
       onClose={onClose}
       maxWidth={620}
       footer={
-        <div className="flex items-center justify-between gap-3">
-          <div className="text-xs text-[var(--a-muted)]">
+        <div className="flex items-center justify-end gap-3 sm:justify-between">
+          <div className="hidden text-xs text-[var(--a-muted)] sm:block">
             Diferencia: <strong>US$ {differenceUSD}</strong> (≈{" "}
             {arsRate ? formatARS(differenceUSD, arsRate) : "—"})
           </div>

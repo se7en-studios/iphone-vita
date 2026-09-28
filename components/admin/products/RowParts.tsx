@@ -138,7 +138,7 @@ export function StockCell({
           disabled={currentStock <= 0}
           title="Restar 1 unidad"
           aria-label={`Restar 1 unidad de ${fullName(product)}`}
-          className="flex size-5 items-center justify-center rounded border border-[var(--a-border)] bg-[var(--a-surface-1)] text-xs font-semibold text-[var(--a-muted)] transition hover:bg-[var(--a-surface-3)] hover:text-[var(--a-fg)] disabled:opacity-20"
+          className="flex size-9 items-center justify-center rounded-lg border border-[var(--a-border-strong)] bg-[var(--a-surface-2)] text-base font-semibold text-[var(--a-text)] transition hover:bg-[var(--a-surface-3)] md:size-6 md:rounded md:text-xs disabled:opacity-20"
         >
           -
         </button>
@@ -155,7 +155,7 @@ export function StockCell({
           onClick={() => onPatch(product, { stock: currentStock + 1 })}
           title="Sumar 1 unidad"
           aria-label={`Sumar 1 unidad de ${fullName(product)}`}
-          className="flex size-5 items-center justify-center rounded border border-[var(--a-border)] bg-[var(--a-surface-1)] text-xs font-semibold text-[var(--a-muted)] transition hover:bg-[var(--a-surface-3)] hover:text-[var(--a-fg)]"
+          className="flex size-9 items-center justify-center rounded-lg border border-[var(--a-border-strong)] bg-[var(--a-surface-2)] text-base font-semibold text-[var(--a-text)] transition hover:bg-[var(--a-surface-3)] md:size-6 md:rounded md:text-xs"
         >
           +
         </button>
@@ -231,10 +231,12 @@ export function RowActions({
   product,
   handlers,
   arsRate,
+  className = "flex items-center justify-end gap-0.5",
 }: {
   product: Product;
   handlers: RowHandlers;
   arsRate?: number | null;
+  className?: string;
 }) {
   const showToast = useAdminToast();
   const [copied, setCopied] = useState(false);
@@ -253,7 +255,7 @@ export function RowActions({
   }
 
   return (
-    <div className="flex items-center justify-end gap-0.5">
+    <div className={className}>
       <button
         type="button"
         className="admin-icon-btn"

@@ -205,7 +205,7 @@ export function PriceStockSection({
                     applyMargin(Number(customMargin));
                     setCustomMargin("");
                   }}
-                  className="rounded-md bg-[var(--a-accent)] px-2 py-1 text-xs font-medium text-white hover:bg-[var(--a-accent-hover)] disabled:opacity-40"
+                  className="rounded-md bg-[var(--a-accent)] px-2 py-1 text-xs font-medium text-[var(--a-accent-fg)] hover:bg-[var(--a-accent-hover)] disabled:opacity-40"
                 >
                   Aplicar
                 </button>

@@ -569,3 +569,27 @@ html[data-admin-theme="light"]:has(.vita-admin) body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* iOS hace zoom al enfocar un campo con letra de menos de 16px: en celular, 16px siempre. */
+@media (max-width: 767px) {
+  .vita-admin :is(input:not(#login-pin, [readonly]), select, textarea:not([readonly])),
+  .admin-portal :is(input:not([readonly]), select, textarea:not([readonly])) {
+    font-size: 16px;
+  }
+}
+
+/* Celular: nada tocable por debajo de 36px (40px en la barra superior). */
+@media (max-width: 767px) {
+  .vita-admin header :is(button, a) {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  .vita-admin main button,
+  .admin-portal button {
+    min-height: 36px;
+  }
+  .vita-admin main input[type="checkbox"]:not([role="switch"]) {
+    width: 22px;
+    height: 22px;
+  }
+}

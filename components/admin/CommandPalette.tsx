@@ -392,7 +392,7 @@ export function CommandPalette({
                     <div
                       className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${
                         isSelected
-                          ? "bg-[var(--a-accent)] text-white"
+                          ? "bg-[var(--a-accent)] text-[var(--a-accent-fg)]"
                           : "bg-[var(--a-surface-2)] text-[var(--a-muted)]"
                       }`}
                     >

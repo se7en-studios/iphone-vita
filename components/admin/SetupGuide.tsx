@@ -38,7 +38,7 @@ export function SetupGuide() {
         <ol className="mt-8 space-y-3">
           {STEPS.map((step, i) => (
             <li key={step.title} className="admin-card flex gap-4">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--a-text)] text-sm font-semibold text-white">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--a-text)] text-sm font-semibold text-[var(--a-bg)]">
                 {i + 1}
               </span>
               <div>

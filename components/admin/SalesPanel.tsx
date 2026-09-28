@@ -37,6 +37,7 @@ import { ConfirmDialog } from "./ConfirmDialog";
 import { EmptyState } from "./EmptyState";
 import { RecordSaleModal } from "./products/RecordSaleModal";
 import { SaleReceiptModal } from "./SaleReceiptModal";
+import { SaleCard } from "./SaleCard";
 import { useAdminProducts } from "./products/useAdminProducts";
 
 type Timeframe = "all" | "today" | "7days" | "month" | "30days";
@@ -341,7 +342,18 @@ export function SalesPanel() {
             />
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          <ul className="md:hidden">
+            {filteredSales.map((s) => (
+              <SaleCard
+                key={s.id}
+                sale={s}
+                onReceipt={() => setReceiptSale(s)}
+                onDelete={() => setSaleToDelete(s)}
+              />
+            ))}
+          </ul>
+          <div className="hidden overflow-x-auto md:block">
             <table className="admin-table w-full">
               <thead>
                 <tr>
@@ -487,6 +499,7 @@ export function SalesPanel() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </AdminCard>
 

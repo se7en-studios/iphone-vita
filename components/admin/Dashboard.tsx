@@ -36,6 +36,7 @@ import { EmptyState } from "./EmptyState";
 import { KpiSkeleton, TableSkeleton } from "./TableSkeleton";
 import { ProductThumb } from "./products/ProductThumb";
 import { useAdminProducts } from "./products/useAdminProducts";
+import { SaleCard } from "./SaleCard";
 import { RecordSaleModal } from "./products/RecordSaleModal";
 import { TradeInCalculatorModal } from "./TradeInCalculatorModal";
 import { SaleReceiptModal } from "./SaleReceiptModal";
@@ -344,7 +345,7 @@ export function Dashboard() {
                 Costo Total en Stock
               </div>
               <div className="mt-1 text-2xl font-bold tracking-tight text-[var(--a-text)]">
-                {totalCostUSD > 0 ? formatUSD(totalCostUSD) : "Cargando costos…"}
+                {totalCostUSD > 0 ? formatUSD(totalCostUSD) : "—"}
               </div>
               <div className="mt-1 text-xs text-[var(--a-muted)]">
                 {totalCostUSD > 0
@@ -358,14 +359,15 @@ export function Dashboard() {
                 Ganancia Proyectada del Stock
               </div>
               <div className="mt-1 text-2xl font-bold tracking-tight text-[var(--a-success)]">
+                {/* Sin costos cargados no hay ganancia que calcular: antes mostraba un 20% inventado. */}
                 {projectedProfitUSD != null && projectedProfitUSD > 0
                   ? `+${formatUSD(projectedProfitUSD)}`
-                  : formatUSD(totalValuationUSD * 0.2)}
+                  : "—"}
               </div>
               <div className="mt-1 text-xs text-[var(--a-muted)]">
                 {projectedProfitUSD != null
                   ? `Margen estimado: ≈ +${Math.round((projectedProfitUSD / totalCostUSD) * 100)}%`
-                  : "Ganancia si se vende todo el inventario"}
+                  : "Cargá el costo de compra en tus productos para calcularla"}
               </div>
             </div>
           </div>
@@ -411,7 +413,19 @@ export function Dashboard() {
                 <strong>Registrar Venta</strong> para cargar la primera.
               </p>
             ) : (
-              <div className="overflow-x-auto">
+              <>
+              <ul className="md:hidden">
+                {sales.slice(0, 5).map((s) => (
+                  <SaleCard key={s.id} sale={s} onReceipt={() => setReceiptSale(s)} />
+                ))}
+              </ul>
+              <Link
+                href="/admin/ventas"
+                className="flex min-h-[48px] items-center justify-center border-t border-[var(--a-border)] text-sm font-semibold text-[var(--a-accent)] md:hidden"
+              >
+                Ver todas las ventas ({sales.length}) ›
+              </Link>
+              <div className="hidden overflow-x-auto md:block">
                 <table className="w-full text-left text-xs">
                   <thead className="border-b border-[var(--a-border)] bg-[var(--a-surface-2)] text-[11px] font-semibold uppercase text-[var(--a-muted)]">
                     <tr>
@@ -509,6 +523,7 @@ export function Dashboard() {
                   </tbody>
                 </table>
               </div>
+              </>
             )}
           </AdminCard>
 
@@ -532,12 +547,13 @@ export function Dashboard() {
                     key={p.id}
                     className="border-t border-[var(--a-border)] first:border-t-0"
                   >
-                    <div className="flex min-h-[56px] items-center gap-3 px-5 py-2.5 hover:bg-[var(--a-surface-2)] transition">
+                    <div className="flex min-h-[56px] flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3 hover:bg-[var(--a-surface-2)] transition md:flex-nowrap md:px-5 md:py-2.5">
                       <ProductThumb src={p.image} size={40} />
-                      <span className="min-w-0 flex-1 truncate text-sm font-medium">
+                      {/* En celular el nombre va entero en su renglón; truncarlo dejaba "iPhone 1…". */}
+                      <span className="min-w-0 flex-1 text-sm font-medium leading-snug md:truncate">
                         {fullName(p)}
                       </span>
-                      <span className="flex flex-wrap justify-end gap-1">
+                      <span className="flex w-full flex-wrap gap-1 pl-[52px] md:w-auto md:justify-end md:pl-0">
                         {issues.map((i) => (
                           <span
                             key={i}
@@ -547,21 +563,21 @@ export function Dashboard() {
                           </span>
                         ))}
                       </span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex w-full items-center gap-2 pl-[52px] md:w-auto md:pl-0">
                         <button
                           type="button"
                           onClick={() => {
                             setSelectedProductForSale(p);
                             setShowNewSaleModal(true);
                           }}
-                          className="rounded-lg bg-[var(--a-success-bg)] px-2 py-1 text-xs font-semibold text-[var(--a-success)] hover:brightness-95"
+                          className="min-h-[40px] rounded-lg bg-[var(--a-success-bg)] px-3 text-sm font-semibold text-[var(--a-success)] hover:brightness-95 md:min-h-0 md:px-2 md:py-1 md:text-xs"
                           title="Registrar venta de este equipo"
                         >
                           Vendido
                         </button>
                         <Link
                           href={`/admin/productos?edit=${p.id}`}
-                          className="text-sm text-[var(--a-accent)] hover:underline"
+                          className="inline-flex min-h-[40px] items-center px-2 text-sm text-[var(--a-accent)] hover:underline md:min-h-0"
                         >
                           Editar
                         </Link>

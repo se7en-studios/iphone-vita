@@ -173,6 +173,17 @@ export function RecordSaleModal({
       title="Registrar Venta"
       onClose={onClose}
       maxWidth={580}
+      footer={
+        <div className="flex items-center justify-between gap-3">
+          <AdminButton variant="secondary" onClick={onClose} disabled={saving}>
+            Cancelar
+          </AdminButton>
+          {/* Fuera del <form>: `form` lo sigue enviando con validación nativa. */}
+          <AdminButton type="submit" form="record-sale-form" loading={saving} variant="primary">
+            Confirmar Venta
+          </AdminButton>
+        </div>
+      }
     >
       <form
         id="record-sale-form"
@@ -392,19 +403,6 @@ export function RecordSaleModal({
           </label>
         )}
 
-        {/* Botones de acción */}
-        <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--a-border)]">
-          <AdminButton variant="secondary" onClick={onClose} disabled={saving}>
-            Cancelar
-          </AdminButton>
-          <AdminButton
-            type="submit"
-            loading={saving}
-            variant="primary"
-          >
-            Confirmar Venta
-          </AdminButton>
-        </div>
       </form>
     </AdminModal>
   );
