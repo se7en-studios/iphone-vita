@@ -43,7 +43,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className="sticky top-0 z-50 border-b border-white/10 bg-black/75 backdrop-blur-2xl text-fg [--fg:#fff] transition-all duration-300"
+        className="sticky top-0 z-50 border-b border-fg/10 bg-bg/75 backdrop-blur-2xl text-fg transition-all duration-300"
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-6 px-4 md:px-8">
@@ -51,14 +51,14 @@ export function Navbar() {
             <Wordmark dark />
           </Link>
           <nav
-            className="hidden flex-1 justify-center items-center gap-1 text-xs text-white/70 lg:flex"
+            className="hidden flex-1 justify-center items-center gap-1 text-xs text-fg/70 lg:flex"
             aria-label="Principal"
           >
             {NAV.map((n) => (
               <Link
                 key={n.label}
                 href={n.href}
-                className="rounded-full px-3 py-1.5 transition-all duration-200 hover:bg-white/10 hover:text-white"
+                className="rounded-full px-3 py-1.5 transition-all duration-200 hover:bg-fg/10 hover:text-fg"
               >
                 {n.label}
               </Link>
@@ -67,7 +67,7 @@ export function Navbar() {
           <div className="ml-auto flex items-center gap-1.5 lg:ml-0">
             <Link
               href="/encontra-tu-iphone"
-              className="mr-2 hidden items-center gap-1.5 rounded-full border border-champagne/30 bg-champagne/10 px-3 py-1 text-xs font-medium text-champagne transition-all duration-200 hover:bg-champagne/20 hover:border-champagne/50 hover:shadow-[0_0_15px_rgba(235,215,190,0.2)] xl:flex"
+              className="mr-2 hidden items-center gap-1.5 rounded-full border border-vita/30 bg-vita-soft px-3 py-1 text-xs font-medium text-vita transition-all duration-200 hover:border-vita/60 xl:flex"
             >
               <span>Encontrá tu iPhone</span>
               <ArrowIcon className="size-3" />
@@ -76,7 +76,7 @@ export function Navbar() {
               type="button"
               onClick={() => setSearch(true)}
               aria-label="Buscar"
-              className="grid size-9 place-items-center rounded-full hover:bg-white/10 text-white transition-colors"
+              className="grid size-9 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
             >
               <SearchIcon />
             </button>
@@ -84,7 +84,7 @@ export function Navbar() {
               type="button"
               onClick={() => setOpen(true)}
               aria-label={`Carrito, ${count} productos`}
-              className="relative grid size-9 place-items-center rounded-full hover:bg-white/10 text-white transition-colors"
+              className="relative grid size-9 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
             >
               <BagIcon />
               {count > 0 && (
@@ -100,7 +100,7 @@ export function Navbar() {
               type="button"
               onClick={() => setMenu(true)}
               aria-label="Abrir menú"
-              className="grid size-9 place-items-center rounded-full hover:bg-white/10 text-white transition-colors lg:hidden"
+              className="grid size-9 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors lg:hidden"
             >
               <MenuIcon />
             </button>

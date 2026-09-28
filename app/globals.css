@@ -41,11 +41,13 @@
   --accent: light-dark(#0071e3, #ebd7be);
   --accent-fg: light-dark(#ffffff, #000000);
   --link: light-dark(#0066cc, #ebd7be);
-  --stage-hi: light-dark(#ffffff, #26262a);
-  --stage-mid: light-dark(#ffffff, #161618);
+  --stage-hi: light-dark(#ffffff, #38383d);
+  --stage-mid: light-dark(#ffffff, #1c1c1f);
   --stage-lo: light-dark(#fbfbfd, #0c0c0d);
   --stage-floor: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.55));
   --stage-shadow: light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.5));
+  /* Borde de luz: sin él los equipos negros/grafito se funden con el escenario oscuro. */
+  --stage-rim: light-dark(transparent, rgba(255, 255, 255, 0.16));
   --line: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
   /* Claro: bronce AA (4.8:1 sobre #f5f5f7) para texto chico. Oscuro: champagne. */
   --vita: light-dark(#86673a, #ebd7be);
@@ -414,7 +416,7 @@ h3 {
     );
 }
 .stage-product {
-  filter: drop-shadow(0 18px 22px var(--stage-shadow));
+  filter: drop-shadow(0 0 1px var(--stage-rim)) drop-shadow(0 18px 22px var(--stage-shadow));
 }
 
 /* En la home la TrustBar ya muestra estos 4 puntos: no repetirlos en el footer. */
