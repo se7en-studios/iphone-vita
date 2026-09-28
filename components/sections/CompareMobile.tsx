@@ -35,7 +35,7 @@ export function CompareMobile({
                   prev.map((v, i) => (i === col ? Number(e.target.value) : v)),
                 )
               }
-              className="h-11 w-full rounded-full border border-white/15 bg-[#0a0a0a] px-3 text-sm text-white focus:border-champagne focus:outline-none"
+              className="h-11 w-full rounded-full border border-fg/15 bg-surface px-3 text-sm text-fg focus:border-vita focus:outline-none"
             >
               {models.map((opt, i) => (
                 <option key={opt.model} value={i}>
@@ -49,13 +49,13 @@ export function CompareMobile({
               sizes="45vw"
             />
             {m.price != null && (
-              <p className="tabular mt-4 text-sm text-white/50">
+              <p className="tabular mt-4 text-sm text-fg/50">
                 Desde {formatUSD(m.price)}
               </p>
             )}
             <Link
               href={`/producto/${m.slug}`}
-              className="mt-3 inline-flex h-11 items-center rounded-full bg-champagne px-5 text-sm font-semibold text-black transition hover:bg-white"
+              className="mt-3 inline-flex h-11 items-center rounded-full bg-champagne px-5 text-sm font-semibold text-black transition hover:bg-champagne-light"
             >
               Comprar
             </Link>
@@ -65,8 +65,8 @@ export function CompareMobile({
 
       <dl className="mt-8">
         {rows.map((row) => (
-          <div key={row} className="border-t border-white/10 py-5">
-            <dt className="text-center text-xs text-white/50">{row}</dt>
+          <div key={row} className="border-t border-fg/10 py-5">
+            <dt className="text-center text-xs text-fg/50">{row}</dt>
             <div className="mt-2 grid grid-cols-2 gap-3 text-center">
               {cols.map((m, col) => (
                 <dd key={col} className="text-[15px] leading-snug">

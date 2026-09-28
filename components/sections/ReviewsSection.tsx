@@ -64,37 +64,37 @@ export function ReviewsSection() {
   return (
     <section
       id="testimonios"
-      className="scroll-mt-24 border-t border-white/10 bg-[#070708] py-20 text-white md:py-32"
+      className="scroll-mt-24 border-t border-fg/10 bg-surface py-20 text-fg md:py-32"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Header de la sección */}
         <div data-reveal className="mx-auto max-w-[800px] text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-champagne/30 bg-champagne/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-champagne">
-            <Sparkles size={14} className="text-champagne" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-vita/30 bg-vita/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-vita">
+            <Sparkles size={14} className="text-vita" />
             Experiencia iPhone Vita
           </div>
           <h2 className="mt-4 text-[clamp(2.2rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.03em]">
             Confianza respaldada por{" "}
-            <span className="text-champagne">nuestra comunidad</span>.
+            <span className="text-vita">nuestra comunidad</span>.
           </h2>
-          <p className="mx-auto mt-4 max-w-[58ch] text-base text-white/60 md:text-lg">
+          <p className="mx-auto mt-4 max-w-[58ch] text-base text-fg/60 md:text-lg">
             Cientos de personas eligen renovar su tecnología con nosotros todos los meses.
             Transparencia total, garantía certificada y trato cercano.
           </p>
 
           {/* Badges de Score */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm">
-            <div className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 ring-1 ring-white/10">
+            <div className="flex items-center gap-2 rounded-full bg-fg/5 px-4 py-2 ring-1 ring-fg/10">
               <div className="flex text-amber-400">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={15} fill="currentColor" />
                 ))}
               </div>
-              <span className="font-semibold text-white">4.9 / 5.0</span>
-              <span className="text-white/40">· +400 entregas</span>
+              <span className="font-semibold text-fg">4.9 / 5.0</span>
+              <span className="text-fg/40">· +400 entregas</span>
             </div>
-            <div className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 ring-1 ring-white/10 text-white/80">
-              <ShieldCheck size={16} className="text-[#30d158]" />
+            <div className="flex items-center gap-2 rounded-full bg-fg/5 px-4 py-2 ring-1 ring-fg/10 text-fg/80">
+              <ShieldCheck size={16} className="text-[light-dark(#1a7f37,#30d158)]" />
               <span>Garantía escrita y seguimiento 1 a 1</span>
             </div>
           </div>
@@ -106,7 +106,7 @@ export function ReviewsSection() {
             <div
               key={r.id}
               data-reveal
-              className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0e0e11] p-6 transition-colors duration-200 hover:border-champagne/40 hover:bg-[#141418]"
+              className="flex flex-col justify-between rounded-2xl border border-fg/10 bg-surface p-6 transition-colors duration-200 hover:border-vita/40 hover:bg-surface-2"
             >
               <div>
                 {/* Estrellas y Fecha */}
@@ -116,27 +116,27 @@ export function ReviewsSection() {
                       <Star key={i} size={14} fill="currentColor" />
                     ))}
                   </div>
-                  <span className="text-xs text-white/40">{r.date}</span>
+                  <span className="text-xs text-fg/40">{r.date}</span>
                 </div>
 
                 {/* Comentario */}
-                <p className="mt-4 text-sm leading-relaxed text-white/80">
+                <p className="mt-4 text-sm leading-relaxed text-fg/80">
                   &ldquo;{r.comment}&rdquo;
                 </p>
               </div>
 
-              <div className="mt-6 border-t border-white/5 pt-4">
+              <div className="mt-6 border-t border-fg/5 pt-4">
                 {/* Producto */}
-                <p className="line-clamp-1 text-xs font-medium text-champagne">
+                <p className="line-clamp-1 text-xs font-medium text-vita">
                   {r.product}
                 </p>
                 {/* Autor y Ubicación */}
                 <div className="mt-2 flex items-center justify-between text-xs">
-                  <span className="font-semibold text-white">{r.name}</span>
-                  <span className="text-white/40">{r.location}</span>
+                  <span className="font-semibold text-fg">{r.name}</span>
+                  <span className="text-fg/40">{r.location}</span>
                 </div>
                 {r.verified && (
-                  <div className="mt-1.5 flex items-center gap-1 text-[11px] text-[#30d158]">
+                  <div className="mt-1.5 flex items-center gap-1 text-[11px] text-[light-dark(#1a7f37,#30d158)]">
                     <ShieldCheck size={12} />
                     <span>Compra verificada</span>
                   </div>

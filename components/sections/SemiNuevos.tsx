@@ -14,7 +14,7 @@ export function SemiNuevos({ items }: { items: Product[] }) {
   return (
     <section
       id="semi-nuevos"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-14 text-white md:py-24"
+      className="scroll-mt-28 border-t border-fg/10 bg-bg py-14 text-fg md:py-24"
     >
       <div className="mx-auto max-w-7xl space-y-8 px-4 md:space-y-10 md:px-8">
         <SectionHead
@@ -22,7 +22,7 @@ export function SemiNuevos({ items }: { items: Product[] }) {
           title={
             <>
               Llegá a un Pro.{" "}
-              <span className="text-white/50">
+              <span className="text-fg/50">
                 Revisados, con batería real.
               </span>
             </>
@@ -64,15 +64,15 @@ function SemiCard({ product: p }: { product: Product }) {
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div>
           <h3 className="text-base font-semibold leading-snug">{p.name}</h3>
-          <p className="mt-0.5 text-xs text-white/55">
+          <p className="mt-0.5 text-xs text-fg/55">
             {[p.storage, p.color].filter(Boolean).join(" · ")}
           </p>
         </div>
         {p.batteryHealth != null && <Battery value={p.batteryHealth} />}
-        <p className="tabular mt-auto border-t border-white/10 pt-3 text-[15px] font-semibold text-champagne">
+        <p className="tabular mt-auto border-t border-fg/10 pt-3 text-[15px] font-semibold text-vita">
           {priceLabel(p)}
           {p.price != null && (
-            <span className="ml-1.5 text-xs font-normal text-white/50">
+            <span className="ml-1.5 text-xs font-normal text-fg/50">
               ≈ <Ars usd={p.price} />
             </span>
           )}
@@ -84,9 +84,9 @@ function SemiCard({ product: p }: { product: Product }) {
 
 function Battery({ value }: { value: number }) {
   return (
-    <div className="flex items-center gap-2 text-xs text-white/70">
+    <div className="flex items-center gap-2 text-xs text-fg/70">
       <span
-        className="relative h-2.5 w-6 rounded-[3px] ring-1 ring-white/40"
+        className="relative h-2.5 w-6 rounded-[3px] ring-1 ring-fg/40"
         aria-hidden="true"
       >
         <span
@@ -96,7 +96,7 @@ function Battery({ value }: { value: number }) {
       </span>
       <span>
         Batería{" "}
-        <span className="tabular font-semibold text-white">{value}%</span>
+        <span className="tabular font-semibold text-fg">{value}%</span>
       </span>
     </div>
   );

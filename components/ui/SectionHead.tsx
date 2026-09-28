@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-/** Encabezado de las secciones de compra de la home (tema negro): eyebrow champagne, título y link opcional. */
+/** Encabezado de las secciones de compra de la home (sigue el tema): eyebrow champagne, título y link opcional. */
 export function SectionHead({
   eyebrow,
   title,
@@ -17,7 +17,7 @@ export function SectionHead({
       className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
     >
       <div className="space-y-2">
-        <p className="text-base font-semibold text-champagne md:text-lg">
+        <p className="text-base font-semibold text-vita md:text-lg">
           {eyebrow}
         </p>
         <h2 className="text-[clamp(2rem,4.5vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
@@ -27,7 +27,7 @@ export function SectionHead({
       {action && (
         <Link
           href={action.href}
-          className="inline-flex shrink-0 items-center py-2 text-base text-champagne hover:underline"
+          className="inline-flex shrink-0 items-center py-2 text-base text-vita hover:underline"
         >
           {action.label} ›
         </Link>

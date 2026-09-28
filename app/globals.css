@@ -15,7 +15,7 @@
   --color-fog: var(--surface-2);
   --color-line: var(--line);
   --color-line-dark: var(--line);
-  --color-muted: #86868b;
+  --color-muted: light-dark(#6e6e73, #86868b);
   --color-muted-dark: #86868b;
   --color-vita: var(--vita);
   --color-vita-soft: var(--vita-soft);
@@ -28,47 +28,37 @@
   --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Tema: negro (páginas de marketing) por defecto; claro estilo Apple Store en páginas con .store.
-   .theme-dark vuelve al tema negro dentro de una caja oscura en una página clara (buy box, carrito). */
-:root,
-.theme-dark {
-  --bg: #000000;
-  --surface: #0a0a0a;
-  --surface-2: #1d1d1f;
-  --fg: #ffffff;
-  --highlight: #ebd7be;
-  --accent: #ebd7be;
-  --accent-fg: #000000;
-  --link: #ebd7be;
-  --stage-hi: #26262a;
-  --stage-mid: #161618;
-  --stage-lo: #0c0c0d;
-  --stage-floor: rgba(0, 0, 0, 0.55);
-  --stage-shadow: rgba(0, 0, 0, 0.5);
-  --line: rgba(255, 255, 255, 0.1);
-  --vita: #ebd7be;
-  --vita-soft: rgba(235, 215, 190, 0.12);
-  --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+/* Tema: cada token es light-dark(claro, oscuro) y el modo lo decide color-scheme.
+   Home y páginas de marketing siguen al dispositivo; las páginas .store son siempre claras;
+   .theme-dark fuerza oscuro dentro de una página clara (footer, buy box, carrito). */
+:root {
+  color-scheme: dark;
+  --bg: light-dark(#f5f5f7, #000000);
+  --surface: light-dark(#ffffff, #0a0a0a);
+  --surface-2: light-dark(#e8e8ed, #1d1d1f);
+  --fg: light-dark(#1d1d1f, #ffffff);
+  --highlight: light-dark(#1d1d1f, #ebd7be);
+  --accent: light-dark(#0071e3, #ebd7be);
+  --accent-fg: light-dark(#ffffff, #000000);
+  --link: light-dark(#0066cc, #ebd7be);
+  --stage-hi: light-dark(#ffffff, #26262a);
+  --stage-mid: light-dark(#ffffff, #161618);
+  --stage-lo: light-dark(#fbfbfd, #0c0c0d);
+  --stage-floor: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.55));
+  --stage-shadow: light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.5));
+  --line: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+  /* Claro: bronce AA (4.8:1 sobre #f5f5f7) para texto chico. Oscuro: champagne. */
+  --vita: light-dark(#86673a, #ebd7be);
+  --vita-soft: light-dark(rgba(168, 132, 79, 0.12), rgba(235, 215, 190, 0.12));
+  --card-shadow: 0 16px 36px light-dark(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+  }
 }
 :root:has(.store) {
   color-scheme: light;
-  --bg: #f5f5f7;
-  --surface: #ffffff;
-  --surface-2: #e8e8ed;
-  --fg: #1d1d1f;
-  --highlight: #1d1d1f;
-  --accent: #0071e3;
-  --accent-fg: #ffffff;
-  --link: #0066cc;
-  --stage-hi: #ffffff;
-  --stage-mid: #ffffff;
-  --stage-lo: #fbfbfd;
-  --stage-floor: rgba(0, 0, 0, 0.12);
-  --stage-shadow: rgba(0, 0, 0, 0.14);
-  --line: rgba(0, 0, 0, 0.1);
-  --vita: #86673a; /* AA (4.8:1) sobre #f5f5f7 para texto chico */
-  --vita-soft: rgba(168, 132, 79, 0.12);
-  --card-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
 .theme-dark {
@@ -88,7 +78,6 @@
 }
 
 html {
-  color-scheme: dark;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
 }

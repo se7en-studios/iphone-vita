@@ -49,13 +49,13 @@ export function CompareSection({ models }: { models: Product[] }) {
   return (
     <section
       id="comparar"
-      className="scroll-mt-28 border-t border-white/10 bg-[#0a0a0b] py-16 text-white md:py-40"
+      className="scroll-mt-28 border-t border-fg/10 bg-surface py-16 text-fg md:py-40"
     >
       <div
         data-reveal
         className="mx-auto max-w-[980px] px-4 text-center md:px-8"
       >
-        <p className="text-lg font-semibold text-champagne md:text-xl">
+        <p className="text-lg font-semibold text-vita md:text-xl">
           Comparar
         </p>
         <h2 className="mt-3 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
@@ -90,13 +90,13 @@ export function CompareSection({ models }: { models: Product[] }) {
                   />
                   <p className="mt-6 text-xl font-semibold">{m.name}</p>
                   {m.price != null && (
-                    <p className="tabular mt-1 text-sm text-white/50">
+                    <p className="tabular mt-1 text-sm text-fg/50">
                       Desde {formatUSD(m.price)}
                     </p>
                   )}
                   <Link
                     href={`/producto/${m.slug}`}
-                    className="mt-5 inline-block rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-black transition hover:bg-white"
+                    className="mt-5 inline-block rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-black transition hover:bg-champagne-light"
                   >
                     Comprar
                   </Link>
@@ -106,10 +106,10 @@ export function CompareSection({ models }: { models: Product[] }) {
           </thead>
           <tbody>
             {ROWS.map((row) => (
-              <tr key={row} className="border-t border-white/10">
+              <tr key={row} className="border-t border-fg/10">
                 <th
                   scope="row"
-                  className="py-6 pr-4 text-left text-sm font-normal text-white/50"
+                  className="py-6 pr-4 text-left text-sm font-normal text-fg/50"
                 >
                   {row}
                 </th>

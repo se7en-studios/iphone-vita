@@ -56,7 +56,7 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
   return (
     <section
       id="plan-canje"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-16 text-white md:py-36 relative overflow-hidden"
+      className="scroll-mt-28 border-t border-fg/10 bg-bg py-16 text-fg md:py-36 relative overflow-hidden"
     >
       {/* Background ambient light */}
       <div
@@ -72,16 +72,16 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
           data-reveal
           className="mx-auto max-w-[980px] space-y-4 text-center"
         >
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-champagne/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-champagne ring-1 ring-champagne/30">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-vita/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-vita ring-1 ring-vita/30">
             Plan Canje
           </span>
           <h2 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
             Entregá tu iPhone usado. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-champagne via-white to-champagne">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-vita via-fg to-vita">
               Llevate el último modelo.
             </span>
           </h2>
-          <p className="mx-auto max-w-[55ch] text-base text-white/60 md:text-lg">
+          <p className="mx-auto max-w-[55ch] text-base text-fg/60 md:text-lg">
             Tomamos tu equipo actual en parte de pago con cotización inmediata al mejor valor de mercado.
           </p>
         </div>
@@ -89,27 +89,27 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
         {/* Card interactiva */}
         <div
           data-reveal
-          className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-[32px] bg-[#0c0c0e] p-6 ring-1 ring-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] md:p-10"
+          className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-[32px] bg-surface p-6 ring-1 ring-fg/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] md:p-10"
         >
           <div className="grid gap-8 md:grid-cols-2 md:gap-12">
             {/* Columna Izquierda: Lo que entregás */}
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-xs text-champagne font-semibold tracking-wide uppercase">
+              <div className="flex items-center justify-between border-b border-fg/10 pb-3">
+                <span className="text-xs text-vita font-semibold tracking-wide uppercase">
                   Paso 1 · Tu equipo actual
                 </span>
-                <span className="text-xs text-white/40">Cotización estimada</span>
+                <span className="text-xs text-fg/40">Cotización estimada</span>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="canje-actual" className="text-sm font-medium text-white/80">
+                <label htmlFor="canje-actual" className="text-sm font-medium text-fg/80">
                   Modelo que tenés:
                 </label>
                 <select
                   id="canje-actual"
                   value={currentIdx}
                   onChange={(e) => setCurrentIdx(Number(e.target.value))}
-                  className="w-full rounded-2xl border border-white/15 bg-black/50 px-4 py-3.5 text-sm text-white focus:border-champagne focus:ring-1 focus:ring-champagne/40 focus:outline-none transition"
+                  className="w-full rounded-2xl border border-fg/15 bg-bg/50 px-4 py-3.5 text-sm text-fg focus:border-vita focus:ring-1 focus:ring-vita/40 focus:outline-none transition"
                 >
                   {CURRENT_MODELS.map((item, idx) => (
                     <option key={item.model} value={idx}>
@@ -120,7 +120,7 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
               </div>
 
               <div className="space-y-2">
-                <p className="text-sm font-medium text-white/80">
+                <p className="text-sm font-medium text-fg/80">
                   Estado de batería y detalles:
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -130,8 +130,8 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                     aria-pressed={batteryState === "alta"}
                     className={`rounded-2xl border p-3.5 text-xs text-left transition duration-300 ${
                       batteryState === "alta"
-                        ? "border-champagne bg-champagne/15 text-champagne shadow-[0_0_20px_rgba(235,215,190,0.15)]"
-                        : "border-white/10 bg-white/[0.02] text-white/60 hover:bg-white/[0.05]"
+                        ? "border-vita bg-vita/15 text-vita shadow-[0_0_20px_rgba(235,215,190,0.15)]"
+                        : "border-fg/10 bg-fg/[0.02] text-fg/60 hover:bg-fg/[0.05]"
                     }`}
                   >
                     <span className="block font-semibold">
@@ -147,8 +147,8 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                     aria-pressed={batteryState === "media"}
                     className={`rounded-2xl border p-3.5 text-xs text-left transition duration-300 ${
                       batteryState === "media"
-                        ? "border-champagne bg-champagne/15 text-champagne shadow-[0_0_20px_rgba(235,215,190,0.15)]"
-                        : "border-white/10 bg-white/[0.02] text-white/60 hover:bg-white/[0.05]"
+                        ? "border-vita bg-vita/15 text-vita shadow-[0_0_20px_rgba(235,215,190,0.15)]"
+                        : "border-fg/10 bg-fg/[0.02] text-fg/60 hover:bg-fg/[0.05]"
                     }`}
                   >
                     <span className="block font-semibold">
@@ -161,14 +161,14 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-center">
-                <span className="block text-xs font-medium text-white/50">
+              <div className="rounded-2xl border border-fg/10 bg-fg/[0.03] p-5 text-center">
+                <span className="block text-xs font-medium text-fg/50">
                   Tomamos tu equipo aproximadamente en:
                 </span>
-                <span className="mt-1 text-2xl font-bold tracking-tight text-champagne">
+                <span className="mt-1 text-2xl font-bold tracking-tight text-vita">
                   ~ {formatUSD(estimatedTradeIn)}
                 </span>
-                <span className="mt-2 block text-[11px] leading-relaxed text-white/40">
+                <span className="mt-2 block text-[11px] leading-relaxed text-fg/40">
                   Valor orientativo. Lo confirmamos al revisar el equipo.
                 </span>
               </div>
@@ -177,24 +177,24 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
             {/* Columna Derecha: Lo que te llevás */}
             <div className="flex flex-col justify-between space-y-6">
               <div>
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span className="text-xs text-champagne font-semibold tracking-wide uppercase">
+                <div className="flex items-center justify-between border-b border-fg/10 pb-3">
+                  <span className="text-xs text-vita font-semibold tracking-wide uppercase">
                     Paso 2 · Tu nuevo iPhone
                   </span>
-                  <span className="text-xs text-white/40">
+                  <span className="text-xs text-fg/40">
                     Sellado · Garantía Oficial
                   </span>
                 </div>
 
                 <div className="mt-6 space-y-2">
-                  <label htmlFor="canje-nuevo" className="text-sm font-medium text-white/80">
+                  <label htmlFor="canje-nuevo" className="text-sm font-medium text-fg/80">
                     Modelo que querés llevarte:
                   </label>
                   <select
                     id="canje-nuevo"
                     value={targetIdx}
                     onChange={(e) => setTargetIdx(Number(e.target.value))}
-                    className="w-full rounded-2xl border border-white/15 bg-black/50 px-4 py-3.5 text-sm text-white focus:border-champagne focus:ring-1 focus:ring-champagne/40 focus:outline-none transition"
+                    className="w-full rounded-2xl border border-fg/15 bg-bg/50 px-4 py-3.5 text-sm text-fg focus:border-vita focus:ring-1 focus:ring-vita/40 focus:outline-none transition"
                   >
                     {targets.map((item, idx) => (
                       <option key={item.model} value={idx}>
@@ -205,12 +205,12 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                 </div>
 
                 {/* Progress bar coverage */}
-                <div className="mt-5 space-y-2 rounded-2xl bg-white/[0.02] p-3.5 ring-1 ring-white/5">
+                <div className="mt-5 space-y-2 rounded-2xl bg-fg/[0.02] p-3.5 ring-1 ring-fg/5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/60">Cobertura del Plan Canje:</span>
-                    <span className="font-semibold text-champagne">{coveragePercent}% cubierto</span>
+                    <span className="text-fg/60">Cobertura del Plan Canje:</span>
+                    <span className="font-semibold text-vita">{coveragePercent}% cubierto</span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-fg/10">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-champagne/70 to-champagne transition-all duration-500"
                       style={{ width: `${coveragePercent}%` }}
@@ -220,16 +220,16 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
               </div>
 
               {/* Resultado del cálculo */}
-              <div className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-6 text-center ring-1 ring-champagne/30 shadow-[0_0_30px_rgba(235,215,190,0.06)]">
-                <span className="block text-xs font-medium uppercase tracking-wider text-white/60">
+              <div className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-fg/[0.07] to-fg/[0.02] p-6 text-center ring-1 ring-vita/30 shadow-[0_0_30px_rgba(235,215,190,0.06)]">
+                <span className="block text-xs font-medium uppercase tracking-wider text-fg/60">
                   Diferencia estimada a pagar
                 </span>
                 <div className="mt-1 flex items-baseline justify-center gap-2">
-                  <span className="text-4xl font-bold tracking-tight text-champagne md:text-5xl">
+                  <span className="text-4xl font-bold tracking-tight text-vita md:text-5xl">
                     {formatUSD(difference)}
                   </span>
                 </div>
-                <span className="mt-1 block text-xs text-white/50 font-medium">
+                <span className="mt-1 block text-xs text-fg/50 font-medium">
                   ≈ <Ars usd={difference} /> al cambio del día
                 </span>
 
@@ -237,13 +237,13 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                   href={waLink(whatsappMessage)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="sheen mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-champagne px-5 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.5)] hover:scale-[1.02]"
+                  className="sheen mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-champagne px-5 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-champagne-light hover:shadow-[0_0_25px_rgba(235,215,190,0.5)] hover:scale-[1.02]"
                 >
                   <ChatIcon className="size-4 shrink-0" />
                   <span>Cotizar Canje por WhatsApp</span>
                 </a>
 
-                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-white/50">
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-fg/50">
                   <span>Revisión en 15 min</span>
                   <span>Garantía oficial</span>
                   <span>Funda y templado de regalo</span>

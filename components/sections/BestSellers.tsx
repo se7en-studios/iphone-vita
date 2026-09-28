@@ -8,7 +8,7 @@ export function BestSellers({ groups }: { groups: ModelGroup[] }) {
   return (
     <section
       id="destacados"
-      className="scroll-mt-28 border-t border-white/10 bg-black py-14 text-white md:py-24"
+      className="scroll-mt-28 border-t border-fg/10 bg-bg py-14 text-fg md:py-24"
     >
       <div className="mx-auto max-w-7xl space-y-8 px-4 md:space-y-10 md:px-8">
         <SectionHead

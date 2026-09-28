@@ -60,7 +60,7 @@ export function CategoryTiles({ products }: { products: Product[] }) {
   return (
     <section
       id="categorias"
-      className="scroll-mt-28 bg-black py-16 text-white md:py-28 relative overflow-hidden"
+      className="scroll-mt-28 bg-bg py-16 text-fg md:py-28 relative overflow-hidden"
     >
       {/* Ambient background glow */}
       <div
@@ -90,7 +90,7 @@ export function CategoryTiles({ products }: { products: Product[] }) {
               <div key={t.label} className={spanOf(index)}>
                 <Link
                   href={t.href}
-                  className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] bg-[#0c0c0e] ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-1 hover:ring-champagne/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(235,215,190,0.1)] p-4 md:p-5"
+                  className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] bg-surface ring-1 ring-fg/10 transition-all duration-500 hover:-translate-y-1 hover:ring-vita/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(235,215,190,0.1)] p-4 md:p-5"
                 >
                   {/* Subtle card sheen */}
                   <div
@@ -105,25 +105,25 @@ export function CategoryTiles({ products }: { products: Product[] }) {
                   <div className="relative z-10 flex items-start justify-between gap-2">
                     <div>
                       {isFeatured && (
-                        <span className="inline-block mb-1.5 rounded-full bg-champagne/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-champagne ring-1 ring-champagne/30">
+                        <span className="inline-block mb-1.5 rounded-full bg-vita/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-vita ring-1 ring-vita/30">
                           Más buscado
                         </span>
                       )}
                       <h3
-                        className={`font-bold tracking-tight text-white transition group-hover:text-champagne ${
+                        className={`font-bold tracking-tight text-fg transition group-hover:text-vita ${
                           isFeatured ? "text-xl md:text-2xl" : "text-base md:text-lg"
                         }`}
                       >
                         {t.label}
                       </h3>
-                      <p className="tabular mt-0.5 text-xs text-white/55 font-medium">
+                      <p className="tabular mt-0.5 text-xs text-fg/55 font-medium">
                         {t.from != null
                           ? `Desde ${formatUSD(t.from)}`
                           : "Consultar precio"}
                       </p>
                     </div>
 
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/40 ring-1 ring-white/10 transition-all duration-300 group-hover:bg-champagne group-hover:text-black group-hover:scale-105">
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-fg/5 text-fg/40 ring-1 ring-fg/10 transition-all duration-300 group-hover:bg-champagne group-hover:text-black group-hover:scale-105">
                       <svg
                         className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
                         fill="none"

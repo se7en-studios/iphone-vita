@@ -38,7 +38,7 @@ export function TrustBar() {
     <section
       id="nosotros"
       aria-label="Por qué comprar en iPhone Vita"
-      className="scroll-mt-28 border-y border-white/10 bg-black text-white"
+      className="scroll-mt-28 border-y border-fg/10 bg-bg text-fg"
     >
       <ul
         data-stagger
@@ -47,12 +47,12 @@ export function TrustBar() {
         {POINTS.map((p) => {
           const inner = (
             <>
-              <span className="mt-0.5 shrink-0 text-champagne">{p.icon}</span>
+              <span className="mt-0.5 shrink-0 text-vita">{p.icon}</span>
               <span className="min-w-0">
                 <span className="block text-sm font-semibold leading-snug">
                   {p.title}
                 </span>
-                <span className="mt-0.5 block text-xs leading-snug text-white/55">
+                <span className="mt-0.5 block text-xs leading-snug text-fg/55">
                   {p.body}
                 </span>
               </span>

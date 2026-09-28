@@ -37,7 +37,7 @@ export function Hero({ group }: { group?: ModelGroup }) {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-black pb-14 pt-14 text-center text-white md:pb-24 md:pt-24"
+      className="relative overflow-hidden bg-bg pb-14 pt-14 text-center text-fg md:pb-24 md:pt-24"
     >
       {/* ── Luz volumétrica ambiental de Titanio Natural ── */}
       <div
@@ -47,21 +47,21 @@ export function Hero({ group }: { group?: ModelGroup }) {
 
       <div className="intro hero-copy relative z-10 mx-auto max-w-[980px] px-4 md:px-8">
         {/* Floating Luxury Badge */}
-        <div style={d(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-champagne backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
+        <div style={d(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-vita backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
           <span className="size-1.5 rounded-full bg-champagne animate-pulse" />
           <span>Garantía Oficial Apple · Equipos Nuevos Sellados & Semi-nuevos</span>
         </div>
 
         <h1
           style={d(1)}
-          className="mt-2 text-[clamp(3.2rem,9.5vw,7.8rem)] font-bold leading-[0.95] tracking-[-0.04em] bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent"
+          className="mt-2 text-[clamp(3.2rem,9.5vw,7.8rem)] font-bold leading-[0.95] tracking-[-0.04em] bg-gradient-to-b from-fg via-fg/95 to-fg/70 bg-clip-text text-transparent"
         >
           {group ? group.name : "Tu próxima tecnología."}
         </h1>
 
         <p
           style={d(2)}
-          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-white/65 md:text-xl font-normal"
+          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-fg/65 md:text-xl font-normal"
         >
           {group
             ? pitch(group)
@@ -69,9 +69,9 @@ export function Hero({ group }: { group?: ModelGroup }) {
         </p>
 
         {group?.fromPrice != null && (
-          <p style={d(3)} className="tabular mt-5 text-xl font-medium text-white">
-            Desde <span className="text-champagne font-bold">{formatUSD(group.fromPrice)}</span>
-            <span className="ml-2 text-sm text-white/50">
+          <p style={d(3)} className="tabular mt-5 text-xl font-medium text-fg">
+            Desde <span className="text-vita font-bold">{formatUSD(group.fromPrice)}</span>
+            <span className="ml-2 text-sm text-fg/50">
               ≈ <Ars usd={group.fromPrice} />
             </span>
           </p>
@@ -89,7 +89,7 @@ export function Hero({ group }: { group?: ModelGroup }) {
           </Link>
           <Link
             href="/productos"
-            className="py-2 text-base font-medium text-champagne transition hover:text-white hover:underline flex items-center gap-1.5"
+            className="py-2 text-base font-medium text-vita transition hover:text-fg hover:underline flex items-center gap-1.5"
           >
             <span>Ver todo el catálogo</span>
             <span aria-hidden>›</span>
@@ -98,7 +98,7 @@ export function Hero({ group }: { group?: ModelGroup }) {
       </div>
 
       {lead && (
-        <div className="hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-white/10 bg-[#1d1d1f] px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
+        <div className="hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
           {/* Top subtle champagne rim highlight */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(235,215,190,0.5)] to-transparent" />
           {/* La foto de campaña trae fondo #1d1d1f: la tarjeta usa el mismo gris para que no se vea el borde. */}

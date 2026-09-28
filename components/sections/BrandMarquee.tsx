@@ -19,7 +19,7 @@ export function BrandMarquee({ products }: { products: Product[] }) {
   return (
     <section
       aria-label="Marcas disponibles"
-      className="marquee border-y border-white/10 bg-black py-7 text-white md:py-9"
+      className="marquee border-y border-fg/10 bg-bg py-7 text-fg md:py-9"
     >
       <ul
         className="marquee-track flex w-max items-center"
@@ -30,12 +30,12 @@ export function BrandMarquee({ products }: { products: Product[] }) {
             <Link
               href={`/productos?marca=${encodeURIComponent(b)}`}
               tabIndex={i >= brands.length ? -1 : undefined}
-              className="flex items-center gap-10 px-5 text-2xl font-bold tracking-[-0.03em] text-white/35 transition-colors hover:text-champagne md:gap-14 md:px-7 md:text-4xl"
+              className="flex items-center gap-10 px-5 text-2xl font-bold tracking-[-0.03em] text-fg/35 transition-colors hover:text-vita md:gap-14 md:px-7 md:text-4xl"
             >
               {b}
               <span
                 aria-hidden
-                className="size-1.5 rounded-full bg-champagne/50"
+                className="size-1.5 rounded-full bg-vita/50"
               />
             </Link>
           </li>

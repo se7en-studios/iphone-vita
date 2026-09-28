@@ -53,19 +53,19 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="scroll-mt-24 border-t border-white/10 bg-black py-20 text-white md:py-32"
+      className="scroll-mt-24 border-t border-fg/10 bg-bg py-20 text-fg md:py-32"
     >
       <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Header */}
         <div data-reveal className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-champagne">
-            <HelpCircle size={14} className="text-champagne" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-fg/10 bg-fg/5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-vita">
+            <HelpCircle size={14} className="text-vita" />
             Respuestas Claras
           </div>
           <h2 className="mt-4 text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-[1.1] tracking-[-0.03em]">
             Preguntas frecuentes.
           </h2>
-          <p className="mx-auto mt-4 max-w-[50ch] text-base text-white/60 md:text-lg">
+          <p className="mx-auto mt-4 max-w-[50ch] text-base text-fg/60 md:text-lg">
             Todo lo que necesitás saber sobre envíos, métodos de pago, garantías y el Plan Canje.
           </p>
         </div>
@@ -79,8 +79,8 @@ export function FaqSection() {
                 key={faq.id}
                 className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
                   isOpen
-                    ? "border-champagne/40 bg-white/[0.04] shadow-lg shadow-black/40"
-                    : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.03]"
+                    ? "border-vita/40 bg-fg/[0.04] shadow-lg shadow-black/40"
+                    : "border-fg/10 bg-fg/[0.02] hover:border-fg/20 hover:bg-fg/[0.03]"
                 }`}
               >
                 <button
@@ -89,12 +89,12 @@ export function FaqSection() {
                   aria-expanded={isOpen}
                   className="flex w-full items-center justify-between gap-4 p-5 text-left md:p-6"
                 >
-                  <span className="text-base font-semibold text-white md:text-lg">
+                  <span className="text-base font-semibold text-fg md:text-lg">
                     {faq.question}
                   </span>
                   <div
-                    className={`flex size-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-transform duration-300 ${
-                      isOpen ? "rotate-180 border-champagne/50 text-champagne" : "text-white/60"
+                    className={`flex size-8 shrink-0 items-center justify-center rounded-full border border-fg/10 bg-fg/5 transition-transform duration-300 ${
+                      isOpen ? "rotate-180 border-vita/50 text-vita" : "text-fg/60"
                     }`}
                   >
                     <ChevronDown size={18} />
@@ -102,7 +102,7 @@ export function FaqSection() {
                 </button>
 
                 {isOpen && (
-                  <div className="border-t border-white/5 px-5 pb-6 pt-3 text-sm leading-relaxed text-white/70 md:px-6 md:text-base">
+                  <div className="border-t border-fg/5 px-5 pb-6 pt-3 text-sm leading-relaxed text-fg/70 md:px-6 md:text-base">
                     {faq.answer}
                   </div>
                 )}
@@ -114,13 +114,13 @@ export function FaqSection() {
         {/* Banner soporte adicional */}
         <div
           data-reveal
-          className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-r from-white/[0.04] to-transparent p-6 text-center md:flex md:items-center md:justify-between md:text-left"
+          className="mt-12 rounded-2xl border border-fg/10 bg-gradient-to-r from-fg/[0.04] to-transparent p-6 text-center md:flex md:items-center md:justify-between md:text-left"
         >
           <div>
-            <h3 className="text-base font-semibold text-white">
+            <h3 className="text-base font-semibold text-fg">
               ¿Tenés otra consulta específica?
             </h3>
-            <p className="mt-1 text-sm text-white/60">
+            <p className="mt-1 text-sm text-fg/60">
               Escribinos por WhatsApp y te asesoramos al instante con fotos reales del stock.
             </p>
           </div>
@@ -128,7 +128,7 @@ export function FaqSection() {
             href="https://wa.me/5493516599723?text=Hola%20iPhone%20Vita!%20Tengo%20una%20consulta%20antes%20de%20comprar:"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-white/10 px-6 py-2.5 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/20 hover:text-white md:mt-0"
+            className="mt-4 inline-flex items-center justify-center rounded-full bg-fg/10 px-6 py-2.5 text-sm font-semibold text-fg ring-1 ring-fg/20 transition hover:bg-fg/20 hover:text-fg md:mt-0"
           >
             Hablar con un asesor
           </a>
