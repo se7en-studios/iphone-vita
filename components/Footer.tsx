@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { Wordmark } from "./Wordmark";
 import { waLink, WHATSAPP_NUMBER } from "@/lib/whatsapp";
-import { ChatIcon, ChevronIcon, ShieldIcon, SwapIcon, TruckIcon } from "./ui/Icons";
+import {
+  ChatIcon,
+  ChevronIcon,
+  ShieldIcon,
+  SwapIcon,
+  TruckIcon,
+} from "./ui/Icons";
 
 const INSTAGRAM = "https://www.instagram.com/iphone_vita/";
 
@@ -63,8 +69,7 @@ const cols: { title: string; links: FooterLink[] }[] = [
 type FooterLink = { label: string; href: string; external?: boolean };
 
 function FooterLinks({ links }: { links: FooterLink[] }) {
-  const cls =
-    "block py-2.5 transition hover:text-fg hover:underline md:py-0";
+  const cls = "block py-2.5 transition hover:text-fg hover:underline md:py-0";
   return (
     <ul className="pb-3 text-sm text-fg/60 md:space-y-2 md:pb-0 md:text-xs">
       {links.map((l) => (
@@ -94,62 +99,66 @@ const pretty = (n: string) =>
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black text-white relative">
+    <footer className="theme-dark relative border-t border-white/10 bg-black text-white">
       {/* 4-Pillar Trust Guarantee Banner */}
-      <div className="footer-trust border-b border-white/10 bg-[#0a0a0c] py-10 px-4 md:px-8">
-        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="flex items-start gap-3.5">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+      <div className="footer-trust border-b border-white/10 bg-[#0a0a0c] px-4 py-6 md:px-8 md:py-10">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-5 md:gap-6 lg:grid-cols-4">
+          <div className="flex items-center gap-3 sm:items-start sm:gap-3.5">
+            <span className="flex size-9 shrink-0 items-center md:size-10 justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
               <ShieldIcon className="size-5" />
             </span>
             <div>
               <h4 className="text-sm font-bold text-white tracking-tight">
                 Garantía Oficial Escrita
               </h4>
-              <p className="mt-1 text-xs text-white/55 leading-relaxed">
-                1 año oficial en sellados y 3 meses de respaldo integral Vita en seleccionados.
+              <p className="mt-1 hidden text-xs leading-relaxed text-white/55 sm:block">
+                1 año oficial en sellados y 3 meses de respaldo integral Vita en
+                seleccionados.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3.5">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+          <div className="flex items-center gap-3 sm:items-start sm:gap-3.5">
+            <span className="flex size-9 shrink-0 items-center md:size-10 justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
               <TruckIcon className="size-5" />
             </span>
             <div>
               <h4 className="text-sm font-bold text-white tracking-tight">
                 Envíos Asegurados
               </h4>
-              <p className="mt-1 text-xs text-white/55 leading-relaxed">
-                A toda la Argentina con seguro de valor declarado o retiro en persona coordinado.
+              <p className="mt-1 hidden text-xs leading-relaxed text-white/55 sm:block">
+                A toda la Argentina con seguro de valor declarado o retiro en
+                persona coordinado.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3.5">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+          <div className="flex items-center gap-3 sm:items-start sm:gap-3.5">
+            <span className="flex size-9 shrink-0 items-center md:size-10 justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
               <SwapIcon className="size-5" />
             </span>
             <div>
               <h4 className="text-sm font-bold text-white tracking-tight">
                 Plan Canje Inmediato
               </h4>
-              <p className="mt-1 text-xs text-white/55 leading-relaxed">
-                Tomamos tu iPhone usado en el acto para que te lleves el último modelo pagando solo la diferencia.
+              <p className="mt-1 hidden text-xs leading-relaxed text-white/55 sm:block">
+                Tomamos tu iPhone usado en el acto para que te lleves el último
+                modelo pagando solo la diferencia.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3.5">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
+          <div className="flex items-center gap-3 sm:items-start sm:gap-3.5">
+            <span className="flex size-9 shrink-0 items-center md:size-10 justify-center rounded-2xl bg-champagne/10 text-champagne border border-champagne/25">
               <ChatIcon className="size-5" />
             </span>
             <div>
               <h4 className="text-sm font-bold text-white tracking-tight">
                 Atención Humana 1 a 1
               </h4>
-              <p className="mt-1 text-xs text-white/55 leading-relaxed">
-                Asesoramiento sin bots en WhatsApp. Despejamos tus dudas en minutos.
+              <p className="mt-1 hidden text-xs leading-relaxed text-white/55 sm:block">
+                Asesoramiento sin bots en WhatsApp. Despejamos tus dudas en
+                minutos.
               </p>
             </div>
           </div>
