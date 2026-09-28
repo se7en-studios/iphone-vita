@@ -24,7 +24,7 @@ const TONE_STYLES: Record<
 > = {
   default: {
     iconWrap: "bg-[var(--a-accent-bg)] text-[var(--a-accent)]",
-    glow: "group-hover:shadow-[0_0_24px_rgba(41,151,255,0.18)]",
+    glow: "group-hover:shadow-[0_0_24px_rgba(235,215,190,0.22)]",
     border: "group-hover:border-[var(--a-accent)]/40",
   },
   warning: {

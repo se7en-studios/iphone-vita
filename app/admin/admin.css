@@ -8,7 +8,7 @@
   --admin-sidebar-w: 240px;
 }
 
-/* ── Light Theme (macOS Sonoma / Cupertino Clean) ── */
+/* ── Light Theme (Apple Store Clean) ── */
 .vita-admin,
 .admin-portal {
   --a-bg: #f5f5f7;
@@ -18,11 +18,12 @@
   --a-border: rgba(0, 0, 0, 0.08);
   --a-border-strong: rgba(0, 0, 0, 0.16);
   --a-text: #1d1d1f;
-  --a-muted: #6e6e73;
-  --a-accent: #0071e3;
-  --a-accent-hover: #0077ed;
-  --a-accent-bg: rgba(0, 113, 227, 0.08);
-  --a-accent-border: rgba(0, 113, 227, 0.28);
+  --a-muted: #86868b;
+  --a-accent: #a8844f;
+  --a-accent-hover: #906f3e;
+  --a-accent-fg: #ffffff;
+  --a-accent-bg: rgba(168, 132, 79, 0.12);
+  --a-accent-border: rgba(168, 132, 79, 0.3);
   --a-danger: #d70015;
   --a-danger-bg: rgba(215, 0, 21, 0.07);
   --a-danger-border: rgba(215, 0, 21, 0.22);
@@ -32,8 +33,8 @@
   --a-warning: #b25000;
   --a-warning-bg: rgba(255, 149, 0, 0.1);
   --a-warning-border: rgba(255, 149, 0, 0.3);
-  --a-gold: #9d733c;
-  --a-gold-bg: rgba(181, 141, 89, 0.1);
+  --a-gold: #a8844f;
+  --a-gold-bg: rgba(168, 132, 79, 0.1);
   --a-purple: #8944ab;
   --a-purple-bg: rgba(137, 68, 171, 0.1);
   --a-radius-lg: 20px;
@@ -53,7 +54,7 @@
   color: var(--a-text);
 }
 
-/* ── Dark Theme (Signature Executive Obsidian Apple Pro) ── */
+/* ── Dark Theme (Landing Signature: Negro Absoluto + Champagne Natural Titanium) ── */
 /* Activo por defecto o vía data-admin-theme="dark" / .dark */
 html:not([data-admin-theme="light"]):has(.vita-admin) .vita-admin,
 html:not([data-admin-theme="light"]):has(.vita-admin) .admin-portal,
@@ -61,18 +62,19 @@ html[data-admin-theme="dark"] .vita-admin,
 html[data-admin-theme="dark"] .admin-portal,
 .vita-admin.dark,
 .admin-portal.dark {
-  --a-bg: #08090d;
-  --a-surface: #111319;
-  --a-surface-2: #171a23;
-  --a-surface-3: #212532;
-  --a-border: rgba(255, 255, 255, 0.08);
-  --a-border-strong: rgba(255, 255, 255, 0.16);
-  --a-text: #f5f5f7;
-  --a-muted: #94949f;
-  --a-accent: #2997ff;
-  --a-accent-hover: #47a6ff;
-  --a-accent-bg: rgba(41, 151, 255, 0.12);
-  --a-accent-border: rgba(41, 151, 255, 0.35);
+  --a-bg: #000000;
+  --a-surface: #0a0a0a;
+  --a-surface-2: #141416;
+  --a-surface-3: #1d1d1f;
+  --a-border: rgba(255, 255, 255, 0.1);
+  --a-border-strong: rgba(255, 255, 255, 0.18);
+  --a-text: #ffffff;
+  --a-muted: #86868b;
+  --a-accent: #ebd7be;
+  --a-accent-hover: #f7ede0;
+  --a-accent-fg: #000000;
+  --a-accent-bg: rgba(235, 215, 190, 0.12);
+  --a-accent-border: rgba(235, 215, 190, 0.32);
   --a-danger: #ff453a;
   --a-danger-bg: rgba(255, 69, 58, 0.14);
   --a-danger-border: rgba(255, 69, 58, 0.32);
@@ -86,10 +88,10 @@ html[data-admin-theme="dark"] .admin-portal,
   --a-gold-bg: rgba(235, 215, 190, 0.12);
   --a-purple: #bf5af2;
   --a-purple-bg: rgba(191, 90, 242, 0.14);
-  --a-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
-  --a-shadow-md: 0 12px 34px -8px rgba(0, 0, 0, 0.7);
-  --a-shadow-lg: 0 24px 50px -12px rgba(0, 0, 0, 0.85);
-  --a-glass: rgba(17, 19, 25, 0.75);
+  --a-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6);
+  --a-shadow-md: 0 12px 34px -8px rgba(0, 0, 0, 0.8);
+  --a-shadow-lg: 0 24px 50px -12px rgba(0, 0, 0, 0.95);
+  --a-glass: rgba(10, 10, 10, 0.85);
   --a-glass-border: rgba(255, 255, 255, 0.1);
   color-scheme: dark;
 }
@@ -98,8 +100,8 @@ html:has(.vita-admin) {
   color-scheme: dark;
 }
 html:has(.vita-admin) body {
-  background: #08090d;
-  color: #f5f5f7;
+  background: #000000;
+  color: #ffffff;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
@@ -235,12 +237,14 @@ html[data-admin-theme="light"]:has(.vita-admin) body {
 }
 .admin-btn--primary {
   background: var(--a-accent);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(41, 151, 255, 0.28);
+  color: var(--a-accent-fg, #000000);
+  box-shadow: 0 4px 16px rgba(235, 215, 190, 0.25);
+  font-weight: 600;
 }
 .admin-btn--primary:hover:not(:disabled) {
   background: var(--a-accent-hover);
-  box-shadow: 0 6px 18px rgba(41, 151, 255, 0.38);
+  color: var(--a-accent-fg, #000000);
+  box-shadow: 0 6px 20px rgba(235, 215, 190, 0.38);
 }
 .admin-btn--secondary {
   background: var(--a-surface);

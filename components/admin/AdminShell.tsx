@@ -164,7 +164,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const navLinkClass = (isActive: boolean) =>
     `group flex min-h-[42px] items-center gap-3 rounded-xl px-3.5 text-sm transition-all duration-150 ${
       isActive
-        ? "bg-[var(--a-accent-bg)] font-semibold text-[var(--a-accent)] shadow-[0_0_15px_rgba(41,151,255,0.12)] border border-[var(--a-accent-border)]"
+        ? "bg-[var(--a-accent-bg)] font-semibold text-[var(--a-accent)] shadow-[0_0_15px_rgba(235,215,190,0.15)] border border-[var(--a-accent-border)]"
         : "text-[var(--a-muted)] hover:bg-[var(--a-surface-2)] hover:text-[var(--a-text)]"
     }`;
 
@@ -177,11 +177,15 @@ export function AdminShell({ children }: { children: ReactNode }) {
     >
       {/* ── Mobile: barra superior con blur ── */}
       <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-[var(--a-border)] bg-[var(--a-surface)]/85 px-4 backdrop-blur-2xl lg:hidden">
-        <div className="flex items-center gap-2.5">
-          <div className="flex size-7 items-center justify-center rounded-lg bg-[var(--a-text)] text-[var(--a-bg)] font-bold text-xs">
+        <div className="flex items-center gap-2">
+          <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#ebd7be] to-[#b58d59] text-black font-extrabold text-xs shadow-xs">
             V
           </div>
-          <span className="text-[15px] font-bold tracking-tight">iPhone Vita</span>
+          <div className="flex items-baseline gap-1 text-[15px] tracking-tight">
+            <span className="font-bold text-[var(--a-text)]">iPhone</span>
+            <span className="font-light text-[var(--a-text)]">Vita</span>
+            <span className="size-1.5 translate-y-[-0.05em] rounded-full bg-[var(--a-accent)]" />
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -355,21 +359,23 @@ export function AdminShell({ children }: { children: ReactNode }) {
         <div className="flex h-18 shrink-0 items-center justify-between px-4 border-b border-[var(--a-border)]">
           {!collapsed ? (
             <div className="flex items-center gap-2.5">
-              <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--a-accent)] to-blue-700 text-white font-black text-sm shadow-[0_0_16px_rgba(41,151,255,0.4)]">
+              <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#ebd7be] to-[#b58d59] text-black font-black text-sm shadow-[0_0_16px_rgba(235,215,190,0.35)]">
                 V
               </div>
               <div className="min-w-0">
-                <span className="block text-sm font-bold tracking-tight text-[var(--a-text)]">
-                  iPhone Vita
-                </span>
-                <span className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-medium">
+                <div className="flex items-baseline gap-1 text-[15px] leading-tight">
+                  <span className="font-bold tracking-tight text-[var(--a-text)]">iPhone</span>
+                  <span className="font-light text-[var(--a-text)]">Vita</span>
+                  <span className="size-1.5 translate-y-[-0.05em] rounded-full bg-[var(--a-accent)]" />
+                </div>
+                <span className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-medium mt-0.5">
                   <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Tienda Online
+                  Panel Oficial
                 </span>
               </div>
             </div>
           ) : (
-            <div className="mx-auto flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--a-accent)] to-blue-700 text-white font-black text-sm shadow-[0_0_16px_rgba(41,151,255,0.4)]">
+            <div className="mx-auto flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#ebd7be] to-[#b58d59] text-black font-black text-sm shadow-[0_0_16px_rgba(235,215,190,0.35)]">
               V
             </div>
           )}
