@@ -88,7 +88,7 @@ export function Hero({ group }: { group?: ModelGroup }) {
       </div>
 
       {lead && (
-        <div className="scroll-out mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[28px] bg-[#1d1d1f] px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14">
+        <div className="mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[28px] bg-[#1d1d1f] px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14">
           {/* La foto de campaña trae fondo #1d1d1f: la tarjeta usa el mismo gris para que no se vea el borde. */}
           <div className="intro-media relative mx-auto aspect-[705/656] w-full max-w-[705px]">
             {art ? (

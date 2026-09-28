@@ -28,12 +28,12 @@ export function Reveal() {
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+      { rootMargin: "120px 0px 80px 0px", threshold: 0 },
     );
-    // Lo que ya está en pantalla aparece al instante; lo demás, al llegar.
+    // Lo que ya está en pantalla aparece al instante; lo demás, antes de llegar.
     els.forEach((el) => {
       const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight) el.classList.add("is-in");
+      if (r.top < window.innerHeight + 100) el.classList.add("is-in");
       else io.observe(el);
     });
     document.documentElement.classList.add("reveal-ready");

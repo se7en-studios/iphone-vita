@@ -106,7 +106,7 @@ export function ReviewsSection() {
             <div
               key={r.id}
               data-reveal
-              className="flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-md transition-all duration-300 hover:border-[#ebd7be]/40 hover:bg-white/[0.05]"
+              className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0e0e11] p-6 transition-colors duration-200 hover:border-[#ebd7be]/40 hover:bg-[#141418]"
             >
               <div>
                 {/* Estrellas y Fecha */}

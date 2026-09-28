@@ -30,21 +30,8 @@ const TOPICS = [
 
 /** Botón flotante inteligente de WhatsApp con menú rápido de consulta. */
 export function WhatsAppFloat() {
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let last = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (Math.abs(y - last) < 8) return;
-      setHidden(y > last && y > 200);
-      last = y;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // Cerrar si hace click afuera
   useEffect(() => {
@@ -62,11 +49,7 @@ export function WhatsAppFloat() {
   return (
     <div
       ref={menuRef}
-      className={`fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-4 z-50 flex flex-col items-end md:bottom-7 md:right-7 max-lg:[html[data-buybar]_&]:pointer-events-none max-lg:[html[data-buybar]_&]:translate-y-[160%] transition-transform duration-300 ease-[var(--ease-soft)] ${
-        hidden
-          ? "pointer-events-none translate-y-[160%] opacity-0 md:pointer-events-auto md:translate-y-0 md:opacity-100"
-          : ""
-      }`}
+      className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-4 z-50 flex flex-col items-end md:bottom-7 md:right-7 max-lg:[html[data-buybar]_&]:pointer-events-none max-lg:[html[data-buybar]_&]:translate-y-[160%] transition-transform duration-200"
     >
       {/* Popover con opciones */}
       {open && (
