@@ -17,6 +17,7 @@ import { StickyBuyBar } from "@/components/cart/StickyBuyBar";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { Ars } from "@/components/StoreSettings";
+import { PaymentCalculator } from "@/components/product/PaymentCalculator";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iphone-vita.vercel.app";
 const RELATED_MAX = 4;
@@ -266,34 +267,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               </p>
             )}
 
-            {p.price != null && (
-              <div className="mt-5 space-y-2 rounded-2xl border border-fg/10 bg-fg/[0.02] p-4 text-xs">
-                <div className="flex items-center justify-between text-fg/80">
-                  <span className="font-semibold text-fg">Medios de pago</span>
-                  <span className="text-[11px] text-[#30d158]">Cotización transparente</span>
-                </div>
-                <div className="grid grid-cols-1 gap-2 pt-1 text-fg/70 sm:grid-cols-3">
-                  <div className="rounded-xl border border-fg/5 bg-fg/[0.02] p-2.5">
-                    <span className="block font-semibold text-fg">💵 Efectivo USD</span>
-                    <span className="mt-0.5 block text-[11px] text-fg/60">Billete sin marcas</span>
-                  </div>
-                  <div className="rounded-xl border border-fg/5 bg-fg/[0.02] p-2.5">
-                    <span className="block font-semibold text-fg">🇦🇷 Pesos ARS</span>
-                    <span className="mt-0.5 block text-[11px] text-fg/60">Transferencia al día</span>
-                  </div>
-                  <div className="rounded-xl border border-fg/5 bg-fg/[0.02] p-2.5">
-                    <span className="block font-semibold text-fg">🪙 Cripto USDT</span>
-                    <span className="mt-0.5 block text-[11px] text-fg/60">Red TRC20 / BEP20</span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-1 pt-1 text-[11px] text-fg/60">
-                  <span>🎁 Incluye funda y templado de regalo</span>
-                  <Link href="/#plan-canje" className="text-[#ebd7be] hover:underline">
-                    ¿Entregás tu usado? Calculá el canje ›
-                  </Link>
-                </div>
-              </div>
-            )}
+            {p.price != null && <PaymentCalculator product={p} />}
 
             {soldOut && (
               <p className="mt-4 rounded-2xl bg-fg/[0.04] p-3.5 text-sm text-fg/70 ring-1 ring-fg/10">
