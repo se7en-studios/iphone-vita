@@ -11,10 +11,17 @@ const DEFAULT_MESSAGES = [
 ];
 const ROTATE_MS = 5000;
 
-/** Banner superior. Si el dueño cargó un anuncio en el admin se muestra fijo; si no, rotan los de siempre. */
 export function AnnouncementBar() {
-  const custom = useStoreSettings().announcement.trim();
-  const messages = custom ? [custom] : DEFAULT_MESSAGES;
+  const { announcement, arsRate } = useStoreSettings();
+  const custom = announcement.trim();
+  const messages = custom
+    ? [custom]
+    : [
+        `Cotización del día: 1 USD = $${(arsRate || 1380).toLocaleString("es-AR")} ARS · Aceptamos pesos y dólares`,
+        "Funda y templado de regalo con tu iPhone nuevo sellado.",
+        "Plan Canje: Tomamos tu iPhone usado en parte de pago.",
+        "Garantía escrita y envíos asegurados a todo el país.",
+      ];
   const [i, setI] = useState(0);
 
   useEffect(() => {

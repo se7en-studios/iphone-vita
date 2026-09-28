@@ -87,7 +87,6 @@ export function BulkPriceModal({
             onChange={(e) => setRaw(e.target.value)}
             aria-invalid={Boolean(raw) && !valid}
             className="admin-input !w-28"
-            autoFocus
           />
           {PRESETS.map((p) => (
             <button

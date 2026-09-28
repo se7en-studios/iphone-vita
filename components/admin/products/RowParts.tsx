@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, ExternalLink, Pencil, Share2, Trash2 } from "lucide-react";
+import { Check, Copy, ExternalLink, Pencil, Receipt, Share2, Trash2 } from "lucide-react";
 import type { Product } from "@/types";
 import { formatARS, formatUSD, fullName, STOCK_LABEL } from "@/lib/format";
 import { categoryName } from "@/lib/catalog";
@@ -19,6 +19,7 @@ export interface RowHandlers {
   onPatch: (p: Product, patch: ProductPatch) => void;
   onEdit: (p: Product) => void;
   onDuplicate: (p: Product) => void;
+  onRecordSale?: (p: Product) => void;
   /** undefined para staff: no puede borrar. */
   onDelete?: (p: Product) => void;
 }
@@ -72,6 +73,17 @@ export function PriceCell({
   arsRate: number | null;
   onPatch: RowHandlers["onPatch"];
 }) {
+  const hasCost = product.cost != null && product.cost > 0;
+  const hasPrice = product.price != null && product.price > 0;
+  const profit =
+    product.price != null && product.cost != null && hasCost && hasPrice
+      ? product.price - product.cost
+      : null;
+  const marginPct =
+    profit != null && product.cost != null && product.cost > 0
+      ? Math.round((profit / product.cost) * 100)
+      : null;
+
   return (
     <div>
       <InlineNumber
@@ -85,6 +97,20 @@ export function PriceCell({
       {product.price != null && arsRate != null && (
         <span className="block text-xs tabular-nums text-[var(--a-muted)]">
           {formatARS(product.price, arsRate)}
+        </span>
+      )}
+      {profit != null && (
+        <span
+          className={`inline-block mt-0.5 rounded px-1.5 py-0.2 text-[10px] font-semibold tabular-nums ${
+            profit > 0
+              ? "bg-[var(--a-success-bg)] text-[var(--a-success)]"
+              : profit === 0
+                ? "bg-[var(--a-surface-3)] text-[var(--a-muted)]"
+                : "bg-[var(--a-danger-bg)] text-[var(--a-danger)]"
+          }`}
+          title={`Costo: US$ ${product.cost} · Ganancia: US$ ${profit}`}
+        >
+          {profit > 0 ? `+US$ ${profit} (${marginPct}%)` : `US$ ${profit}`}
         </span>
       )}
     </div>
@@ -241,6 +267,17 @@ export function RowActions({
           <Share2 size={16} />
         )}
       </button>
+      {handlers.onRecordSale && (
+        <button
+          type="button"
+          className="admin-icon-btn text-[#34c759] hover:bg-[var(--a-success-bg)]"
+          title="Registrar venta de este equipo"
+          aria-label={`Registrar venta de ${fullName(product)}`}
+          onClick={() => handlers.onRecordSale?.(product)}
+        >
+          <Receipt size={16} />
+        </button>
+      )}
       <button
         type="button"
         className="admin-icon-btn"

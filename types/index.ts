@@ -46,6 +46,8 @@ export interface Product {
   category: CategorySlug;
   subcategory?: SubcategorySlug;
   condition: Condition;
+  /** Costo de compra en USD para calcular márgenes y ganancias */
+  cost?: number | null;
   /** Precio en USD. null cuando priceType es "consultar" */
   price: number | null;
   priceType: PriceType;

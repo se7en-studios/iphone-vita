@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Download, PackageSearch, Plus, RefreshCw, Share2 } from "lucide-react";
+import { Calculator, Download, PackageSearch, Plus, RefreshCw, Share2 } from "lucide-react";
 import type { Product } from "@/types";
 import { fullName } from "@/lib/format";
 import type { ProductPatch } from "@/lib/validation";
@@ -25,6 +25,8 @@ import { BulkBar } from "./BulkBar";
 import { BulkPriceModal } from "./BulkPriceModal";
 import { PriceListModal } from "./PriceListModal";
 import { ProductForm, type FormMode } from "./form/ProductForm";
+import { RecordSaleModal } from "./RecordSaleModal";
+import { TradeInCalculatorModal } from "../TradeInCalculatorModal";
 
 type Deleting =
   { kind: "one"; product: Product } | { kind: "many"; ids: string[] };
@@ -56,6 +58,8 @@ export function ProductsPanel({
   const [deleting, setDeleting] = useState<Deleting | null>(null);
   const [priceModal, setPriceModal] = useState(false);
   const [priceListModal, setPriceListModal] = useState(false);
+  const [saleProduct, setSaleProduct] = useState<Product | null>(null);
+  const [tradeInModal, setTradeInModal] = useState(false);
   const [bulkBusy, setBulkBusy] = useState(false);
   const [editParam, setEditParam] = useState<string | null>(initialParams.edit ?? null);
 
@@ -133,6 +137,7 @@ export function ProductsPanel({
     onPatch: (p: Product, changes: ProductPatch) => void patch([p.id], changes),
     onEdit: (p: Product) => setForm({ kind: "edit", product: p }),
     onDuplicate: (p: Product) => setForm({ kind: "duplicate", product: p }),
+    onRecordSale: (p: Product) => setSaleProduct(p),
     onDelete: isOwner
       ? (p: Product) => setDeleting({ kind: "one", product: p })
       : undefined,
@@ -147,6 +152,13 @@ export function ProductsPanel({
         description="Tocá un precio o un stock para editarlo al toque. Enter guarda, Esc cancela."
         actions={
           <>
+            <AdminButton
+              variant="secondary"
+              onClick={() => setTradeInModal(true)}
+              disabled={products.length === 0}
+            >
+              <Calculator size={16} /> Plan Canje
+            </AdminButton>
             <AdminButton
               variant="secondary"
               onClick={() => setPriceListModal(true)}
@@ -273,6 +285,25 @@ export function ProductsPanel({
           }
           onConfirm={confirmDelete}
           onCancel={() => setDeleting(null)}
+        />
+      )}
+
+      {saleProduct && (
+        <RecordSaleModal
+          product={saleProduct}
+          arsRate={arsRate}
+          onClose={() => setSaleProduct(null)}
+          onStockDeducted={(p, newStock) => {
+            patch([p.id], { stock: newStock });
+          }}
+        />
+      )}
+
+      {tradeInModal && (
+        <TradeInCalculatorModal
+          products={products}
+          arsRate={arsRate}
+          onClose={() => setTradeInModal(false)}
         />
       )}
     </>

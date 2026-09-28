@@ -40,6 +40,7 @@ export interface FormState {
   size: string;
   bandSize: string;
   batteryHealth: string;
+  cost: string;
   price: string;
   consultar: boolean;
   stock: string;
@@ -88,6 +89,7 @@ export function fromProduct(p: Product | null, duplicate = false): FormState {
     size: str(p?.size),
     bandSize: str(p?.bandSize),
     batteryHealth: str(p?.batteryHealth),
+    cost: str(p?.cost),
     price: str(p?.price),
     consultar: p ? p.price == null : false,
     stock: str(p?.stock),
@@ -122,6 +124,7 @@ export function toInput(s: FormState): ProductInput {
     bandSize: opt(s.bandSize),
     batteryHealth:
       semi && s.batteryHealth ? Number(s.batteryHealth) : undefined,
+    cost: s.cost.trim() === "" ? null : Number(s.cost),
     price: s.consultar || s.price.trim() === "" ? null : Number(s.price),
     stock: s.stock.trim() === "" ? null : Number(s.stock),
     stockLevel: s.stockLevel,
@@ -169,6 +172,11 @@ export function validate(s: FormState): FormErrors {
     !intIn(s.batteryHealth, 0, 100)
   )
     e.batteryHealth = "Entre 0 y 100, sin decimales";
+  if (s.cost && s.cost.trim() !== "") {
+    const c = Number(s.cost);
+    if (!Number.isFinite(c) || c < 0 || c > LIMITS.price)
+      e.cost = `Entre 0 y ${LIMITS.price.toLocaleString("es-AR")}`;
+  }
   if (!s.consultar) {
     const n = Number(s.price);
     if (s.price.trim() === "")
@@ -205,6 +213,7 @@ export function previewProduct(s: FormState): Product {
     priceType: input.price == null ? "consultar" : "fijo",
     price:
       input.price != null && Number.isFinite(input.price) ? input.price : null,
+    cost: input.cost,
     createdAt: "",
   };
 }

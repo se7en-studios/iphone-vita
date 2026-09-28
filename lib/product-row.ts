@@ -62,6 +62,11 @@ const opt = <T,>(v: T | null): T | undefined => (v == null ? undefined : v);
 export function rowToProduct(r: ProductRow): Product {
   // numeric llega como string desde PostgREST
   const price = r.price == null ? null : Number(r.price);
+  const rawCost = r.specifications?.["_cost_usd"] || r.specifications?.["cost_usd"];
+  const cost =
+    rawCost != null && rawCost !== "" && Number.isFinite(Number(rawCost))
+      ? Number(rawCost)
+      : null;
   const fields = {
     storage: opt(r.storage),
     color: opt(r.color),
@@ -79,6 +84,7 @@ export function rowToProduct(r: ProductRow): Product {
     category: r.category,
     subcategory: opt(r.subcategory),
     condition: r.condition,
+    cost,
     price,
     priceType: price == null ? "consultar" : "fijo",
     stock: r.stock,
@@ -105,6 +111,13 @@ export function rowToProduct(r: ProductRow): Product {
 export type ProductInput = Omit<Product, "id" | "createdAt" | "priceType">;
 
 export function inputToRow(p: ProductInput) {
+  const specs = extraSpecs(p, p.specifications);
+  if (p.cost != null && Number.isFinite(p.cost)) {
+    specs["_cost_usd"] = String(p.cost);
+  } else {
+    delete specs["_cost_usd"];
+    delete specs["cost_usd"];
+  }
   return {
     slug: p.slug,
     name: p.name,
@@ -125,7 +138,7 @@ export function inputToRow(p: ProductInput) {
     image: p.image,
     gallery: p.gallery,
     description: p.description,
-    specifications: extraSpecs(p, p.specifications),
+    specifications: specs,
     featured: p.featured ?? false,
     wholesale: p.wholesale ?? false,
     active: p.active ?? true,

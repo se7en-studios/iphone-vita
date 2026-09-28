@@ -79,7 +79,7 @@ const TABS: TabItem[] = [
 ];
 
 const TAB_ERROR_KEYS: Record<string, (keyof FormState)[]> = {
-  priceStock: ["price", "stock", "stockLevel"],
+  priceStock: ["price", "cost", "stock", "stockLevel"],
   images: ["images"],
   variant: [
     "color",
@@ -370,6 +370,27 @@ export function ProductForm({
                           : `${state.stock} unid.`}
                     </strong>
                   </span>
+                  {state.cost &&
+                    state.price &&
+                    !state.consultar &&
+                    Number(state.price) > Number(state.cost) && (
+                      <>
+                        <span>•</span>
+                        <span className="font-semibold text-[var(--a-success)]">
+                          Margen: +$
+                          {(
+                            Number(state.price) - Number(state.cost)
+                          ).toLocaleString("es-AR")}{" "}
+                          (+
+                          {Math.round(
+                            ((Number(state.price) - Number(state.cost)) /
+                              Number(state.cost)) *
+                              100,
+                          )}
+                          %)
+                        </span>
+                      </>
+                    )}
                   {mode.kind === "edit" && mode.product.slug && (
                     <>
                       <span>•</span>
