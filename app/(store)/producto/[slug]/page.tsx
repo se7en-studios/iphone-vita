@@ -185,17 +185,17 @@ export default async function ProductPage({ params }: { params: Params }) {
                     scroll={false}
                     aria-label={v.color}
                     aria-current={v.color === p.color ? "true" : undefined}
-                    className={`size-10 rounded-full ring-1 ring-fg/25 transition ${
+                    className={`size-10 rounded-full ring-1 transition-all duration-300 ${
                       v.color === p.color
-                        ? "ring-2 ring-fg ring-offset-4 ring-offset-bg"
-                        : "hover:scale-110"
+                        ? "ring-2 ring-[#ebd7be] ring-offset-4 ring-offset-black scale-110 shadow-[0_0_15px_rgba(235,215,190,0.3)]"
+                        : "ring-white/20 hover:scale-105 hover:ring-white/50"
                     }`}
                     style={{ background: v.colorHex }}
                   />
                 ))}
               </div>
               <p className="mt-5 text-sm text-fg/60">
-                Color · <span className="text-fg">{p.color}</span>
+                Color · <span className="text-white font-semibold">{p.color}</span>
               </p>
             </Step>
           )}
@@ -247,22 +247,22 @@ export default async function ProductPage({ params }: { params: Params }) {
 
           <div
             id="buy-box"
-            className="rounded-[28px] bg-surface p-6 ring-1 ring-fg/10 md:p-8"
+            className="rounded-[32px] bg-[#0c0c0e] p-6 ring-1 ring-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] md:p-8 relative overflow-hidden"
           >
-            <p className="text-sm text-fg/50">
+            <p className="text-sm text-white/50">
               {p.condition === "semi-nuevo"
                 ? `Tu ${p.name} semi nuevo`
                 : `Tu nuevo ${p.name}`}
             </p>
-            <p className="mt-1 text-lg font-semibold">{summary || p.name}</p>
+            <p className="mt-1 text-xl font-bold tracking-tight text-white">{summary || p.name}</p>
             <div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
-              <p className={`tabular text-3xl font-bold tracking-tight ${soldOut ? "text-fg/40 line-through decoration-1" : ""}`}>
+              <p className={`tabular text-3xl md:text-4xl font-black tracking-tight text-[#ebd7be] ${soldOut ? "text-white/40 line-through decoration-1" : ""}`}>
                 {priceLabel(p)}
               </p>
               <StockNote product={p} dark />
             </div>
             {p.price != null && (
-              <p className="tabular mt-1 text-sm text-fg/60">
+              <p className="tabular mt-1 text-sm text-white/60">
                 ≈ <Ars usd={p.price} /> · pagás en dólares, USDT o pesos al cambio del día.
               </p>
             )}
@@ -270,12 +270,28 @@ export default async function ProductPage({ params }: { params: Params }) {
             {p.price != null && <PaymentCalculator product={p} />}
 
             {soldOut && (
-              <p className="mt-4 rounded-2xl bg-fg/[0.04] p-3.5 text-sm text-fg/70 ring-1 ring-fg/10">
+              <p className="mt-4 rounded-2xl bg-white/[0.04] p-3.5 text-sm text-white/70 ring-1 ring-white/10">
                 Por ahora no tenemos stock. Dejanos tu consulta y te avisamos apenas vuelva a entrar.
               </p>
             )}
             <div className="mt-7">
               <BuyButtons product={p} />
+            </div>
+
+            {/* Reassurance trust points */}
+            <div className="mt-6 grid grid-cols-1 gap-2 pt-6 border-t border-white/10 text-xs text-white/60">
+              <div className="flex items-center gap-2">
+                <span className="text-[#ebd7be] font-bold">✓</span>
+                <span>{p.condition === "nuevo" ? "Garantía Oficial Apple de 1 año" : "Garantía escrita de 3 meses Vita"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#ebd7be] font-bold">✓</span>
+                <span>Envíos asegurados a todo el país o retiro en persona</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#ebd7be] font-bold">✓</span>
+                <span>Aceptamos dólares billete, USDT y pesos al cambio del día</span>
+              </div>
             </div>
           </div>
 
@@ -357,14 +373,21 @@ function Tile({
       href={`/producto/${product.slug}`}
       scroll={false}
       aria-current={active ? "true" : undefined}
-      className={`flex items-center justify-between gap-4 rounded-2xl border px-5 py-5 transition ${
+      className={`flex items-center justify-between gap-4 rounded-2xl border px-5 py-5 transition-all duration-300 ${
         active
-          ? "border-accent ring-1 ring-accent"
-          : "border-fg/20 hover:border-fg/50"
+          ? "border-[#ebd7be] bg-[#ebd7be]/10 text-white shadow-[0_0_24px_rgba(235,215,190,0.15)] ring-1 ring-[#ebd7be]/60"
+          : "border-white/15 bg-white/[0.02] text-white/80 hover:border-white/40 hover:bg-white/[0.05]"
       }`}
     >
-      <span className="text-lg font-semibold">{label}</span>
-      <span className="tabular text-sm text-fg/60">
+      <div className="flex items-center gap-3">
+        <span
+          className={`size-2.5 rounded-full transition-all duration-300 ${
+            active ? "bg-[#ebd7be] shadow-[0_0_8px_#ebd7be]" : "bg-white/20"
+          }`}
+        />
+        <span className="text-lg font-bold">{label}</span>
+      </div>
+      <span className="tabular text-sm font-medium text-white/70">
         {isOutOfStock(product) ? "Sin stock" : priceLabel(product)}
       </span>
     </Link>

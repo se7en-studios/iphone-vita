@@ -25,14 +25,25 @@ export function IphoneFinder({ products }: { products: Product[] }) {
         {/* progreso */}
         <div className="mt-10 flex gap-1.5" aria-hidden="true">
           {QUESTIONS.map((_, i) => (
-            <span key={i} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i < step ? "bg-accent" : i === step ? "bg-fg/50" : "bg-fg/10"}`} />
+            <span
+              key={i}
+              className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
+                i < step
+                  ? "bg-[#ebd7be] shadow-[0_0_8px_rgba(235,215,190,0.4)]"
+                  : i === step
+                    ? "bg-white/60"
+                    : "bg-white/10"
+              }`}
+            />
           ))}
         </div>
 
         {!done ? (
           <div key={step} className="mt-12 space-y-8">
-            <p className="text-xs text-fg/50 font-semibold">Paso {step + 1} de {QUESTIONS.length}</p>
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-fg">{q.title}</h2>
+            <span className="inline-block rounded-full bg-[#ebd7be]/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#ebd7be] ring-1 ring-[#ebd7be]/30">
+              Paso {step + 1} de {QUESTIONS.length}
+            </span>
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-white">{q.title}</h2>
             <div className="grid gap-3 md:grid-cols-3">
               {q.options.map((o) => {
                 const selected = (answers as Record<string, string | undefined>)[q.key] === o.value;
@@ -44,42 +55,54 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                       setAnswers({ ...answers, [q.key]: o.value });
                       setStep(step + 1);
                     }}
-                    className={`group flex items-center justify-between rounded-3xl p-6 text-left text-base font-medium transition ${
+                    className={`group flex items-center justify-between rounded-3xl p-6 text-left text-base transition-all duration-300 ${
                       selected
-                        ? "bg-accent text-accent-fg font-semibold"
-                        : "bg-fg/[0.04] ring-1 ring-fg/10 hover:bg-fg/10 text-fg hover:ring-accent/40"
+                        ? "bg-[#ebd7be] text-black font-bold shadow-[0_0_20px_rgba(235,215,190,0.3)] scale-[1.02]"
+                        : "bg-white/[0.03] ring-1 ring-white/10 hover:bg-white/[0.07] text-white hover:ring-[#ebd7be]/40 hover:shadow-[0_0_20px_rgba(235,215,190,0.08)]"
                     }`}
                   >
-                    {o.label}
-                    <ArrowIcon className="size-5 opacity-40 transition group-hover:translate-x-1 group-hover:opacity-100" />
+                    <span className="font-semibold">{o.label}</span>
+                    <ArrowIcon className={`size-5 transition group-hover:translate-x-1 ${selected ? "text-black" : "text-[#ebd7be]"}`} />
                   </button>
                 );
               })}
             </div>
             {step > 0 && (
-              <button type="button" onClick={() => setStep(step - 1)} className="text-sm text-fg/55 underline-offset-4 hover:text-highlight hover:underline">← Volver</button>
+              <button
+                type="button"
+                onClick={() => setStep(step - 1)}
+                className="text-sm text-white/55 underline-offset-4 hover:text-[#ebd7be] hover:underline transition-colors"
+              >
+                ← Volver a la pregunta anterior
+              </button>
             )}
           </div>
         ) : (
           <div className="mt-12 space-y-8">
             <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="text-2xl font-bold text-fg md:text-3xl">
+              <h2 className="text-2xl font-bold text-white md:text-3xl">
                 {results.length ? "Modelos recomendados para vos:" : "No encontramos una coincidencia exacta."}
               </h2>
-              <button type="button" onClick={() => { setAnswers({}); setStep(0); }} className="text-sm text-fg/55 underline-offset-4 hover:text-highlight hover:underline">Empezar de nuevo</button>
+              <button
+                type="button"
+                onClick={() => { setAnswers({}); setStep(0); }}
+                className="text-sm text-white/55 underline-offset-4 hover:text-[#ebd7be] hover:underline transition-colors"
+              >
+                ↺ Empezar de nuevo
+              </button>
             </div>
             {results.length ? (
               <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
                 {results.map((p) => <ProductCard key={p.slug} product={p} dark />)}
               </div>
             ) : (
-              <p className="text-fg/60">Escribinos por WhatsApp y un asesor te ayuda a elegir el equipo ideal.</p>
+              <p className="text-white/60">Escribinos por WhatsApp y un asesor te ayuda a elegir el equipo ideal.</p>
             )}
             <a
               href={waLink(results[0] ? `${productMessage(results[0])} También quiero que me asesoren según las respuestas del test.` : "Hola iPhone Vita! Hice el test en la web y quiero que me ayuden a elegir un iPhone.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-bold text-accent-fg transition hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-full bg-[#ebd7be] px-8 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.5)]"
             >
               Hablar con un asesor por WhatsApp
             </a>
