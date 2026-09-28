@@ -5,14 +5,27 @@ import type { ModelGroup } from "@/lib/products";
 import { formatUSD } from "@/lib/format";
 import { Ars } from "../StoreSettings";
 import { ProductVisual } from "../ProductVisual";
+import { HeroVideo } from "../HeroVideo";
 
 const d = (i: number) => ({ "--d": i }) as CSSProperties;
 
 /** Fotos de campaña por modelo. El resto usa la foto de catálogo del producto. */
-const HERO_ART: Record<string, { src: string; alt: string }> = {
+/** Con `video`, la tarjeta pasa a negro 16:9 y la foto queda solo como respaldo. */
+type HeroArt = {
+  src: string;
+  alt: string;
+  video?: { src: string; poster: string; end: string };
+};
+
+const HERO_ART: Record<string, HeroArt> = {
   "iphone-18-pro": {
     src: "/images/highlights/siri-ai-hero.jpg",
     alt: "iPhone 18 Pro en tres colores con Apple Intelligence en pantalla",
+    video: {
+      src: "/videos/hero-assembly.mp4",
+      poster: "/videos/hero-assembly-poster.jpg",
+      end: "/videos/hero-assembly-end.jpg",
+    },
   },
 };
 
@@ -97,7 +110,18 @@ export function Hero({ group }: { group?: ModelGroup }) {
         </div>
       </div>
 
-      {lead && (
+      {lead && art?.video && (
+        <div className="hero-stage theme-dark relative mx-auto mt-12 aspect-[4/3] w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-white/10 bg-black md:mt-16 md:aspect-video md:w-[calc(100%-4rem)] shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
+          <HeroVideo
+            src={art.video.src}
+            poster={art.video.poster}
+            endSrc={art.video.end}
+            alt={art.alt}
+          />
+        </div>
+      )}
+
+      {lead && !art?.video && (
         <div className="hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
           {/* Top subtle champagne rim highlight */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(235,215,190,0.5)] to-transparent" />
