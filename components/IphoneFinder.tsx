@@ -31,8 +31,8 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                 i < step
                   ? "bg-champagne shadow-[0_0_8px_rgba(235,215,190,0.4)]"
                   : i === step
-                    ? "bg-white/60"
-                    : "bg-white/10"
+                    ? "bg-fg/60"
+                    : "bg-fg/10"
               }`}
             />
           ))}
@@ -40,10 +40,10 @@ export function IphoneFinder({ products }: { products: Product[] }) {
 
         {!done ? (
           <div key={step} className="mt-12 space-y-8">
-            <span className="inline-block rounded-full bg-champagne/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-champagne ring-1 ring-champagne/30">
+            <span className="inline-block rounded-full bg-champagne/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-vita ring-1 ring-champagne/30">
               Paso {step + 1} de {QUESTIONS.length}
             </span>
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-white">{q.title}</h2>
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-fg">{q.title}</h2>
             <div className="grid gap-3 md:grid-cols-3">
               {q.options.map((o) => {
                 const selected = (answers as Record<string, string | undefined>)[q.key] === o.value;
@@ -58,11 +58,11 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                     className={`group flex items-center justify-between rounded-3xl p-6 text-left text-base transition-all duration-300 ${
                       selected
                         ? "bg-champagne text-black font-bold shadow-[0_0_20px_rgba(235,215,190,0.3)] scale-[1.02]"
-                        : "bg-white/[0.03] ring-1 ring-white/10 hover:bg-white/[0.07] text-white hover:ring-champagne/40 hover:shadow-[0_0_20px_rgba(235,215,190,0.08)]"
+                        : "bg-surface ring-1 ring-fg/10 text-fg hover:ring-vita/40 hover:shadow-[0_0_20px_rgba(235,215,190,0.08)]"
                     }`}
                   >
                     <span className="font-semibold">{o.label}</span>
-                    <ArrowIcon className={`size-5 transition group-hover:translate-x-1 ${selected ? "text-black" : "text-champagne"}`} />
+                    <ArrowIcon className={`size-5 transition group-hover:translate-x-1 ${selected ? "text-black" : "text-vita"}`} />
                   </button>
                 );
               })}
@@ -71,7 +71,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               <button
                 type="button"
                 onClick={() => setStep(step - 1)}
-                className="text-sm text-white/55 underline-offset-4 hover:text-champagne hover:underline transition-colors"
+                className="text-sm text-fg/55 underline-offset-4 hover:text-vita hover:underline transition-colors"
               >
                 ← Volver a la pregunta anterior
               </button>
@@ -80,13 +80,13 @@ export function IphoneFinder({ products }: { products: Product[] }) {
         ) : (
           <div className="mt-12 space-y-8">
             <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="text-2xl font-bold text-white md:text-3xl">
+              <h2 className="text-2xl font-bold text-fg md:text-3xl">
                 {results.length ? "Modelos recomendados para vos:" : "No encontramos una coincidencia exacta."}
               </h2>
               <button
                 type="button"
                 onClick={() => { setAnswers({}); setStep(0); }}
-                className="text-sm text-white/55 underline-offset-4 hover:text-champagne hover:underline transition-colors"
+                className="text-sm text-fg/55 underline-offset-4 hover:text-vita hover:underline transition-colors"
               >
                 ↺ Empezar de nuevo
               </button>
@@ -96,13 +96,13 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                 {results.map((p) => <ProductCard key={p.slug} product={p} dark />)}
               </div>
             ) : (
-              <p className="text-white/60">Escribinos por WhatsApp y un asesor te ayuda a elegir el equipo ideal.</p>
+              <p className="text-fg/60">Escribinos por WhatsApp y un asesor te ayuda a elegir el equipo ideal.</p>
             )}
             <a
               href={waLink(results[0] ? `${productMessage(results[0])} También quiero que me asesoren según las respuestas del test.` : "Hola iPhone Vita! Hice el test en la web y quiero que me ayuden a elegir un iPhone.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-champagne px-8 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-white hover:shadow-[0_0_25px_rgba(235,215,190,0.5)]"
+              className="inline-flex items-center gap-2 rounded-full bg-champagne px-8 py-4 text-sm font-bold text-black transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_25px_rgba(235,215,190,0.5)]"
             >
               Hablar con un asesor por WhatsApp
             </a>

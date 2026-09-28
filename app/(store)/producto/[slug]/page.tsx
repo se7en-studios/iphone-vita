@@ -195,7 +195,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 ))}
               </div>
               <p className="mt-5 text-sm text-fg/60">
-                Color · <span className="text-white font-semibold">{p.color}</span>
+                Color · <span className="text-fg font-semibold">{p.color}</span>
               </p>
             </Step>
           )}
@@ -375,19 +375,19 @@ function Tile({
       aria-current={active ? "true" : undefined}
       className={`flex items-center justify-between gap-4 rounded-2xl border px-5 py-5 transition-all duration-300 ${
         active
-          ? "border-champagne bg-champagne/10 text-white shadow-[0_0_24px_rgba(235,215,190,0.15)] ring-1 ring-champagne/60"
-          : "border-white/15 bg-white/[0.02] text-white/80 hover:border-white/40 hover:bg-white/[0.05]"
+          ? "border-vita bg-vita/10 text-fg ring-1 ring-vita/40"
+          : "border-fg/15 bg-surface text-fg/80 hover:border-fg/40"
       }`}
     >
       <div className="flex items-center gap-3">
         <span
           className={`size-2.5 rounded-full transition-all duration-300 ${
-            active ? "bg-champagne shadow-[0_0_8px_#ebd7be]" : "bg-white/20"
+            active ? "bg-vita" : "bg-fg/20"
           }`}
         />
         <span className="text-lg font-bold">{label}</span>
       </div>
-      <span className="tabular text-sm font-medium text-white/70">
+      <span className="tabular text-sm font-medium text-fg/70">
         {isOutOfStock(product) ? "Sin stock" : priceLabel(product)}
       </span>
     </Link>
