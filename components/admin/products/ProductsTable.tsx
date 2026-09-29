@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useSyncExternalStore } from "react";
+import { Fragment, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { Product } from "@/types";
 import { formatUSD, fullName } from "@/lib/format";
 import { groupByModel, type ModelGroup } from "@/lib/catalog";
@@ -178,14 +178,43 @@ function useIsDesktop(): boolean | null {
   );
 }
 
+/* De a tandas: armar las 70 tarjetas juntas trababa ~1 s la pantalla en un celular medio. */
+const PAGE = 24;
+
+/** Suma otra tanda cuando el final de la lista se acerca a la pantalla. */
+function LoadMore({ remaining, onMore }: { remaining: number; onMore: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && onMore(), {
+      rootMargin: "600px 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [onMore]);
+  return (
+    <div ref={ref} className="flex justify-center py-3">
+      <button type="button" onClick={onMore} className="admin-btn admin-btn--secondary">
+        Mostrar {Math.min(remaining, PAGE)} más
+      </button>
+    </div>
+  );
+}
+
 export function ProductsTable(props: Props) {
-  const { products, grouped, selectedIds } = props;
+  const { grouped, selectedIds } = props;
+  const [limit, setLimit] = useState(PAGE);
+  // ponytail: la vista agrupada muestra todo; es la menos usada y cortar grupos confunde.
+  const products = grouped ? props.products : props.products.slice(0, limit);
+  const remaining = grouped ? 0 : props.products.length - products.length;
+  const showMore = useRef(() => setLimit((l) => l + PAGE)).current;
   // Armar tabla y tarjetas para 70 productos y esconder una por CSS duplicaba el trabajo
   // en cada carga y en cada cambio de precio o stock.
   const isDesktop = useIsDesktop();
   const groups: ModelGroup[] = grouped ? groupByModel(products) : [];
   const allSelected =
-    products.length > 0 && products.every((p) => selectedIds.has(p.id));
+    props.products.length > 0 && props.products.every((p) => selectedIds.has(p.id));
 
   return (
     <>
@@ -232,6 +261,7 @@ export function ProductsTable(props: Props) {
                   ))}
             </tbody>
           </table>
+          {remaining > 0 && <LoadMore remaining={remaining} onMore={showMore} />}
         </div>
       </div>
       )}
@@ -253,6 +283,7 @@ export function ProductsTable(props: Props) {
           : products.map((p) => (
               <MobileCard key={p.id} product={p} props={props} />
             ))}
+        {remaining > 0 && <LoadMore remaining={remaining} onMore={showMore} />}
       </div>
       )}
     </>
