@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -35,9 +36,11 @@ import { ProductThumb } from "./products/ProductThumb";
 import { useAdminProducts } from "./products/useAdminProducts";
 import { SaleCard } from "./SaleCard";
 import { useSales } from "./useSales";
-import { RecordSaleModal } from "./products/RecordSaleModal";
-import { TradeInCalculatorModal } from "./TradeInCalculatorModal";
 import { SaleReceiptModal } from "./SaleReceiptModal";
+
+// Ventanas: se descargan al abrirlas.
+const RecordSaleModal = dynamic(() => import("./products/RecordSaleModal").then((m) => m.RecordSaleModal));
+const TradeInCalculatorModal = dynamic(() => import("./TradeInCalculatorModal").then((m) => m.TradeInCalculatorModal));
 
 const ATTENTION_LIMIT = 15;
 

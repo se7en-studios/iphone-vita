@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 const SITE =
@@ -55,7 +54,7 @@ export default function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="es" className={GeistSans.variable}>
       <body className="bg-bg text-fg">
         <script
           type="application/ld+json"

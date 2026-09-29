@@ -163,14 +163,33 @@ export default function AirlockHero({
     /** Only a reader who was handed the page back can hand it over again. */
     let released = false;
     let lastY = 0;
+    /* Lo último que se pintó y se pidió al video: repetirlo es trabajo tirado. */
+    let lastPainted = -1;
+    let lastSeek = -1;
 
     const totalDistance = scrubDistance + holdDistance;
     /** How much of the input axis the film itself occupies. */
     const scrubShare = scrubDistance / totalDistance;
 
+    /* --- Loop: corre solo mientras la imagen persigue al input --------- */
+
+    function frame() {
+      shown += (target - shown) * 0.18;
+      if (Math.abs(target - shown) < 0.0005) shown = target;
+      paint(shown);
+      rafId = shown === target ? 0 : requestAnimationFrame(frame);
+    }
+
+    function wake() {
+      if (!rafId) rafId = requestAnimationFrame(frame);
+    }
+
     /* --- Seeking ------------------------------------------------------- */
 
     function seekTo(t: number) {
+      // Menos de un cuadro de diferencia: el navegador decodificaría lo mismo otra vez.
+      if (Math.abs(t - lastSeek) < 1 / 60) return;
+      lastSeek = t;
       if (seeking) {
         queued = t;
         return;
@@ -198,6 +217,8 @@ export default function AirlockHero({
      * a held frame. Ending the moment the film does reads as an abrupt cut.
      */
     function paint(p: number) {
+      if (Math.abs(p - lastPainted) < 0.0005) return;
+      lastPainted = p;
       const videoP = clamp(p / scrubShare, 0, 1);
 
       // Stop a hair short of the duration: seeking to the very end lands
@@ -221,7 +242,8 @@ export default function AirlockHero({
         const t = titleAlpha;
         titleRef.current.style.opacity = String(t);
         titleRef.current.style.transform = `translateY(${(1 - t) * -24}px) scale(${0.96 + t * 0.04})`;
-        titleRef.current.style.filter = `blur(${(1 - t) * 10}px)`;
+        // Un blur de 0px sigue creando capa de filtro: "none" la saca.
+        titleRef.current.style.filter = t >= 1 ? "none" : `blur(${(1 - t) * 10}px)`;
       }
       if (hintRef.current) {
         hintRef.current.style.opacity = moved ? "0" : "1";
@@ -232,7 +254,7 @@ export default function AirlockHero({
         const t = taglineAlpha;
         taglineRef.current.style.opacity = String(t);
         taglineRef.current.style.transform = `translateY(${(1 - t) * 20}px) scale(${0.97 + t * 0.03})`;
-        taglineRef.current.style.filter = `blur(${(1 - t) * 8}px)`;
+        taglineRef.current.style.filter = t >= 1 ? "none" : `blur(${(1 - t) * 8}px)`;
       }
       if (barRef.current) {
         barRef.current.style.transform = `scaleX(${p})`;
@@ -292,6 +314,7 @@ export default function AirlockHero({
       }
       target = clamp(target + deltaY / totalDistance, 0, 1);
       if (target > 0.001) moved = true;
+      wake();
       return true;
     }
 
@@ -341,6 +364,9 @@ export default function AirlockHero({
     const onLoadedData = () => {
       duration = video!.duration || 0;
       setReady(true);
+      // Si ya se había movido antes de que cargue el video, falta el seek a ese punto.
+      lastPainted = -1;
+      paint(shown);
       if (reduceMotion) {
         // Hold the payoff frame and leave the page alone.
         target = shown = 1;
@@ -363,12 +389,7 @@ export default function AirlockHero({
       window.addEventListener("keydown", onKeyDown);
       window.addEventListener("scroll", onScroll, { passive: true });
 
-      const frame = () => {
-        shown += (target - shown) * 0.18;
-        paint(shown);
-        rafId = requestAnimationFrame(frame);
-      };
-      rafId = requestAnimationFrame(frame);
+      paint(shown);
     }
 
     return () => {

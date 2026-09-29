@@ -21,19 +21,32 @@ export function HeroVideo({
 
   useEffect(() => {
     const video = ref.current;
-    if (!video || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-      return;
-    const io = new IntersectionObserver(
+    if (!video || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Cerca de la pantalla empieza a bajar (1.4 MB); a la mitad visible, se reproduce.
+    const near = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        video.preload = "auto";
+        near.disconnect();
+      },
+      // Chico a propósito: con más margen arrancaría a bajar ya detrás del intro.
+      { rootMargin: "300px 0px" },
+    );
+    const visible = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return;
         // Autoplay bloqueado (modo ahorro, etc.): queda el poster, no es un error.
         video.play().catch(() => {});
-        io.disconnect();
+        visible.disconnect();
       },
       { threshold: 0.5 },
     );
-    io.observe(video);
-    return () => io.disconnect();
+    near.observe(video);
+    visible.observe(video);
+    return () => {
+      near.disconnect();
+      visible.disconnect();
+    };
   }, []);
 
   return (
@@ -44,7 +57,7 @@ export function HeroVideo({
         poster={poster}
         muted
         playsInline
-        preload="auto"
+        preload="none"
         aria-label={alt}
         className="size-full object-cover motion-reduce:hidden"
       />

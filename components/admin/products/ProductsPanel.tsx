@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { Calculator, Download, PackageSearch, Plus, RefreshCw, Share2 } from "lucide-react";
 import type { Product } from "@/types";
 import { fullName } from "@/lib/format";
@@ -22,11 +23,16 @@ import {
 import { ProductsToolbar } from "./ProductsToolbar";
 import { ProductsTable } from "./ProductsTable";
 import { BulkBar } from "./BulkBar";
-import { BulkPriceModal } from "./BulkPriceModal";
-import { PriceListModal } from "./PriceListModal";
-import { ProductForm, type FormMode } from "./form/ProductForm";
-import { RecordSaleModal } from "./RecordSaleModal";
-import { TradeInCalculatorModal } from "../TradeInCalculatorModal";
+import type { FormMode } from "./form/ProductForm";
+
+/* Las ventanas se descargan recién al abrirlas: juntas eran la mayor parte del JS de esta pantalla. */
+const BulkPriceModal = dynamic(() => import("./BulkPriceModal").then((m) => m.BulkPriceModal));
+const PriceListModal = dynamic(() => import("./PriceListModal").then((m) => m.PriceListModal));
+const ProductForm = dynamic(() => import("./form/ProductForm").then((m) => m.ProductForm));
+const RecordSaleModal = dynamic(() => import("./RecordSaleModal").then((m) => m.RecordSaleModal));
+const TradeInCalculatorModal = dynamic(() =>
+  import("../TradeInCalculatorModal").then((m) => m.TradeInCalculatorModal),
+);
 
 type Deleting =
   { kind: "one"; product: Product } | { kind: "many"; ids: string[] };

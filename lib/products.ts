@@ -1,3 +1,4 @@
+import "server-only";
 import { unstable_cache } from "next/cache";
 import { categories, products as staticProducts } from "@/data/products";
 import type { Category, CategorySlug, Product } from "@/types";

@@ -1,6 +1,6 @@
 import type { Product } from "@/types";
 import { fullName } from "@/lib/format";
-import { categoryName } from "@/lib/products";
+import { categoryName } from "@/lib/catalog";
 
 /*
  * Filtros del listado. Viven en la URL (?q=&cat=…) para no perderlos al

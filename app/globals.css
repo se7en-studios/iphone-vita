@@ -5,7 +5,8 @@
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+  /* Mono del sistema: Geist Mono eran ~70 KB en cada página para unos pocos números. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --color-ink: var(--bg);
   --color-ink-2: var(--surface);

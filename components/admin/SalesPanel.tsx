@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import {
   Calendar,
@@ -33,11 +34,13 @@ import { AdminCard, AdminKpiCard, AdminPageHeader } from "./AdminCard";
 import { AdminModal } from "./AdminModal";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { EmptyState } from "./EmptyState";
-import { RecordSaleModal } from "./products/RecordSaleModal";
 import { SaleReceiptModal } from "./SaleReceiptModal";
 import { SaleCard } from "./SaleCard";
 import { useSales } from "./useSales";
 import { useAdminProducts } from "./products/useAdminProducts";
+
+// Ventanas: se descargan al abrirlas.
+const RecordSaleModal = dynamic(() => import("./products/RecordSaleModal").then((m) => m.RecordSaleModal));
 
 type Timeframe = "all" | "today" | "7days" | "month" | "30days";
 type PaymentFilter = "all" | SaleRecord["paymentMethod"];

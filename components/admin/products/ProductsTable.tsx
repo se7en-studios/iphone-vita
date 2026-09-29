@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useSyncExternalStore } from "react";
 import type { Product } from "@/types";
 import { formatUSD, fullName } from "@/lib/format";
 import { groupByModel, type ModelGroup } from "@/lib/catalog";
@@ -103,7 +103,8 @@ function MobileCard({ product, props }: { product: Product; props: Props }) {
   const { handlers } = props;
   return (
     <div
-      className={`rounded-2xl border bg-[var(--a-surface)] p-3.5 ${
+      // content-visibility: las tarjetas fuera de pantalla no se dibujan hasta acercarse.
+      className={`rounded-2xl border bg-[var(--a-surface)] p-3.5 [contain-intrinsic-size:auto_260px] [content-visibility:auto] ${
         selected
           ? "border-[var(--a-accent)] ring-1 ring-[var(--a-accent)]"
           : "border-[var(--a-border)]"
@@ -160,8 +161,28 @@ const COLUMNS = [
   "",
 ];
 
+/* Mismo corte que md: de Tailwind. */
+const DESKTOP_QUERY = "(min-width: 768px)";
+const subscribeDesktop = (cb: () => void) => {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+
+/** null en el servidor (se renderizan las dos vistas y decide el CSS); en el navegador, una sola. */
+function useIsDesktop(): boolean | null {
+  return useSyncExternalStore(
+    subscribeDesktop,
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => null,
+  );
+}
+
 export function ProductsTable(props: Props) {
   const { products, grouped, selectedIds } = props;
+  // Armar tabla y tarjetas para 70 productos y esconder una por CSS duplicaba el trabajo
+  // en cada carga y en cada cambio de precio o stock.
+  const isDesktop = useIsDesktop();
   const groups: ModelGroup[] = grouped ? groupByModel(products) : [];
   const allSelected =
     products.length > 0 && products.every((p) => selectedIds.has(p.id));
@@ -169,6 +190,7 @@ export function ProductsTable(props: Props) {
   return (
     <>
       {/* Desktop */}
+      {isDesktop !== false && (
       <div className="admin-card hidden !p-0 md:block">
         <div className="max-h-[calc(100vh-220px)] overflow-auto rounded-[18px]">
           <table className="admin-table w-full text-sm">
@@ -212,8 +234,10 @@ export function ProductsTable(props: Props) {
           </table>
         </div>
       </div>
+      )}
 
       {/* Mobile */}
+      {isDesktop !== true && (
       <div className="flex flex-col gap-2.5 md:hidden">
         {grouped
           ? groups.map((g) => (
@@ -230,6 +254,7 @@ export function ProductsTable(props: Props) {
               <MobileCard key={p.id} product={p} props={props} />
             ))}
       </div>
+      )}
     </>
   );
 }
