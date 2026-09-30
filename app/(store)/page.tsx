@@ -84,8 +84,8 @@ export default async function Home() {
           skipLabel="Saltar intro"
           desktopOnly
           theme="ember"
-          scrubDistance={1400}
-          holdDistance={400}
+          scrubDistance={700}
+          holdDistance={200}
           style={{ height: INTRO_HEIGHT }}
         />
       )}

@@ -9,6 +9,8 @@ import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { Reveal } from "@/components/Reveal";
+import { WhatsAppTracking } from "@/components/WhatsAppTracking";
+import { Analytics } from "@vercel/analytics/next";
 
 /** Chrome de la tienda: todo lo público. El panel /admin queda afuera. */
 export default async function StoreLayout({
@@ -31,6 +33,8 @@ export default async function StoreLayout({
         <CartDrawer />
         <WhatsAppFloat />
         <Reveal />
+        <WhatsAppTracking />
+        <Analytics />
       </CartProvider>
     </StoreSettingsProvider>
   );
