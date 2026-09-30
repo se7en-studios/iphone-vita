@@ -53,7 +53,6 @@ const cols: { title: string; links: FooterLink[] }[] = [
   {
     title: "Empresa",
     links: [
-      { label: "Comunidad & Reseñas", href: "/#testimonios" },
       { label: "Instagram Oficial", href: INSTAGRAM, external: true },
     ],
   },

@@ -13,7 +13,6 @@ import {
   CompareSection,
 } from "@/components/sections/CompareSection";
 import { PlanCanje, type CanjeTarget } from "@/components/PlanCanje";
-import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
 
@@ -100,7 +99,7 @@ export default async function Home() {
       />
       <CompareSection models={compare} />
       <PlanCanje targets={canjeTargets} />
-      <ReviewsSection />
+      {/* ponytail: ReviewsSection oculta hasta tener reseñas reales del cliente (las actuales eran de ejemplo). */}
       <FaqSection />
       <WhatsAppCTA />
     </>
