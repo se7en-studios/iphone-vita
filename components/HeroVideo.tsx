@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Video de campaña que se reproduce una sola vez al entrar en pantalla y queda en el último cuadro.
+ * Video de campaña que se reproduce al entrar en pantalla: una vez y queda en el último cuadro,
+ * o en loop con `loop`.
  * Con reduced-motion el CSS oculta el video y muestra la foto final (`endSrc`).
  */
 export function HeroVideo({
@@ -11,11 +12,13 @@ export function HeroVideo({
   poster,
   endSrc,
   alt,
+  loop = false,
 }: {
   src: string;
   poster: string;
   endSrc: string;
   alt: string;
+  loop?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
 
@@ -56,6 +59,7 @@ export function HeroVideo({
         src={src}
         poster={poster}
         muted
+        loop={loop}
         playsInline
         preload="none"
         aria-label={alt}

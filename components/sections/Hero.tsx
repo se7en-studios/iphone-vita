@@ -135,6 +135,7 @@ export function Hero({
             src={mobileVideo.src}
             poster={mobileVideo.poster}
             endSrc={mobileVideo.poster}
+            loop
             alt={art?.alt ?? `${group?.name ?? "iPhone"} en video`}
           />
         </div>
