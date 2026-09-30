@@ -83,6 +83,7 @@ export default async function Home() {
           scrollHint="DESLIZÁ"
           tagline="Nuevo, sellado y con garantía oficial."
           skipLabel="Saltar intro"
+          desktopOnly
           theme="ember"
           scrubDistance={1400}
           holdDistance={400}

@@ -79,6 +79,11 @@ export interface AirlockHeroProps {
   theme?: AirlockTheme;
   /** Label for the control that hands the page back without scrubbing. */
   skipLabel?: string;
+  /**
+   * Sólo en pantallas md+ (768px). En celulares el hero no se muestra ni traba el scroll:
+   * Safari iOS no carga el video sin play() y dejaba la pantalla negra y bloqueada.
+   */
+  desktopOnly?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -125,6 +130,7 @@ export default function AirlockHero({
   holdDistance = 1100,
   theme = "vacuum",
   skipLabel = "Skip intro",
+  desktopOnly = false,
   className,
   style,
 }: AirlockHeroProps) {
@@ -149,6 +155,8 @@ export default function AirlockHero({
       typeof window !== "undefined" &&
       (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ??
         false);
+    // Oculto por CSS en mobile: no hay nada que scrubear, así que tampoco se traba la página.
+    if (desktopOnly && !window.matchMedia("(min-width: 768px)").matches) return;
 
     let duration = 0;
     let rafId = 0;
@@ -403,12 +411,16 @@ export default function AirlockHero({
       cancelAnimationFrame(rafId);
       releaseLock();
     };
-  }, [scrubDistance, holdDistance]);
+  }, [scrubDistance, holdDistance, desktopOnly]);
 
   return (
     <div
       ref={sectionRef}
-      className={cn("relative h-[100dvh] w-full overflow-hidden", className)}
+      className={cn(
+        "relative h-[100dvh] w-full overflow-hidden",
+        desktopOnly && "max-md:hidden",
+        className,
+      )}
       style={{ background: palette.backdrop, ...style }}
     >
       <video
