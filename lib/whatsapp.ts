@@ -5,6 +5,10 @@ import { formatARS, formatUSD, fullName } from "./format";
 export const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5492994386853";
 
+/** Alias para transferencias (Lemon). Se puede pisar desde Vercel sin tocar código. */
+export const PAYMENT_ALIAS =
+  process.env.NEXT_PUBLIC_PAYMENT_ALIAS ?? "iphone.vita.lemon";
+
 export function waLink(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }

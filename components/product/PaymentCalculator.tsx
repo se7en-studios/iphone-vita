@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { Product } from "@/types";
 import { useStoreSettings } from "@/components/StoreSettings";
 import { formatARS, formatUSD } from "@/lib/format";
-import { waLink } from "@/lib/whatsapp";
+import { PAYMENT_ALIAS, waLink } from "@/lib/whatsapp";
 import {
   Banknote,
   CreditCard,
@@ -175,7 +175,9 @@ export function PaymentCalculator({ product }: { product: Product }) {
           </div>
 
           <p className="border-t border-white/5 pt-2 text-[11px] text-fg/50">
-            Los datos para transferir te los pasamos por WhatsApp al confirmar el pedido.
+            Alias:{" "}
+            <strong className="select-all font-mono text-fg/80">{PAYMENT_ALIAS}</strong>
+            {" "}· transferí recién cuando te confirmemos el stock por WhatsApp.
           </p>
         </div>
       )}
