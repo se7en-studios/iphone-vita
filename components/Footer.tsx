@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Wordmark } from "./Wordmark";
 import { waLink, WHATSAPP_NUMBER } from "@/lib/whatsapp";
@@ -212,6 +213,23 @@ export function Footer() {
           <p className="text-champagne/80 font-medium">
             Funda y templado de regalo con tu iPhone nuevo.
           </p>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <a
+            href="https://se7endev.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 transition hover:border-champagne/40 hover:bg-white/[0.08]"
+          >
+            <span className="text-xs text-white/50">Creado por</span>
+            <Image
+              src="/se7en-logo.png"
+              alt="Se7en"
+              width={64}
+              height={18}
+              className="h-4 w-auto object-contain opacity-90 transition-opacity group-hover:opacity-100"
+            />
+          </a>
         </div>
       </div>
     </footer>
