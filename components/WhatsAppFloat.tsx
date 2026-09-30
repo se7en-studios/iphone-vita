@@ -107,10 +107,10 @@ export function WhatsAppFloat() {
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-label="Contactar por WhatsApp"
-        className="group flex items-center gap-2.5 rounded-full bg-surface-2 py-3 pl-3.5 pr-4 text-sm font-medium text-fg shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] ring-1 ring-fg/10 transition duration-300 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:ring-[#30d158]/50"
+        className="group flex items-center gap-2.5 rounded-full bg-surface-2 p-2.5 text-sm sm:py-3 sm:pl-3.5 sm:pr-4 font-medium text-fg shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] ring-1 ring-fg/10 transition duration-300 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:ring-[#30d158]/50"
       >
-        <span className="grid size-7 place-items-center rounded-full bg-[#30d158] text-black transition-transform group-hover:scale-105">
-          <ChatIcon className="size-4" />
+        <span className="grid size-9 place-items-center rounded-full bg-[#25d366] text-white transition-transform group-hover:scale-105 sm:size-7">
+          <ChatIcon className="size-5 sm:size-4" />
         </span>
         <span className="hidden sm:inline font-semibold">WhatsApp</span>
       </button>
