@@ -90,7 +90,7 @@ export default async function Home() {
           style={{ height: INTRO_HEIGHT }}
         />
       )}
-      <Hero group={bestSellers[0]} />
+      <Hero group={bestSellers[0]} mobileVideo={INTRO_VIDEO ?? undefined} />
       <TrustBar />
       <CategoryTiles products={available} />
       <BrandMarquee products={available} />

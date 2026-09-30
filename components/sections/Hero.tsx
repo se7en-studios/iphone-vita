@@ -43,9 +43,17 @@ function pitch(g: ModelGroup): string {
  * Hero estilo Apple sobre negro, pero que vende: qué es, cuánto sale (USD y pesos) y un
  * botón para comprarlo. El producto sale del destacado del admin; sin catálogo, queda genérico.
  */
-export function Hero({ group }: { group?: ModelGroup }) {
+export function Hero({
+  group,
+  mobileVideo,
+}: {
+  group?: ModelGroup;
+  /** Video del intro: en celular (donde el intro no se muestra) reemplaza la foto del hero. */
+  mobileVideo?: { src: string; poster: string };
+}) {
   const lead = group?.variants.find((v) => v.image) ?? group?.variants[0];
   const art = group ? HERO_ART[group.model] : undefined;
+  const showMobileVideo = !!lead && !!mobileVideo && !art?.video;
 
   return (
     <section
@@ -121,8 +129,19 @@ export function Hero({ group }: { group?: ModelGroup }) {
         </div>
       )}
 
+      {showMobileVideo && (
+        <div className="hero-stage theme-dark relative mx-auto mt-12 aspect-[4/3] w-[calc(100%-2rem)] overflow-hidden rounded-[32px] border border-white/10 bg-black shadow-[0_30px_90px_rgba(0,0,0,0.85)] md:hidden">
+          <HeroVideo
+            src={mobileVideo.src}
+            poster={mobileVideo.poster}
+            endSrc={mobileVideo.poster}
+            alt={art?.alt ?? `${group?.name ?? "iPhone"} en video`}
+          />
+        </div>
+      )}
+
       {lead && !art?.video && (
-        <div className="hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
+        <div className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]`}>
           {/* Top subtle champagne rim highlight */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(235,215,190,0.5)] to-transparent" />
           {/* La foto de campaña trae fondo #1d1d1f: la tarjeta usa el mismo gris para que no se vea el borde. */}
