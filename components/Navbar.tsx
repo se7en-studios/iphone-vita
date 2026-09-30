@@ -47,7 +47,7 @@ export function Navbar() {
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-6 px-4 md:px-8">
-          <Link href="/" aria-label="iPhone Vita, inicio" className="shrink-0 transition-opacity hover:opacity-85">
+          <Link href="/" className="shrink-0 transition-opacity hover:opacity-85">
             <Wordmark dark />
           </Link>
           <nav
@@ -112,6 +112,7 @@ export function Navbar() {
       <div
         className={`fixed inset-0 z-[65] bg-bg text-fg transition-opacity duration-300 lg:hidden overflow-y-auto ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
         aria-hidden={!menu}
+        inert={!menu}
       >
         <div className="flex h-14 items-center justify-between px-4 border-b border-fg/10">
           <Wordmark dark />

@@ -197,7 +197,7 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-10 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 md:mt-16 text-xs text-white/40 sm:flex-row">
+        <div className="mt-10 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 md:mt-16 text-xs text-white/55 sm:flex-row">
           <p>
             © {new Date().getFullYear()} iPhone Vita. Precios de referencia en
             USD · Se aceptan Pesos (Dólar Blue del día), USDT y transferencias.

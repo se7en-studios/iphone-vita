@@ -58,7 +58,7 @@ export function Hero({
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-bg pb-14 pt-14 text-center text-fg md:pb-24 md:pt-24"
+      className="relative overflow-hidden bg-bg pb-14 pt-14 text-center text-fg md:pb-24 md:pt-16"
     >
       {/* ── Luz volumétrica ambiental de Titanio Natural ── */}
       <div
@@ -142,18 +142,18 @@ export function Hero({
       )}
 
       {lead && !art?.video && (
-        <div className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-16 md:w-[calc(100%-4rem)] md:px-10 md:pt-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]`}>
+        <div className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-10 md:w-[calc(100%-4rem)] md:px-10 md:pt-8 shadow-[0_30px_90px_rgba(0,0,0,0.85)]`}>
           {/* Top subtle champagne rim highlight */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(235,215,190,0.5)] to-transparent" />
           {/* La foto de campaña trae fondo #1d1d1f: la tarjeta usa el mismo gris para que no se vea el borde. */}
-          <div className="intro-media relative mx-auto aspect-[705/656] w-full max-w-[705px]">
+          <div className="intro-media relative mx-auto aspect-[705/656] w-full max-w-[705px] md:max-w-[380px]">
             {art ? (
               <Image
                 src={art.src}
                 alt={art.alt}
                 fill
                 priority
-                sizes="(max-width: 768px) 100vw, 705px"
+                sizes="(max-width: 768px) 100vw, 380px"
                 className="hero-float object-contain object-bottom"
               />
             ) : (
@@ -161,7 +161,7 @@ export function Hero({
                 product={lead}
                 priority
                 className="hero-float size-full !bg-none"
-                sizes="(max-width: 768px) 100vw, 705px"
+                sizes="(max-width: 768px) 100vw, 380px"
               />
             )}
           </div>

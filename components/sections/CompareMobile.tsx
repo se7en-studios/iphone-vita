@@ -65,15 +65,16 @@ export function CompareMobile({
 
       <dl className="mt-8">
         {rows.map((row) => (
-          <div key={row} className="border-t border-fg/10 py-5">
-            <dt className="text-center text-xs text-fg/50">{row}</dt>
-            <div className="mt-2 grid grid-cols-2 gap-3 text-center">
-              {cols.map((m, col) => (
-                <dd key={col} className="text-[15px] leading-snug">
-                  {specs[m.model]?.[row] ?? "—"}
-                </dd>
-              ))}
-            </div>
+          <div
+            key={row}
+            className="grid grid-cols-2 gap-x-3 border-t border-fg/10 py-5 text-center"
+          >
+            <dt className="col-span-2 mb-2 text-xs text-fg/50">{row}</dt>
+            {cols.map((m, col) => (
+              <dd key={col} className="text-[15px] leading-snug">
+                {specs[m.model]?.[row] ?? "—"}
+              </dd>
+            ))}
           </div>
         ))}
       </dl>

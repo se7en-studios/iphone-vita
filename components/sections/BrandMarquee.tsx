@@ -30,7 +30,7 @@ export function BrandMarquee({ products }: { products: Product[] }) {
             <Link
               href={`/productos?marca=${encodeURIComponent(b)}`}
               tabIndex={i >= brands.length ? -1 : undefined}
-              className="flex items-center gap-10 px-5 text-2xl font-bold tracking-[-0.03em] text-fg/35 transition-colors hover:text-vita md:gap-14 md:px-7 md:text-4xl"
+              className="flex items-center gap-10 px-5 text-2xl font-bold tracking-[-0.03em] text-fg/55 transition-colors hover:text-vita md:gap-14 md:px-7 md:text-4xl"
             >
               {b}
               <span
