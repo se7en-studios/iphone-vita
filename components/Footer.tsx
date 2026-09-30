@@ -62,7 +62,6 @@ const cols: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: "Términos", href: "/terminos" },
       { label: "Privacidad", href: "/privacidad" },
-      { label: "Botón de arrepentimiento", href: "/arrepentimiento" },
     ],
   },
 ];
