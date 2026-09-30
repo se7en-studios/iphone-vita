@@ -270,14 +270,18 @@ h3 {
   }
   /* La tarjeta es overflow-hidden (= scroll container): view() en la foto mediría contra
      la tarjeta y quedaría clavado en 50%. El timeline se toma del item de la grilla. */
-  [data-stagger] > * {
-    view-timeline: --tile;
-  }
-  [data-stagger] .stage-product {
-    animation:
-      fade-in 0.45s ease-out,
-      drift linear both;
-    animation-timeline: auto, --tile;
+  /* Solo con mouse: en celular los grids son carruseles horizontales y Safari no recorta
+     la foto animada dentro de la tarjeta redondeada (se salía de la caja al arrastrar). */
+  @media (hover: hover) and (pointer: fine) {
+    [data-stagger] > * {
+      view-timeline: --tile;
+    }
+    [data-stagger] .stage-product {
+      animation:
+        fade-in 0.45s ease-out,
+        drift linear both;
+      animation-timeline: auto, --tile;
+    }
   }
 }
 
@@ -396,6 +400,22 @@ h3 {
 
 .no-scrollbar {
   scrollbar-width: none;
+  /* Carruseles: sin rebote ni "volver atrás" del navegador al llegar al borde. */
+  overscroll-behavior-x: contain;
+}
+
+/* Safari: overflow-hidden + border-radius no recorta a los hijos animados sin su propio contexto. */
+.overflow-hidden[class*="rounded"] {
+  isolation: isolate;
+}
+
+/* iOS: mantener apretada una foto o link la "levanta" y se arrastra fuera de su tarjeta. */
+img,
+a {
+  -webkit-user-drag: none;
+}
+img {
+  -webkit-touch-callout: none;
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
