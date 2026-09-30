@@ -101,12 +101,12 @@ export function ReviewsSection() {
         </div>
 
         {/* Grid de testimonios */}
-        <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile: carrusel con snap, como Lo más elegido. Apiladas ocupaban ~1800px. */}
+        <div className="no-scrollbar -mx-4 mt-14 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 lg:grid-cols-4">
           {REVIEWS.map((r) => (
             <div
               key={r.id}
-              data-reveal
-              className="flex flex-col justify-between rounded-2xl border border-fg/10 bg-surface p-6 transition-colors duration-200 hover:border-vita/40 hover:bg-surface-2"
+              className="flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between rounded-2xl md:w-auto md:max-w-none border border-fg/10 bg-surface p-6 transition-colors duration-200 hover:border-vita/40 hover:bg-surface-2"
             >
               <div>
                 {/* Estrellas y Fecha */}

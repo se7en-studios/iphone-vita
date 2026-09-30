@@ -135,10 +135,10 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                     }`}
                   >
                     <span className="block font-semibold">
-                      Excelente (+85%)
+                      Excelente
                     </span>
                     <span className="mt-0.5 block text-[11px] opacity-75">
-                      Sin marcas ni fisuras
+                      Batería 85%+, sin marcas
                     </span>
                   </button>
                   <button
@@ -152,10 +152,10 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                     }`}
                   >
                     <span className="block font-semibold">
-                      Uso normal (-85%)
+                      Uso normal
                     </span>
                     <span className="mt-0.5 block text-[11px] opacity-75">
-                      Detalles leves de uso
+                      Batería &lt;85% o detalles leves
                     </span>
                   </button>
                 </div>
