@@ -266,11 +266,16 @@ h3 {
   transform: scale(0.97);
 }
 
-/* Navbar en pastilla, vidrio estilo "liquid glass": desenfoca y satura lo que pasa por detrás,
-   un brillo suave arriba, un filo de luz en el borde (::before) y una sombra para que flote. */
-.glass-pill {
-  position: relative;
-  isolation: isolate;
+/* Isla de la navbar, vidrio estilo "liquid glass": desenfoca y satura lo que pasa por detrás,
+   un brillo suave arriba, un filo de luz en el borde (::before) y una sombra para que flote.
+   Es una capa detrás del contenido de la barra (que lleva isolate): así se funde con opacity
+   cuando la barra pasa de normal a isla y vuelve (los degradés no se pueden transicionar). */
+.glass-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
   background:
     radial-gradient(
       120% 160% at 50% -60%,
@@ -284,11 +289,10 @@ h3 {
     inset 0 1px 0 light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.1)),
     0 12px 32px -14px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.7));
 }
-.glass-pill::before {
+.glass-layer::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(
@@ -306,12 +310,12 @@ h3 {
 }
 /* Sin blur (navegadores viejos) o con transparencia reducida: casi sólida, para que se lea. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass-pill {
+  .glass-layer {
     background: light-dark(rgba(255, 255, 255, 0.95), rgba(30, 30, 32, 0.95));
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .glass-pill {
+  .glass-layer {
     background: var(--surface);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;

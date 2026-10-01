@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useCart } from "./cart/CartProvider";
 import { SearchDialog } from "./SearchDialog";
 import { Wordmark } from "./Wordmark";
@@ -24,10 +24,55 @@ export const NAV = [
   { label: "Todos", href: "/productos" },
 ];
 
+/** Pasado esto (px), la barra se despega en isla. Menor que la barra del dólar (~36 px): la isla
+    ya está armada cuando la navbar queda pegada arriba y el contenido empieza a pasar por detrás. */
+const ISLAND_AT = 8;
+
+const MORPH = "duration-500 ease-[var(--ease-out-expo)]";
+
+/**
+ * Arriba de todo, barra normal a lo ancho. Apenas se scrollea se despega en isla: se angosta,
+ * baja 12px, se redondea y aparece el vidrio, con transición. Solo cambian margen, ancho,
+ * radio y translate: el alto en el flujo no se mueve y la página no salta.
+ */
+function Bar({
+  island,
+  className = "",
+  children,
+}: {
+  island: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={`pointer-events-auto relative isolate mx-auto flex h-14 items-center transition-[max-width,padding,border-radius,translate] ${MORPH} ${
+        island
+          ? "max-w-6xl translate-y-3 rounded-[28px] pl-5 pr-2 md:pl-6"
+          : "max-w-7xl rounded-none px-4 md:px-8"
+      } ${className}`}
+    >
+      <div
+        aria-hidden="true"
+        className={`glass-layer transition-opacity ${MORPH} ${island ? "opacity-100" : "opacity-0"}`}
+      />
+      {children}
+    </div>
+  );
+}
+
 export function Navbar() {
   const { count, setOpen, products } = useCart();
   const [search, setSearch] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [island, setIsland] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsland(window.scrollY > ISLAND_AT);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -42,18 +87,22 @@ export function Navbar() {
 
   return (
     <>
-      {/* Pastilla flotante de vidrio: el header es solo el aire alrededor (no captura clics,
-          así lo que pasa por debajo se sigue pudiendo tocar) y la pastilla lleva todo. */}
+      {/* Con isla, el header es solo el aire alrededor: no captura clics, así lo que pasa por
+          debajo se sigue pudiendo tocar, y la isla lleva todo. */}
       <header
-        className="pointer-events-none sticky top-0 z-50 px-3 text-fg md:px-6"
-        style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
+        className={`pointer-events-none sticky top-0 z-50 border-b text-fg transition-[padding,border-color] ${MORPH} ${
+          island ? "border-transparent px-3 md:px-6" : "border-fg/10"
+        }`}
+        style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
-        {/* Borde de scroll como en iOS: lo que sube por detrás se desvanece en vez de asomarse entero. */}
+        {/* Borde de scroll como en iOS: lo que sube por detrás de la isla se desvanece en vez de asomarse entero. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/90 via-bg/40 to-transparent"
+          className={`absolute inset-x-0 top-0 -z-10 h-[calc(100%+0.75rem)] bg-gradient-to-b from-bg/90 via-bg/40 to-transparent transition-opacity ${MORPH} ${
+            island ? "opacity-100" : "opacity-0"
+          }`}
         />
-        <div className="glass-pill pointer-events-auto mx-auto flex h-14 max-w-6xl items-center gap-6 rounded-full pl-5 pr-2 md:pl-6">
+        <Bar island={island} className="gap-6">
           <Link href="/" className="shrink-0 transition-opacity hover:opacity-85">
             <Wordmark dark />
           </Link>
@@ -112,7 +161,7 @@ export function Navbar() {
               <MenuIcon />
             </button>
           </div>
-        </div>
+        </Bar>
       </header>
 
       {/* Menú mobile */}
@@ -121,12 +170,12 @@ export function Navbar() {
         aria-hidden={!menu}
         inert={!menu}
       >
-        {/* La misma pastilla, en el mismo lugar que la de la navbar: al abrir solo cambia el ícono. */}
+        {/* La misma barra que la navbar, en el mismo estado (normal o isla): al abrir solo cambia el ícono. */}
         <div
-          className="px-3 md:px-6"
-          style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
+          className={`border-b ${island ? "border-transparent px-3 md:px-6" : "border-fg/10"}`}
+          style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
         >
-          <div className="glass-pill mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full pl-5 pr-2 md:pl-6">
+          <Bar island={island} className="justify-between">
             <Wordmark dark />
             <button
               type="button"
@@ -136,7 +185,7 @@ export function Navbar() {
             >
               <CloseIcon />
             </button>
-          </div>
+          </Bar>
         </div>
         <nav className="flex flex-col px-6 py-6" aria-label="Menú">
           {NAV.map((n, i) => (
