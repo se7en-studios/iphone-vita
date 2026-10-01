@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useCart } from "./cart/CartProvider";
 import { SearchDialog } from "./SearchDialog";
 import { Wordmark } from "./Wordmark";
@@ -24,16 +24,13 @@ export const NAV = [
   { label: "Todos", href: "/productos" },
 ];
 
-/** Pasado esto (px), la barra se despega en isla. Menor que la barra del dólar (~36 px): la isla
-    ya está armada cuando la navbar queda pegada arriba y el contenido empieza a pasar por detrás. */
-const ISLAND_AT = 8;
-
 const MORPH = "duration-500 ease-[var(--ease-out-expo)]";
 
 /**
- * Arriba de todo, barra normal a lo ancho. Apenas se scrollea se despega en isla: se angosta,
- * baja 12px, se redondea y aparece el vidrio, con transición. Solo cambian margen, ancho,
- * radio y translate: el alto en el flujo no se mueve y la página no salta.
+ * Mientras la navbar está en su lugar (arriba de todo, con la barra del dólar a la vista) es
+ * una barra normal a lo ancho. Cuando queda pegada arriba se despega en isla: se angosta, baja
+ * 12px, se redondea y aparece el vidrio, con transición; al volver, al revés. Solo cambian
+ * margen, ancho, radio y translate: el alto en el flujo no se mueve y la página no salta.
  */
 function Bar({
   island,
@@ -66,12 +63,21 @@ export function Navbar() {
   const [search, setSearch] = useState(false);
   const [menu, setMenu] = useState(false);
   const [island, setIsland] = useState(false);
+  const sentinel = useRef<HTMLDivElement>(null);
 
+  /*
+   * Isla solo con la navbar pegada arriba: el centinela marca su lugar en el flujo y, cuando
+   * sale por arriba de la pantalla, la navbar quedó sticky. Con un umbral de scroll fijo, al
+   * subir la isla seguía flotando suelta bajo la barra del dólar (cortada) hasta el final.
+   */
   useEffect(() => {
-    const update = () => setIsland(window.scrollY > ISLAND_AT);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    const el = sentinel.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) =>
+      setIsland(!e.isIntersecting && e.boundingClientRect.top < 0),
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -87,6 +93,8 @@ export function Navbar() {
 
   return (
     <>
+      {/* 1px compensado con margen negativo: con alto cero, algunos navegadores no reportan la intersección. */}
+      <div ref={sentinel} aria-hidden="true" className="-mb-px h-px" />
       {/* Con isla, el header es solo el aire alrededor: no captura clics, así lo que pasa por
           debajo se sigue pudiendo tocar, y la isla lleva todo. */}
       <header
@@ -95,10 +103,11 @@ export function Navbar() {
         }`}
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
-        {/* Borde de scroll como en iOS: lo que sube por detrás de la isla se desvanece en vez de asomarse entero. */}
+        {/* Borde de scroll como en iOS: lo que sube por detrás de la isla se apaga y se desenfoca
+            hasta desaparecer, en vez de asomarse cortado arriba y a los costados. */}
         <div
           aria-hidden="true"
-          className={`absolute inset-x-0 top-0 -z-10 h-[calc(100%+0.75rem)] bg-gradient-to-b from-bg/90 via-bg/40 to-transparent transition-opacity ${MORPH} ${
+          className={`scroll-edge absolute inset-x-0 top-0 -z-10 h-[calc(100%+1.75rem)] transition-opacity ${MORPH} ${
             island ? "opacity-100" : "opacity-0"
           }`}
         />

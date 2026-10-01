@@ -308,6 +308,22 @@ h3 {
   mask-composite: exclude;
   pointer-events: none;
 }
+/* Borde de scroll detrás de la isla, como en iOS: arriba el fondo de la página, que se va
+   aclarando, y un desenfoque que se desvanece con la máscara. Lo que sube se apaga y se
+   desenfoca antes de llegar al borde, en vez de asomarse cortado por arriba de la isla. */
+.scroll-edge {
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--bg) 82%, transparent) 40%,
+    transparent 100%
+  );
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
 /* Sin blur (navegadores viejos) o con transparencia reducida: casi sólida, para que se lea. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass-layer {
