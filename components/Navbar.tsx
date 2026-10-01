@@ -42,11 +42,18 @@ export function Navbar() {
 
   return (
     <>
+      {/* Pastilla flotante de vidrio: el header es solo el aire alrededor (no captura clics,
+          así lo que pasa por debajo se sigue pudiendo tocar) y la pastilla lleva todo. */}
       <header
-        className="sticky top-0 z-50 border-b border-fg/10 bg-bg/75 backdrop-blur-2xl text-fg transition-all duration-300"
-        style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+        className="pointer-events-none sticky top-0 z-50 px-3 text-fg md:px-6"
+        style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
       >
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-6 px-4 md:px-8">
+        {/* Borde de scroll como en iOS: lo que sube por detrás se desvanece en vez de asomarse entero. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/90 via-bg/40 to-transparent"
+        />
+        <div className="glass-pill pointer-events-auto mx-auto flex h-14 max-w-6xl items-center gap-6 rounded-full pl-5 pr-2 md:pl-6">
           <Link href="/" className="shrink-0 transition-opacity hover:opacity-85">
             <Wordmark dark />
           </Link>
@@ -76,7 +83,7 @@ export function Navbar() {
               type="button"
               onClick={() => setSearch(true)}
               aria-label="Buscar"
-              className="grid size-9 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
+              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
             >
               <SearchIcon />
             </button>
@@ -84,13 +91,13 @@ export function Navbar() {
               type="button"
               onClick={() => setOpen(true)}
               aria-label={`Carrito, ${count} productos`}
-              className="relative grid size-9 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
+              className="relative grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
             >
               <BagIcon />
               {count > 0 && (
                 <span
                   key={count}
-                  className="pop tabular absolute right-0.5 top-0.5 grid min-w-4 place-items-center rounded-full bg-champagne px-1 text-[10px] font-bold leading-4 text-black shadow-[0_0_8px_rgba(235,215,190,0.5)]"
+                  className="pop tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-champagne px-1 text-[10px] font-bold leading-4 text-black shadow-[0_0_8px_rgba(235,215,190,0.5)]"
                 >
                   {count}
                 </span>
@@ -100,7 +107,7 @@ export function Navbar() {
               type="button"
               onClick={() => setMenu(true)}
               aria-label="Abrir menú"
-              className="grid size-9 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors lg:hidden"
+              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors lg:hidden"
             >
               <MenuIcon />
             </button>
@@ -110,20 +117,26 @@ export function Navbar() {
 
       {/* Menú mobile */}
       <div
-        className={`fixed inset-0 z-[65] bg-bg text-fg transition-opacity duration-300 lg:hidden overflow-y-auto ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-[65] bg-bg/85 text-fg backdrop-blur-2xl backdrop-saturate-150 transition-opacity duration-300 lg:hidden overflow-y-auto ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
         aria-hidden={!menu}
         inert={!menu}
       >
-        <div className="flex h-14 items-center justify-between px-4 border-b border-fg/10">
-          <Wordmark dark />
-          <button
-            type="button"
-            onClick={() => setMenu(false)}
-            aria-label="Cerrar menú"
-            className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg"
-          >
-            <CloseIcon />
-          </button>
+        {/* La misma pastilla, en el mismo lugar que la de la navbar: al abrir solo cambia el ícono. */}
+        <div
+          className="px-3 md:px-6"
+          style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
+        >
+          <div className="glass-pill mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full pl-5 pr-2 md:pl-6">
+            <Wordmark dark />
+            <button
+              type="button"
+              onClick={() => setMenu(false)}
+              aria-label="Cerrar menú"
+              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg"
+            >
+              <CloseIcon />
+            </button>
+          </div>
         </div>
         <nav className="flex flex-col px-6 py-6" aria-label="Menú">
           {NAV.map((n, i) => (

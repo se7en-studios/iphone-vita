@@ -51,9 +51,9 @@ export function Hero({
   return (
     <section
       id="hero"
-      className={`relative scroll-mt-14 overflow-hidden bg-bg pb-14 pt-14 text-center text-fg ${
+      className={`relative scroll-mt-[4.25rem] overflow-hidden bg-bg pb-14 pt-14 text-center text-fg ${
         fitsScreen
-          ? "md:flex md:h-[max(40rem,calc(100svh-3.5rem))] md:flex-col md:justify-center md:pb-8 md:pt-10"
+          ? "md:flex md:h-[max(40rem,calc(100svh-4.25rem))] md:flex-col md:justify-center md:pb-8 md:pt-10"
           : "md:pb-24 md:pt-16"
       }`}
     >

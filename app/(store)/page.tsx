@@ -26,8 +26,8 @@ const INTRO_VIDEO: { src: string; poster: string } | null = {
   src: "/videos/hero-v2.mp4",
   poster: "/videos/hero-v2-poster.jpg",
 };
-/* Barra de anuncio (~36px) + navbar (h-14): el intro llena lo que queda de pantalla. */
-const INTRO_HEIGHT = "calc(100dvh - 5.75rem)";
+/* Barra de anuncio (~36px) + navbar en pastilla (12px de aire + h-14): el intro llena lo que queda de pantalla. */
+const INTRO_HEIGHT = "calc(100dvh - 6.5rem)";
 
 /** Variante más barata con precio de un grupo (o la primera si ninguna tiene precio). */
 const cheapest = (g: ModelGroup): Product =>
