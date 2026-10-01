@@ -314,7 +314,9 @@ export default function AirlockHero({
       b.left = "";
       b.right = "";
       b.width = "";
-      window.scrollTo(0, y);
+      // Instantáneo a propósito: con el scroll-behavior smooth del html, la vuelta animada
+      // pasaba por posiciones más arriba, onScroll la tomaba como "subiendo" y volvía a trabar.
+      window.scrollTo({ top: y, behavior: "instant" });
       released = true;
       lastY = y;
     }
@@ -385,13 +387,16 @@ export default function AirlockHero({
      * so the sequence runs backwards. Direction matters: sitting at the top
      * of the page is not on its own a reason to seize the wheel, or the hero
      * would grab it the moment it mounts.
+     * Recién arriba de todo: el scroll suave de la rueda pasa por 80, 60... y trabar ahí
+     * congelaba la página corrida (sin la barra del dólar, con la navbar en isla sobre el
+     * video y sin poder llegar al tope). Arriba queda todo como al entrar.
      */
     const onScroll = () => {
       if (locked || !released) return;
       const y = window.scrollY;
       const climbing = y < lastY;
       lastY = y;
-      if (climbing && y <= section!.offsetTop) {
+      if (climbing && y <= 1) {
         target = shown = 1;
         paint(1);
         engageLock();
