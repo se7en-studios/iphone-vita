@@ -157,6 +157,7 @@ export default function AirlockHero({
   const hintRef = useRef<HTMLDivElement>(null);
   const taglineRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const scrimRef = useRef<HTMLDivElement>(null);
   const releaseRef = useRef<() => void>(() => {});
 
@@ -291,6 +292,8 @@ export default function AirlockHero({
       if (locked) return;
       locked = true;
       released = false;
+      // La línea de progreso solo tiene sentido mientras se scrubea: suelto, se veía bajo la navbar.
+      if (trackRef.current) trackRef.current.style.opacity = "1";
       lockedY = window.scrollY;
       const b = document.body.style;
       b.position = "fixed";
@@ -303,6 +306,7 @@ export default function AirlockHero({
     function releaseLock() {
       if (!locked) return;
       locked = false;
+      if (trackRef.current) trackRef.current.style.opacity = "0";
       const y = lockedY;
       const b = document.body.style;
       b.position = "";
@@ -585,8 +589,9 @@ export default function AirlockHero({
 
       {/* Thin progress line — fills as the video advances. */}
       <div
-        className="absolute inset-x-0 bottom-0 h-0.5"
-        style={{ background: "rgba(255,255,255,0.12)" }}
+        ref={trackRef}
+        className="absolute inset-x-0 bottom-0 h-0.5 transition-opacity duration-300"
+        style={{ background: "rgba(255,255,255,0.12)", opacity: 0 }}
       >
         <div
           ref={barRef}
