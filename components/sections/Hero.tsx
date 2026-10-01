@@ -17,17 +17,7 @@ type HeroArt = {
   video?: { src: string; poster: string; end: string };
 };
 
-const HERO_ART: Record<string, HeroArt> = {
-  "iphone-18-pro": {
-    src: "/images/highlights/siri-ai-hero.jpg",
-    alt: "iPhone 18 Pro en tres colores con Apple Intelligence en pantalla",
-    video: {
-      src: "/videos/hero-assembly.mp4",
-      poster: "/videos/hero-assembly-poster.jpg",
-      end: "/videos/hero-assembly-end.jpg",
-    },
-  },
-};
+const HERO_ART: Record<string, HeroArt> = {};
 
 function pitch(g: ModelGroup): string {
   const sealed =
