@@ -53,7 +53,7 @@ export function WhatsAppFloat() {
     >
       {/* Popover con opciones */}
       {open && (
-        <div className="mb-3 w-[calc(100vw-2rem)] max-w-[340px] origin-bottom-right rounded-2xl border border-white/10 bg-[#121214]/95 p-4 text-white shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-200">
+        <div className="mb-3 w-[calc(100vw-2rem)] max-w-[340px] origin-bottom-right rounded-2xl border border-white/10 bg-[#121214]/95 p-4 text-white shadow-2xl backdrop-blur-xl pop-in">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
               <span className="grid size-6 place-items-center rounded-full bg-[#30d158]/20 text-[#30d158]">

@@ -56,7 +56,7 @@ export function Hero({
         className="hero-glow pointer-events-none absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] md:w-[1100px] md:h-[650px] rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(235,215,190,0.14),transparent_70%)] blur-3xl opacity-80"
       />
 
-      <div className="intro hero-copy relative z-10 mx-auto max-w-[980px] px-4 md:px-8">
+      <div className="intro relative z-10 mx-auto max-w-[980px] px-4 md:px-8">
         {/* Floating Luxury Badge */}
         <div style={d(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-vita backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
           <span className="size-1.5 rounded-full bg-champagne animate-pulse" />
