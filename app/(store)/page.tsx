@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import type { Product } from "@/types";
 import { getProducts, groupByModel, type ModelGroup } from "@/lib/products";
 import { isOutOfStock } from "@/lib/format";
@@ -17,6 +18,9 @@ import { FaqSection } from "@/components/sections/FaqSection";
 import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
 
 const BEST_SELLERS_MIN = 4;
+
+/** Título, descripción e imagen salen del layout; acá solo la URL canónica (se arma con SITE_URL). */
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 /**
  * Intro en video que se adelanta con la rueda antes del hero. null = sin intro.

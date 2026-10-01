@@ -1,13 +1,11 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
+import { OPEN_GRAPH_BASE, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const SITE =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://iphone-vita.vercel.app";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "iPhone Vita · Tu próxima tecnología",
     template: "%s · iPhone Vita",
@@ -15,9 +13,7 @@ export const metadata: Metadata = {
   description:
     "iPhone nuevos sellados y semi nuevos, MacBook, iPad, Apple Watch, AirPods y accesorios. Garantía oficial, aceptamos pesos y enviamos a todo el país.",
   openGraph: {
-    type: "website",
-    locale: "es_AR",
-    siteName: "iPhone Vita",
+    ...OPEN_GRAPH_BASE,
     title: "iPhone Vita · Tu próxima tecnología",
     description:
       "iPhone sellados con garantía oficial, semi nuevos revisados y accesorios. Aceptamos pesos.",
@@ -41,8 +37,8 @@ export const viewport: Viewport = {
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "iPhone Vita",
-  url: SITE,
+  name: SITE_NAME,
+  url: SITE_URL,
   description:
     "Tienda de tecnología premium: iPhone nuevos y semi nuevos, Mac, iPad, Apple Watch, AirPods y accesorios.",
   sameAs: ["https://www.instagram.com/iphone_vita/"],
