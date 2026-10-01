@@ -11,6 +11,7 @@ const d = (i: number) => ({ "--d": i }) as CSSProperties;
 
 /** Fotos de campaña por modelo. El resto usa la foto de catálogo del producto. */
 /** Con `video`, la tarjeta pasa a negro 16:9 y la foto queda solo como respaldo. */
+/** La foto va recortada (fondo transparente): el hero la apoya directo sobre el fondo, sin tarjeta. */
 type HeroArt = {
   src: string;
   alt: string;
@@ -44,11 +45,17 @@ export function Hero({
   const lead = group?.variants.find((v) => v.image) ?? group?.variants[0];
   const art = group ? HERO_ART[group.model] : undefined;
   const showMobileVideo = !!lead && !!mobileVideo && !art?.video;
+  /** Con foto: en compu el hero entra justo en una pantalla bajo la navbar, con el equipo entero a la vista. */
+  const fitsScreen = !!lead && !art?.video;
 
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-bg pb-14 pt-14 text-center text-fg md:pb-24 md:pt-16"
+      className={`relative scroll-mt-14 overflow-hidden bg-bg pb-14 pt-14 text-center text-fg ${
+        fitsScreen
+          ? "md:flex md:h-[max(40rem,calc(100svh-3.5rem))] md:flex-col md:justify-center md:pb-8 md:pt-10"
+          : "md:pb-24 md:pt-16"
+      }`}
     >
       {/* ── Luz volumétrica ambiental de Titanio Natural ── */}
       <div
@@ -56,23 +63,23 @@ export function Hero({
         className="hero-glow pointer-events-none absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] md:w-[1100px] md:h-[650px] rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(235,215,190,0.14),transparent_70%)] blur-3xl opacity-80"
       />
 
-      <div className="intro relative z-10 mx-auto max-w-[980px] px-4 md:px-8">
+      <div className="intro relative z-10 mx-auto w-full max-w-[980px] px-4 md:px-8">
         {/* Floating Luxury Badge */}
-        <div style={d(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-vita backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
+        <div style={d(0)} className="mb-5 md:mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-vita backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
           <span className="size-1.5 rounded-full bg-champagne animate-pulse" />
           <span>Garantía Oficial Apple · Equipos Nuevos Sellados & Semi-nuevos</span>
         </div>
 
         <h1
           style={d(1)}
-          className="mt-2 text-[clamp(3.2rem,9.5vw,7.8rem)] font-bold leading-[0.95] tracking-[-0.04em] bg-gradient-to-b from-fg via-fg/95 to-fg/70 bg-clip-text text-transparent"
+          className="mt-2 text-[clamp(3.2rem,9.5vw,7.8rem)] md:text-[clamp(4rem,6.4vw,5.75rem)] font-bold leading-[0.95] tracking-[-0.04em] bg-gradient-to-b from-fg via-fg/95 to-fg/70 bg-clip-text text-transparent"
         >
           {group ? group.name : "Tu próxima tecnología."}
         </h1>
 
         <p
           style={d(2)}
-          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-fg/65 md:text-xl font-normal"
+          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-fg/65 md:mt-4 md:max-w-[60ch] md:text-xl font-normal"
         >
           {group
             ? pitch(group)
@@ -80,7 +87,7 @@ export function Hero({
         </p>
 
         {group?.fromPrice != null && (
-          <p style={d(3)} className="tabular mt-5 text-xl font-medium text-fg">
+          <p style={d(3)} className="tabular mt-5 text-xl font-medium text-fg md:mt-4">
             Desde <span className="text-vita font-bold">{formatUSD(group.fromPrice)}</span>
             <span className="ml-2 text-sm text-fg/50">
               ≈ <Ars usd={group.fromPrice} />
@@ -90,7 +97,7 @@ export function Hero({
 
         <div
           style={d(4)}
-          className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3.5"
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3.5 md:mt-6"
         >
           <Link
             href={lead ? `/producto/${lead.slug}` : "/productos"}
@@ -132,26 +139,27 @@ export function Hero({
       )}
 
       {lead && !art?.video && (
-        <div className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative mx-auto mt-12 w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-fg/10 bg-surface-2 px-6 pt-8 md:mt-10 md:w-[calc(100%-4rem)] md:px-10 md:pt-8 shadow-[0_30px_90px_rgba(0,0,0,0.85)]`}>
-          {/* Top subtle champagne rim highlight */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(235,215,190,0.5)] to-transparent" />
-          {/* La foto de campaña trae fondo #1d1d1f: la tarjeta usa el mismo gris para que no se vea el borde. */}
-          <div className="intro-media relative mx-auto aspect-[705/656] w-full max-w-[705px] md:max-w-[380px]">
+        <div
+          className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative z-10 mx-auto mt-10 w-full max-w-[705px] px-4 md:mt-6 md:max-h-[34rem] md:min-h-0 md:flex-1 md:px-8`}
+        >
+          {/* En compu llena el alto que deja el texto: el equipo entra entero y centrado bajo los botones. */}
+          <div className="intro-media relative mx-auto aspect-[705/656] w-full md:aspect-auto md:h-full">
             {art ? (
               <Image
                 src={art.src}
                 alt={art.alt}
                 fill
                 priority
-                sizes="(max-width: 768px) 100vw, 380px"
+                sizes="(max-width: 768px) 100vw, 560px"
                 className="hero-float object-contain object-bottom"
               />
             ) : (
               <ProductVisual
                 product={lead}
                 priority
-                className="hero-float size-full !bg-none"
-                sizes="(max-width: 768px) 100vw, 380px"
+                // Las fotos de catálogo traen aire transparente alrededor: un 20% más para que el equipo pese.
+                className="hero-float size-full scale-[1.2] !bg-none"
+                sizes="(max-width: 768px) 100vw, 560px"
               />
             )}
           </div>

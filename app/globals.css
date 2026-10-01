@@ -226,10 +226,11 @@ h3 {
       translate: 0 0;
     }
   }
+  /* Termina de entrar justo cuando queda entera en pantalla: quieta, nunca a medio escalar. */
   .hero-stage {
     animation: stage-in linear both;
     animation-timeline: view();
-    animation-range: entry 0% cover 45%;
+    animation-range: entry 0% entry 100%;
   }
 }
 

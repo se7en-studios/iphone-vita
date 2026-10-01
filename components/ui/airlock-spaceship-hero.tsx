@@ -320,11 +320,15 @@ export default function AirlockHero({
       moved = true;
       paint(1);
       releaseLock();
-      // Saltar es saltar: lleva al contenido en vez de dejar el intro ocupando la pantalla.
-      window.scrollTo({
-        top: section.offsetTop + section.offsetHeight,
-        behavior: "smooth",
-      });
+      // Saltar es saltar: lleva al contenido (respetando su scroll-margin, bajo la navbar)
+      // en vez de dejar el intro ocupando la pantalla.
+      const next = section.nextElementSibling;
+      if (next) next.scrollIntoView({ behavior: "smooth", block: "start" });
+      else
+        window.scrollTo({
+          top: section.offsetTop + section.offsetHeight,
+          behavior: "smooth",
+        });
     };
 
     /**
