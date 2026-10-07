@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -80,8 +80,9 @@ export interface AirlockHeroProps {
   /** Label for the control that hands the page back without scrubbing. */
   skipLabel?: string;
   /**
-   * Sólo en pantallas md+ (768px). En celulares el hero no se muestra ni traba el scroll:
-   * Safari iOS no carga el video sin play() y dejaba la pantalla negra y bloqueada.
+   * Sólo en compus con mouse (md+ y puntero fino). En celulares y tablets táctiles (iPad
+   * incluido) el hero no se muestra, no baja el video ni traba el scroll: Safari iOS no carga
+   * el video sin play() y dejaba la pantalla negra y bloqueada.
    */
   desktopOnly?: boolean;
   className?: string;
@@ -100,6 +101,9 @@ const DEFAULT_POSTER = `${CDN}/iss-hero-poster.jpg`;
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
 
+/** Mismo corte que el CSS del contenedor (max-md:hidden pointer-coarse:hidden). */
+const DESKTOP_QUERY = "(min-width: 768px) and (pointer: fine)";
+
 /** Keyboard fallback, so a reader without a wheel is never stuck. */
 const KEY_STEPS: Record<string, number> = {
   ArrowDown: 140,
@@ -115,6 +119,19 @@ const KEY_STEPS: Record<string, number> = {
 
 function clamp(v: number, min: number, max: number) {
   return Math.min(max, Math.max(min, v));
+}
+
+/**
+ * Lo que pasa en un campo de texto o en un panel flotante (carrito, buscador, menú) no es para
+ * el intro: sin esto, la rueda movía el video en vez del carrito y el buscador no aceptaba espacios.
+ */
+function belongsElsewhere(target: EventTarget | null) {
+  return (
+    target instanceof Element &&
+    !!target.closest(
+      'input, textarea, select, [contenteditable], [role="dialog"], .fixed',
+    )
+  );
 }
 
 /* --- Component --- */
@@ -140,9 +157,9 @@ export default function AirlockHero({
   const hintRef = useRef<HTMLDivElement>(null);
   const taglineRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const scrimRef = useRef<HTMLDivElement>(null);
   const releaseRef = useRef<() => void>(() => {});
-  const [ready, setReady] = useState(false);
 
   const palette = PALETTES[theme];
 
@@ -155,8 +172,8 @@ export default function AirlockHero({
       typeof window !== "undefined" &&
       (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ??
         false);
-    // Oculto por CSS en mobile: no hay nada que scrubear, así que tampoco se traba la página.
-    if (desktopOnly && !window.matchMedia("(min-width: 768px)").matches) return;
+    // Oculto por CSS en celulares y pantallas táctiles: no hay nada que scrubear, así que tampoco se traba la página.
+    if (desktopOnly && !window.matchMedia(DESKTOP_QUERY).matches) return;
 
     let duration = 0;
     let rafId = 0;
@@ -275,6 +292,8 @@ export default function AirlockHero({
       if (locked) return;
       locked = true;
       released = false;
+      // La línea de progreso solo tiene sentido mientras se scrubea: suelto, se veía bajo la navbar.
+      if (trackRef.current) trackRef.current.style.opacity = "1";
       lockedY = window.scrollY;
       const b = document.body.style;
       b.position = "fixed";
@@ -287,6 +306,7 @@ export default function AirlockHero({
     function releaseLock() {
       if (!locked) return;
       locked = false;
+      if (trackRef.current) trackRef.current.style.opacity = "0";
       const y = lockedY;
       const b = document.body.style;
       b.position = "";
@@ -294,7 +314,9 @@ export default function AirlockHero({
       b.left = "";
       b.right = "";
       b.width = "";
-      window.scrollTo(0, y);
+      // Instantáneo a propósito: con el scroll-behavior smooth del html, la vuelta animada
+      // pasaba por posiciones más arriba, onScroll la tomaba como "subiendo" y volvía a trabar.
+      window.scrollTo({ top: y, behavior: "instant" });
       released = true;
       lastY = y;
     }
@@ -304,6 +326,15 @@ export default function AirlockHero({
       moved = true;
       paint(1);
       releaseLock();
+      // Saltar es saltar: lleva al contenido (respetando su scroll-margin, bajo la navbar)
+      // en vez de dejar el intro ocupando la pantalla.
+      const next = section.nextElementSibling;
+      if (next) next.scrollIntoView({ behavior: "smooth", block: "start" });
+      else
+        window.scrollTo({
+          top: section.offsetTop + section.offsetHeight,
+          behavior: "smooth",
+        });
     };
 
     /**
@@ -329,6 +360,7 @@ export default function AirlockHero({
     /* --- Input --------------------------------------------------------- */
 
     const onWheel = (e: WheelEvent) => {
+      if (belongsElsewhere(e.target)) return;
       if (consume(e.deltaY)) e.preventDefault();
     };
 
@@ -340,12 +372,13 @@ export default function AirlockHero({
       const y = e.touches[0]?.clientY ?? touchY;
       const deltaY = touchY - y;
       touchY = y;
+      if (belongsElsewhere(e.target)) return;
       if (consume(deltaY)) e.preventDefault();
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
       const step = KEY_STEPS[e.key];
-      if (step === undefined) return;
+      if (step === undefined || belongsElsewhere(e.target)) return;
       if (consume(step)) e.preventDefault();
     };
 
@@ -354,13 +387,16 @@ export default function AirlockHero({
      * so the sequence runs backwards. Direction matters: sitting at the top
      * of the page is not on its own a reason to seize the wheel, or the hero
      * would grab it the moment it mounts.
+     * Recién arriba de todo: el scroll suave de la rueda pasa por 80, 60... y trabar ahí
+     * congelaba la página corrida (sin la barra del dólar, con la navbar en isla sobre el
+     * video y sin poder llegar al tope). Arriba queda todo como al entrar.
      */
     const onScroll = () => {
       if (locked || !released) return;
       const y = window.scrollY;
       const climbing = y < lastY;
       lastY = y;
-      if (climbing && y <= section!.offsetTop) {
+      if (climbing && y <= 1) {
         target = shown = 1;
         paint(1);
         engageLock();
@@ -371,7 +407,6 @@ export default function AirlockHero({
 
     const onLoadedData = () => {
       duration = video!.duration || 0;
-      setReady(true);
       // Si ya se había movido antes de que cargue el video, falta el seek a ese punto.
       lastPainted = -1;
       paint(shown);
@@ -385,6 +420,11 @@ export default function AirlockHero({
 
     video.addEventListener("loadeddata", onLoadedData);
     video.addEventListener("seeked", onSeeked);
+    // Con desktopOnly el video llega sin precarga: recién acá, ya en una compu, empieza a bajar.
+    if (desktopOnly && video.preload === "none") {
+      video.preload = "auto";
+      video.load();
+    }
     // The SSR'd <video> can finish loading before hydration attaches the listener.
     if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) onLoadedData();
 
@@ -418,7 +458,7 @@ export default function AirlockHero({
       ref={sectionRef}
       className={cn(
         "relative h-[100dvh] w-full overflow-hidden",
-        desktopOnly && "max-md:hidden",
+        desktopOnly && "max-md:hidden pointer-coarse:hidden",
         className,
       )}
       style={{ background: palette.backdrop, ...style }}
@@ -429,14 +469,13 @@ export default function AirlockHero({
         poster={posterSrc}
         muted
         playsInline
-        preload="auto"
+        preload={desktopOnly ? "none" : "auto"}
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
+        // Visible desde el arranque: el poster tapa el negro mientras baja el video.
         style={{
-          opacity: ready ? 1 : 0,
           transformOrigin: "center center",
           willChange: "transform",
-          transition: "opacity 0.6s ease",
         }}
       />
 
@@ -555,8 +594,9 @@ export default function AirlockHero({
 
       {/* Thin progress line — fills as the video advances. */}
       <div
-        className="absolute inset-x-0 bottom-0 h-0.5"
-        style={{ background: "rgba(255,255,255,0.12)" }}
+        ref={trackRef}
+        className="absolute inset-x-0 bottom-0 h-0.5 transition-opacity duration-300"
+        style={{ background: "rgba(255,255,255,0.12)", opacity: 0 }}
       >
         <div
           ref={barRef}

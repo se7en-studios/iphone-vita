@@ -108,22 +108,20 @@ h3 {
   border-radius: 6px;
 }
 
-/* Reveal al hacer scroll: sube, enfoca y se asienta (curva expo, estilo Apple). */
+/* Reveal al hacer scroll: sube y se asienta (curva expo, estilo Apple). Sin blur: en las filas
+   escalonadas dejaba tarjetas borrosas al lado de otras ya nítidas. */
 .reveal-ready [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
-  filter: blur(6px);
   transition:
     opacity 0.7s var(--ease-out-expo),
-    transform 0.7s var(--ease-out-expo),
-    filter 0.7s var(--ease-out-expo);
+    transform 0.7s var(--ease-out-expo);
   transition-delay: calc(var(--i, 0) * 70ms);
-  will-change: opacity, transform, filter;
+  will-change: opacity, transform;
 }
 .reveal-ready [data-reveal].is-in {
   opacity: 1;
   transform: none;
-  filter: none;
   will-change: auto;
 }
 
@@ -141,7 +139,6 @@ h3 {
   from {
     opacity: 0;
     transform: translateY(14px);
-    filter: blur(8px);
   }
   to {
     opacity: 1;
@@ -214,15 +211,11 @@ h3 {
   translate: 120% 0;
 }
 
-/* Scroll-linked (Chrome/Edge/Safari 26+; el resto queda estático, sin romper nada). */
+/* Scroll-linked (Chrome/Edge/Safari 26+; el resto queda estático, sin romper nada).
+   Solo la tarjeta del hero. Los títulos que se veían grises hasta avanzar el scroll, el texto
+   del hero que se apagaba con el botón todavía en pantalla y el parallax de las fotos dentro
+   de las tarjetas se veían como errores. */
 @supports (animation-timeline: view()) {
-  @keyframes hero-copy-out {
-    to {
-      opacity: 0;
-      translate: 0 -48px;
-      scale: 0.96;
-    }
-  }
   @keyframes stage-in {
     from {
       scale: 0.9;
@@ -233,55 +226,11 @@ h3 {
       translate: 0 0;
     }
   }
-  /* Atado a la salida del propio hero (no al scroll de la página): con un intro arriba sigue igual. */
-  .hero-copy {
-    animation: hero-copy-out linear both;
-    animation-timeline: view();
-    animation-range: exit 0% exit 70%;
-  }
+  /* Termina de entrar justo cuando queda entera en pantalla: quieta, nunca a medio escalar. */
   .hero-stage {
     animation: stage-in linear both;
     animation-timeline: view();
-    animation-range: entry 0% cover 45%;
-  }
-
-  /* Títulos de sección: se acercan mientras entran, atados al scroll (va y vuelve). */
-  @keyframes title-in {
-    from {
-      opacity: 0.15;
-      scale: 0.88;
-      translate: 0 28px;
-    }
-  }
-  main h2 {
-    animation: title-in linear both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 30%;
-  }
-
-  /* Fotos de las grillas: parallax sutil dentro de la tarjeta. Conserva el fade-in de carga. */
-  @keyframes drift {
-    from {
-      translate: 0 16px;
-    }
-    to {
-      translate: 0 -16px;
-    }
-  }
-  /* La tarjeta es overflow-hidden (= scroll container): view() en la foto mediría contra
-     la tarjeta y quedaría clavado en 50%. El timeline se toma del item de la grilla. */
-  /* Solo con mouse: en celular los grids son carruseles horizontales y Safari no recorta
-     la foto animada dentro de la tarjeta redondeada (se salía de la caja al arrastrar). */
-  @media (hover: hover) and (pointer: fine) {
-    [data-stagger] > * {
-      view-timeline: --tile;
-    }
-    [data-stagger] .stage-product {
-      animation:
-        fade-in 0.45s ease-out,
-        drift linear both;
-      animation-timeline: auto, --tile;
-    }
+    animation-range: entry 0% entry 100%;
   }
 }
 
@@ -301,9 +250,92 @@ h3 {
   animation: pop 0.3s ease-out;
 }
 
+/* Menú del botón flotante de WhatsApp: aparece desde la esquina del botón. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+.pop-in {
+  animation: pop-in 0.2s var(--ease-out-expo);
+}
+
 /* Botones pill: se hunden levemente al tocarlos. */
 :is(a, button)[class*="rounded-full"]:active:not(:disabled) {
   transform: scale(0.97);
+}
+
+/* Isla de la navbar, vidrio estilo "liquid glass": desenfoca y satura lo que pasa por detrás,
+   un brillo suave arriba, un filo de luz en el borde (::before) y una sombra para que flote.
+   Es una capa detrás del contenido de la barra (que lleva isolate): así se funde con opacity
+   cuando la barra pasa de normal a isla y vuelve (los degradés no se pueden transicionar). */
+.glass-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      120% 160% at 50% -60%,
+      light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.09)),
+      transparent 60%
+    ),
+    light-dark(rgba(255, 255, 255, 0.6), rgba(30, 30, 32, 0.55));
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.1)),
+    0 12px 32px -14px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.7));
+}
+.glass-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.26)),
+    light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.04)) 55%,
+    light-dark(rgba(0, 0, 0, 0.09), rgba(255, 255, 255, 0.1))
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Borde de scroll detrás de la isla, como en iOS: arriba el fondo de la página, que se va
+   aclarando, y un desenfoque que se desvanece con la máscara. Lo que sube se apaga y se
+   desenfoca antes de llegar al borde, en vez de asomarse cortado por arriba de la isla. */
+.scroll-edge {
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--bg) 82%, transparent) 40%,
+    transparent 100%
+  );
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
+/* Sin blur (navegadores viejos) o con transparencia reducida: casi sólida, para que se lea. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-layer {
+    background: light-dark(rgba(255, 255, 255, 0.95), rgba(30, 30, 32, 0.95));
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-layer {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* Producto del hero flotando apenas, como en una vidriera. */
@@ -378,22 +410,21 @@ h3 {
   .intro > *,
   .intro-media,
   .pop,
+  .pop-in,
   .hero-glow,
-  .hero-copy,
   .hero-stage,
   .hero-float,
   .marquee-track,
-  main h2,
-  [data-stagger] .stage-product {
+  .animate-pulse {
     animation: none;
-  }
-  .reveal-ready [data-reveal] {
-    filter: none;
   }
   :is(a, button)[class*="rounded-full"]:active {
     transform: none;
   }
-  * {
+  /* También los pseudo-elementos: el brillo de .sheen vive en ::after. */
+  *,
+  ::before,
+  ::after {
     transition-duration: 0.01ms !important;
   }
 }

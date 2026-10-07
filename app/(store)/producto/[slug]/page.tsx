@@ -18,8 +18,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { Ars } from "@/components/StoreSettings";
 import { PaymentCalculator } from "@/components/product/PaymentCalculator";
+import { OPEN_GRAPH_BASE, absoluteUrl } from "@/lib/site";
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iphone-vita.vercel.app";
 const RELATED_MAX = 4;
 
 function availability(p: Product): string {
@@ -37,14 +37,16 @@ function productJsonLd(p: Product) {
     sku: p.slug,
     description: p.description || fullName(p),
     brand: { "@type": "Brand", name: p.brand },
-    image: [p.image, ...p.gallery].filter(Boolean),
+    image: [p.image, ...p.gallery]
+      .filter((src): src is string => !!src)
+      .map((src) => absoluteUrl(src)),
     itemCondition: p.condition === "nuevo" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
     offers:
       p.price == null
         ? undefined
         : {
             "@type": "Offer",
-            url: `${SITE}/producto/${p.slug}`,
+            url: absoluteUrl(`/producto/${p.slug}`),
             priceCurrency: "USD",
             price: p.price,
             availability: availability(p),
@@ -78,13 +80,23 @@ export async function generateMetadata({
   const { slug } = await params;
   const p = await getProductBySlug(slug);
   if (!p) return {};
+  const images = p.image ? [p.image] : undefined;
   return {
     title: fullName(p),
     description: p.description || undefined,
+    alternates: { canonical: `/producto/${p.slug}` },
+    // Base común + la foto del producto: compartido por WhatsApp sale con su imagen y el nombre del sitio.
     openGraph: {
+      ...OPEN_GRAPH_BASE,
       title: fullName(p),
       description: p.description || undefined,
-      images: p.image ? [p.image] : undefined,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: fullName(p),
+      description: p.description || undefined,
+      images,
     },
   };
 }

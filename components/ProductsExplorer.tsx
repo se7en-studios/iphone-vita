@@ -137,7 +137,7 @@ export function ProductsExplorer({ products, categories, initial }: { products: 
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 md:px-8">
-      <div className="sticky top-14 z-30 -mx-4 border-b border-fg/10 bg-bg/80 px-4 py-3.5 backdrop-blur-xl md:-mx-8 md:px-8 transition-colors">
+      <div className="sticky top-[4.25rem] z-30 -mx-4 border-b border-fg/10 bg-bg/80 px-4 py-3.5 backdrop-blur-xl md:-mx-8 md:px-8 transition-colors">
         <div className="flex items-center justify-between gap-3">
           <p className="tabular whitespace-nowrap text-sm text-fg/60 font-medium">{resultsLabel}</p>
           <div className="flex items-center gap-2">

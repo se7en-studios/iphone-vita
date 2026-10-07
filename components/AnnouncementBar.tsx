@@ -29,7 +29,8 @@ export function AnnouncementBar() {
   }, [messages.length]);
 
   return (
-    <div className="relative z-50 bg-surface-2 text-center text-xs text-fg/80">
+    // Sin franja propia: sobre el fondo de la página, así la navbar en pastilla queda como única pieza.
+    <div className="relative z-50 bg-bg text-center text-xs text-fg/70">
       {/* Siempre una línea: mensajes de distinto largo cambiaban la altura y empujaban
           toda la página cada 5 s (CLS 0.38 en Lighthouse mobile). */}
       <p className="mx-auto max-w-7xl truncate px-4 py-2.5">

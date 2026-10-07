@@ -27,7 +27,7 @@ Copiar `.env.example` a `.env.local` y cargar las mismas en Vercel (Settings →
 | Variable | Para qué |
 |---|---|
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Número de la tienda sin `+` ni espacios. Hoy: `5492994386853` |
-| `NEXT_PUBLIC_SITE_URL` | URL pública, para metadata y Open Graph |
+| `NEXT_PUBLIC_SITE_URL` | URL pública, para metadata, Open Graph, sitemap y robots (`lib/site.ts`). Sin ella se usa `https://iphonevita.vercel.app`; cargarla al pasar a dominio propio |
 | `NEXT_PUBLIC_SUPABASE_URL` | Proyecto Supabase (catálogo y admin) |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública de Supabase (solo lectura por RLS) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Clave de servidor para las escrituras del admin. Nunca `NEXT_PUBLIC_` |

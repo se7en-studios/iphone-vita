@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import type { Product } from "@/types";
 import { getProducts, groupByModel, type ModelGroup } from "@/lib/products";
 import { isOutOfStock } from "@/lib/format";
@@ -18,6 +19,9 @@ import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
 
 const BEST_SELLERS_MIN = 4;
 
+/** Título, descripción e imagen salen del layout; acá solo la URL canónica (se arma con SITE_URL). */
+export const metadata: Metadata = { alternates: { canonical: "/" } };
+
 /**
  * Intro en video que se adelanta con la rueda antes del hero. null = sin intro.
  * ponytail: ruta fija a /public/videos; null apaga el intro.
@@ -26,7 +30,8 @@ const INTRO_VIDEO: { src: string; poster: string } | null = {
   src: "/videos/hero-v2.mp4",
   poster: "/videos/hero-v2-poster.jpg",
 };
-/* Barra de anuncio (~36px) + navbar (h-14): el intro llena lo que queda de pantalla. */
+/* Barra de anuncio (~36px) + navbar (h-14; arriba de todo es barra normal, la isla aparece al scrollear):
+   el intro llena lo que queda de pantalla. */
 const INTRO_HEIGHT = "calc(100dvh - 5.75rem)";
 
 /** Variante más barata con precio de un grupo (o la primera si ninguna tiene precio). */
