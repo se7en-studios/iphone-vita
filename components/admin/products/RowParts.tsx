@@ -64,6 +64,18 @@ export function ConditionBadge({ product }: { product: Product }) {
   );
 }
 
+/** Costo de compra: lo actualiza solo la sincronización con el proveedor (se edita a mano en la ficha). */
+export function CostCell({ product }: { product: Product }) {
+  const hasCost = product.cost != null && product.cost > 0;
+  return (
+    <span
+      className={`tabular-nums ${hasCost ? "" : "text-[var(--a-muted)]"}`}
+    >
+      {hasCost ? formatUSD(product.cost as number) : "—"}
+    </span>
+  );
+}
+
 export function PriceCell({
   product,
   arsRate,
