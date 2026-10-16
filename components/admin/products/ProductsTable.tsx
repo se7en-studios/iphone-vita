@@ -8,6 +8,7 @@ import { ProductThumb } from "./ProductThumb";
 import {
   ConditionBadge,
   NameBlock,
+  CostCell,
   PriceCell,
   RowActions,
   StockCell,
@@ -75,6 +76,9 @@ function DesktopRow({ product, props }: { product: Product; props: Props }) {
         <ConditionBadge product={product} />
       </td>
       <td>
+        <CostCell product={product} />
+      </td>
+      <td>
         <PriceCell
           product={product}
           arsRate={props.arsRate}
@@ -124,6 +128,10 @@ function MobileCard({ product, props }: { product: Product; props: Props }) {
             <ConditionBadge product={product} />
           </div>
           <div className="mt-2 flex flex-wrap items-start gap-x-6 gap-y-2">
+            <div>
+              <span className="block text-xs text-[var(--a-muted)]">Costo</span>
+              <CostCell product={product} />
+            </div>
             <PriceCell
               product={product}
               arsRate={props.arsRate}
@@ -152,7 +160,8 @@ function MobileCard({ product, props }: { product: Product; props: Props }) {
 const COLUMNS = [
   "Producto",
   "Condición",
-  "Precio",
+  "Costo",
+  "Precio de venta",
   "Stock",
   "Visible · Destacado",
   "",
