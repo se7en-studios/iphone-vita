@@ -41,33 +41,41 @@ export function StickyBuyBar({
   }, [shown]);
 
   const btn =
-    "flex shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-fg transition hover:brightness-110";
+    "flex h-11 shrink-0 items-center justify-center gap-2 rounded-full! bg-fg px-5 text-sm font-semibold text-surface shadow-[0_6px_18px_-10px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:bg-fg/90";
+  const out = isOutOfStock(product);
+  const consult = !out && (product.priceType === "consultar" || product.price == null);
 
   return (
     <div
       aria-hidden={!shown}
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-fg/10 bg-bg/85 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-xl transition duration-300 ease-[var(--ease-soft)] lg:hidden ${
-        shown ? "translate-y-0" : "pointer-events-none translate-y-full"
+      inert={!shown}
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-fg/[0.08] bg-surface/85 pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-8px_24px_-16px_rgba(0,0,0,0.18)] backdrop-blur-xl backdrop-saturate-150 transition duration-500 ease-[var(--ease-out-expo)] lg:hidden ${
+        shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-fg">
+          <p className="truncate text-[13px] text-fg/55">
             {product.name}
+            {summary ? ` · ${summary}` : ""}
           </p>
-          <p className="tabular truncate text-xs text-fg/55">
-            {[summary, isOutOfStock(product) ? "Sin stock" : priceLabel(product)].filter(Boolean).join(" · ")}
+          <p
+            className={`tabular truncate text-[17px] font-semibold tracking-[-0.02em] ${
+              out ? "text-fg/40" : consult ? "text-vita" : "text-fg"
+            }`}
+          >
+            {out ? "Sin stock" : priceLabel(product)}
           </p>
         </div>
         {!canBuy(product) ? (
           <a
-            href={waLink(isOutOfStock(product) ? restockMessage(product) : productMessage(product))}
+            href={waLink(out ? restockMessage(product) : productMessage(product))}
             target="_blank"
             rel="noopener noreferrer"
             tabIndex={shown ? 0 : -1}
             className={btn}
           >
-            <ChatIcon className="size-4" /> {isOutOfStock(product) ? "Avisame" : "Consultar"}
+            <ChatIcon className="size-4" /> {out ? "Avisame" : "Consultar"}
           </a>
         ) : (
           <button

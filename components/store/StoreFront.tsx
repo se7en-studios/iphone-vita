@@ -46,9 +46,9 @@ export function StoreFront({
   return (
     <>
       <header className="mx-auto flex max-w-7xl flex-col gap-6 px-4 pb-10 pt-12 md:flex-row md:items-end md:justify-between md:px-8 md:pb-14 md:pt-20">
-        <h1 className="max-w-3xl text-[34px] font-semibold md:text-[clamp(3rem,5.5vw,5rem)] leading-[1.05] tracking-[-0.03em]">
+        <h1 className="max-w-4xl text-[34px] font-bold leading-[1.04] tracking-[-0.035em] md:text-[clamp(2.75rem,4.6vw,4rem)]">
           Tienda.{" "}
-          <span className="text-fg/50">
+          <span className="text-fg/45">
             La forma más simple de comprar tu próximo equipo.
           </span>
         </h1>
@@ -56,11 +56,12 @@ export function StoreFront({
           href={waLink(GENERAL_MESSAGE)}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 text-sm leading-snug md:text-right"
+          className="group/help shrink-0 self-start rounded-2xl text-sm leading-snug md:self-auto md:pb-2 md:text-right"
         >
           <span className="block font-semibold">¿Necesitás ayuda?</span>
-          <span className="text-link hover:underline">
-            Hablá con un especialista ›
+          <span className="text-vita underline-offset-4 group-hover/help:underline">
+            Hablá con un especialista{" "}
+            <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover/help:translate-x-0.5 motion-reduce:transition-none">›</span>
           </span>
         </a>
       </header>
@@ -162,7 +163,7 @@ function CategoryNav({
         <Link
           key={href}
           href={href}
-          className="group flex w-[76px] shrink-0 snap-start flex-col items-center gap-2 text-center md:w-[112px]"
+          className="group flex w-[76px] shrink-0 snap-start flex-col items-center gap-2 rounded-2xl text-center md:w-[112px]"
         >
           <span className="relative grid h-[60px] w-full place-items-center md:h-[78px]">
             {product!.image ? (
@@ -171,7 +172,7 @@ function CategoryNav({
                 alt=""
                 fill
                 sizes="112px"
-                className="object-contain transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110"
+                className="object-contain transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               />
             ) : (
               <span className="w-9 text-fg/40 md:w-11">
@@ -182,7 +183,7 @@ function CategoryNav({
               </span>
             )}
           </span>
-          <span className="text-xs font-semibold md:text-sm">{label}</span>
+          <span className="text-xs font-medium text-fg/80 transition-colors group-hover:text-fg md:text-sm">{label}</span>
         </Link>
       ))}
     </nav>
@@ -201,8 +202,8 @@ function Shelf({
   if (Array.isArray(children) && children.length === 0) return null;
   return (
     <section className="pt-10 md:pt-14">
-      <h2 className="mx-auto max-w-7xl px-4 text-2xl font-semibold tracking-[-0.02em] md:px-8 md:text-[28px]">
-        {title} <span className="text-fg/50">{tail}</span>
+      <h2 className="mx-auto max-w-7xl px-4 text-2xl font-bold leading-tight tracking-[-0.03em] md:px-8 md:text-[28px]">
+        {title} <span className="text-fg/45">{tail}</span>
       </h2>
       <div
         data-stagger
@@ -215,7 +216,7 @@ function Shelf({
 }
 
 const CARD =
-  "shrink-0 snap-start overflow-hidden rounded-[18px] bg-surface shadow-[2px_4px_12px_rgba(0,0,0,0.08)] transition duration-500 ease-[var(--ease-out-expo)] hover:scale-[1.01] hover:shadow-[2px_4px_16px_rgba(0,0,0,0.16)]";
+  "shrink-0 snap-start overflow-hidden rounded-[22px] bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-fg/[0.08] transition duration-500 ease-[var(--ease-soft)] hover:-translate-y-1 hover:shadow-[var(--card-shadow)] hover:ring-champagne motion-reduce:transition-none motion-reduce:hover:translate-y-0";
 
 const NEUTRAL = /white|silver|black|midnight|titanium/i;
 
@@ -228,7 +229,7 @@ function HeroCard({ group }: { group: ModelGroup }) {
       className={`${CARD} group flex h-[480px] w-[82vw] max-w-[400px] flex-col md:h-[500px]`}
     >
       <div className="p-7 pb-0">
-        <p className="text-xs font-semibold uppercase tracking-wide text-[#bf4800]">
+        <p className="text-xs font-semibold uppercase tracking-[0.06em] text-vita">
           {p.stockLevel === "bajo" ? "Últimas unidades" : "Nuevo"}
         </p>
         <h3 className="mt-2 text-[26px] font-semibold leading-tight tracking-[-0.02em]">
@@ -270,7 +271,7 @@ function ProductTile({
       />
       <div className="flex flex-1 flex-col p-5 pt-2">
         {eyebrow && (
-          <p className="text-xs font-semibold text-[#bf4800]">{eyebrow}</p>
+          <p className="text-xs font-semibold text-vita">{eyebrow}</p>
         )}
         <h3 className="mt-1 text-[17px] font-semibold leading-snug">
           {p.name}
@@ -299,7 +300,7 @@ function InfoCard({
 }) {
   const inner = (
     <>
-      <span className="text-accent">{icon}</span>
+      <span className="grid size-12 place-items-center rounded-full bg-vita-soft text-vita">{icon}</span>
       <h3 className="mt-5 text-xl font-semibold leading-snug tracking-[-0.01em]">
         {title}
       </h3>

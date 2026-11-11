@@ -10,9 +10,15 @@ export function CartNotice() {
   return (
     <div
       role="status"
-      className="flex items-start gap-3 rounded-2xl bg-amber-400/10 p-3.5 text-xs leading-relaxed text-fg ring-1 ring-amber-500/30"
+      className="flex items-start gap-3 rounded-2xl bg-vita-soft p-4 text-[13px] leading-relaxed text-fg ring-1 ring-vita/20"
     >
-      <p className="flex-1">{notice}</p>
+      <span
+        aria-hidden="true"
+        className="mt-px grid size-5 shrink-0 place-items-center rounded-full bg-vita text-[11px] font-bold text-surface"
+      >
+        !
+      </span>
+      <p className="flex-1 text-fg/80">{notice}</p>
       <button
         type="button"
         onClick={dismissNotice}
