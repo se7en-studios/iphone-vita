@@ -65,7 +65,7 @@ export function CartEmpty({
         <Link
           href="/encontra-tu-iphone"
           onClick={onNavigate}
-          className="rounded-full px-3 py-1.5 text-sm font-medium text-link transition hover:underline hover:underline-offset-4"
+          className="rounded-full px-3 py-1.5 text-sm font-medium text-vita transition hover:underline hover:underline-offset-4"
         >
           ¿No sabés cuál elegir? Hacé el test
         </Link>
@@ -201,7 +201,7 @@ export function CartPageView() {
               </ul>
               <Link
                 href="/productos"
-                className="flex items-center justify-center gap-1.5 text-sm font-medium text-link transition hover:underline hover:underline-offset-4"
+                className="flex items-center justify-center gap-1.5 text-sm font-medium text-vita transition hover:underline hover:underline-offset-4"
               >
                 Seguir comprando <ArrowIcon className="size-3.5" />
               </Link>

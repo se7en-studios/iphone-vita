@@ -116,7 +116,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                 <button
                   type="button"
                   onClick={() => setStep(step - 1)}
-                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[13px] font-medium text-link transition hover:underline hover:underline-offset-4"
+                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[13px] font-medium text-vita transition hover:underline hover:underline-offset-4"
                 >
                   <ArrowIcon className="size-3.5 rotate-180" /> Anterior
                 </button>
@@ -220,7 +220,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
               <button
                 type="button"
                 onClick={reset}
-                className="rounded-full px-2 py-1 text-sm font-medium text-link transition hover:underline hover:underline-offset-4"
+                className="rounded-full px-2 py-1 text-sm font-medium text-vita transition hover:underline hover:underline-offset-4"
               >
                 Empezar de nuevo
               </button>
@@ -252,7 +252,7 @@ export function IphoneFinder({ products }: { products: Product[] }) {
                 </p>
                 <Link
                   href="/productos?categoria=iphone"
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-link hover:underline hover:underline-offset-4"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-vita hover:underline hover:underline-offset-4"
                 >
                   Ver todos los iPhone <ArrowIcon className="size-3.5" />
                 </Link>

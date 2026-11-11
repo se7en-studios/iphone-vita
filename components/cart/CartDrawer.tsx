@@ -76,8 +76,10 @@ export function CartDrawer() {
         aria-modal="true"
         aria-labelledby="cart-drawer-title"
         tabIndex={-1}
-        className={`absolute inset-y-0 right-0 flex w-full max-w-[440px] flex-col outline-none bg-surface text-fg shadow-[-24px_0_60px_-30px_rgba(0,0,0,0.35)] ring-1 ring-fg/[0.06] transition-transform duration-[600ms] ease-[var(--ease-sheet)] motion-reduce:transition-none sm:inset-y-2 sm:right-2 sm:rounded-[28px] ${
-          open ? "translate-x-0" : "translate-x-[calc(100%+1rem)]"
+        className={`absolute inset-y-0 right-0 flex w-full max-w-[440px] flex-col outline-none bg-surface text-fg ring-1 ring-fg/[0.06] transition-transform duration-[600ms] ease-[var(--ease-sheet)] motion-reduce:transition-none sm:inset-y-2 sm:right-2 sm:rounded-[28px] ${
+          open
+            ? "translate-x-0 shadow-[-24px_0_60px_-30px_rgba(0,0,0,0.35)]"
+            : "translate-x-[calc(100%+1rem)]"
         }`}
       >
         <header className="flex items-center justify-between px-6 pb-4 pt-6">
@@ -137,7 +139,7 @@ export function CartDrawer() {
               <Link
                 href="/carrito"
                 onClick={close}
-                className="inline-flex items-center gap-1 rounded-full px-1 py-1 font-medium text-link transition hover:underline hover:underline-offset-4"
+                className="inline-flex items-center gap-1 rounded-full px-1 py-1 font-medium text-vita transition hover:underline hover:underline-offset-4"
               >
                 Ver carrito <ArrowIcon className="size-3.5" />
               </Link>

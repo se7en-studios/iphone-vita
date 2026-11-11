@@ -49,7 +49,7 @@ export default function NotFound() {
               <li key={s.href}>
                 <Link
                   href={s.href}
-                  className="inline-flex items-center gap-1 text-[15px] font-medium text-link hover:underline hover:underline-offset-4"
+                  className="inline-flex items-center gap-1 text-[15px] font-medium text-vita hover:underline hover:underline-offset-4"
                 >
                   {s.label} <ArrowIcon className="size-3.5" />
                 </Link>

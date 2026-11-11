@@ -104,7 +104,7 @@ export function CartLines({ size = "sm" }: { size?: "sm" | "lg" }) {
                   type="button"
                   onClick={() => remove(p.slug)}
                   aria-label={`Quitar ${p.name} del carrito`}
-                  className="rounded-full px-2 py-1.5 text-[13px] font-medium text-link transition-colors hover:text-fg hover:underline hover:underline-offset-4"
+                  className="rounded-full px-2 py-1.5 text-[13px] font-medium text-vita transition-colors hover:text-fg hover:underline hover:underline-offset-4"
                 >
                   Quitar
                 </button>

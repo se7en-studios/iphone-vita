@@ -319,7 +319,7 @@ export function SearchDialog({ products, open, onClose }: { products: Product[];
                   <Link
                     href="/productos"
                     onClick={onClose}
-                    className="inline-flex items-center gap-1 text-[13px] font-medium text-link hover:underline"
+                    className="inline-flex items-center gap-1 text-[13px] font-medium text-vita hover:underline"
                   >
                     Ver todo el catálogo
                     <ChevronIcon className="size-3.5" />
