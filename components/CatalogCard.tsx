@@ -25,7 +25,7 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
   return (
     <Link
       href={`/producto/${active.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[20px] bg-surface text-fg ring-1 ring-fg/10 transition duration-500 hover:-translate-y-1 hover:ring-accent/40 hover:shadow-[var(--card-shadow)] md:rounded-[28px]"
+      className="group flex h-full flex-col overflow-hidden rounded-[20px] bg-surface text-fg shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-fg/[0.08] transition duration-500 ease-[var(--ease-soft)] hover:-translate-y-1 hover:shadow-[var(--card-shadow)] hover:ring-champagne md:rounded-[28px]"
     >
       <div className="relative">
         <CardTag product={active} />
@@ -40,10 +40,10 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
           {active.brand !== "Apple" && (
             <p className="text-xs text-fg/50">{active.brand}</p>
           )}
-          <h3 className="text-[14px] font-bold leading-snug transition group-hover:text-highlight md:text-base">
+          <h3 className="text-[15px] font-semibold leading-snug tracking-[-0.01em] md:text-[17px]">
             {active.name}
           </h3>
-          <p className="mt-0.5 text-xs text-fg/60">
+          <p className="mt-1 text-xs text-fg/55 md:text-[13px]">
             {[
               active.size,
               active.storage,
@@ -62,9 +62,9 @@ export function CatalogCard({ variants }: { variants: Product[] }) {
             dark
           />
         )}
-        <div className="mt-auto flex flex-col gap-1 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-2 md:border-t md:border-fg/10 md:pt-3">
+        <div className="mt-auto flex flex-col gap-1 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-2 md:border-t md:border-fg/[0.08] md:pt-3.5">
           <StockNote product={active} dark />
-          <span className="tabular whitespace-nowrap text-[15px] font-bold text-highlight md:text-right">
+          <span className="tabular whitespace-nowrap text-[15px] font-semibold text-fg md:text-right md:text-base">
             {min != null && varies ? `Desde ${formatUSD(min)}` : priceLabel(active)}
             {shownPrice != null && (
               <span className="block text-[11px] font-normal text-fg/50">

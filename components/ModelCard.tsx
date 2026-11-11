@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import type { ModelGroup } from "@/lib/catalog";
 import { uniqueColors } from "@/lib/catalog";
-import { formatUSD, stockLabel } from "@/lib/format";
+import { formatUSD } from "@/lib/format";
 import { ProductVisual } from "./ProductVisual";
+import { StockNote } from "./ui/Badges";
 import { ColorDots } from "./ui/ColorDots";
 import { ArrowIcon } from "./ui/Icons";
 
@@ -23,18 +24,13 @@ export function ModelCard({
 }) {
   const colors = uniqueColors(group.variants);
   const [active, setActive] = useState(colors[0]);
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
 
+  // Brillo que sigue al cursor: variables CSS en el propio link, sin re-render por cada movimiento.
   function handleMouseMove(e: React.MouseEvent<HTMLAnchorElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }
-
-  function handleMouseLeave() {
-    setMousePos(null);
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
   }
 
   const specs = [
@@ -48,20 +44,20 @@ export function ModelCard({
   return (
     <Link
       href={`/producto/${active.slug}`}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[28px] transition-all duration-500 hover:-translate-y-1.5 ${
+      onMouseMove={dark ? handleMouseMove : undefined}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[28px] transition duration-500 ease-[var(--ease-soft)] hover:-translate-y-1 ${
         dark
-          ? "bg-surface text-fg ring-1 ring-fg/10 hover:ring-champagne/40 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.7),0_0_30px_rgba(235,215,190,0.12)]"
+          ? "bg-surface text-fg shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-fg/[0.08] hover:shadow-[var(--card-shadow)] hover:ring-champagne"
           : "bg-mist"
       }`}
     >
-      {/* Spotlight cursor glow */}
-      {dark && mousePos && (
+      {/* Brillo champagne muy suave bajo el cursor */}
+      {dark && (
         <div
-          className="pointer-events-none absolute -inset-px rounded-[28px] opacity-100 transition-opacity duration-300 z-10"
+          className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{
-            background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(235, 215, 190, 0.14), transparent 70%)`,
+            background:
+              "radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), color-mix(in srgb, var(--color-champagne) 22%, transparent), transparent 70%)",
           }}
           aria-hidden="true"
         />
@@ -75,48 +71,73 @@ export function ModelCard({
               ? "aspect-[4/5] md:aspect-[5/6]"
               : "aspect-[4/5]"
         }
-        sizes="(max-width: 768px) 100vw, 40vw"
+        sizes="(max-width: 640px) 78vw, (max-width: 1024px) 45vw, 25vw"
       />
       <div
-        className={`flex flex-col gap-4 p-6 md:p-7 ${stretch ? "" : "flex-1"}`}
+        className={`flex flex-col gap-4 px-5 pb-5 pt-4 md:px-6 md:pb-6 ${stretch ? "" : "flex-1"}`}
       >
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h3 className="text-xl font-bold text-fg md:text-[22px] group-hover:text-highlight transition">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="text-[19px] font-semibold leading-tight tracking-[-0.015em] text-fg md:text-xl">
               {group.name}
             </h3>
-            <p
-              className={`mt-1 text-sm ${dark ? "text-fg/60" : "text-muted"}`}
-            >
-              {specs.join(" / ")}
-            </p>
+            {specs.length > 0 && (
+              <p
+                className={`tabular mt-1 text-[13px] ${dark ? "text-fg/55" : "text-muted"}`}
+              >
+                {specs.join(" / ")}
+              </p>
+            )}
           </div>
           <span
-            className={`grid size-10 shrink-0 place-items-center rounded-full transition group-hover:translate-x-1 group-hover:bg-accent group-hover:text-accent-fg ${dark ? "bg-fg/10 text-fg" : "bg-fg"}`}
+            className={`grid size-9 shrink-0 place-items-center rounded-full transition duration-300 group-hover:translate-x-0.5 group-hover:bg-fg group-hover:text-bg ${dark ? "bg-fg/[0.06] text-fg" : "bg-fg text-bg"}`}
+            aria-hidden="true"
           >
             <ArrowIcon />
           </span>
         </div>
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-col gap-2">
-            {colors.length > 1 && (
-              <ColorDots
-                variants={colors}
-                activeSlug={active.slug}
-                onSelect={setActive}
-                dark={dark}
-              />
-            )}
-            <p className={`text-xs ${dark ? "text-fg/50" : "text-muted"}`}>
-              {[active.color, stockLabel(active)].filter(Boolean).join(" · ")}
-            </p>
-          </div>
-          {group.fromPrice != null && (
-            <p className="tabular text-right text-base text-fg">
-              <span className="text-fg/50">Desde </span>
-              {formatUSD(group.fromPrice)}
-            </p>
+
+        {/* Color: puntos (si hay más de uno) y el nombre del color activo en la misma línea */}
+        <div className="flex min-h-5 items-center gap-3">
+          {colors.length > 1 ? (
+            <ColorDots
+              variants={colors}
+              activeSlug={active.slug}
+              onSelect={setActive}
+              dark={dark}
+            />
+          ) : (
+            active.colorHex && (
+              <ColorDots variants={colors} activeSlug={active.slug} dark={dark} />
+            )
           )}
+          {active.color && (
+            <span
+              className={`truncate text-[13px] ${dark ? "text-fg/60" : "text-muted"}`}
+            >
+              {active.color}
+            </span>
+          )}
+        </div>
+
+        <div
+          className={`mt-auto flex items-end justify-between gap-3 border-t pt-4 ${dark ? "border-fg/[0.08]" : "border-black/5"}`}
+        >
+          {group.fromPrice != null ? (
+            <p className="tabular leading-tight">
+              <span
+                className={`block text-[11px] font-medium uppercase tracking-[0.08em] ${dark ? "text-fg/45" : "text-muted"}`}
+              >
+                Desde
+              </span>
+              <span className="text-lg font-semibold tracking-[-0.01em] text-fg">
+                {formatUSD(group.fromPrice)}
+              </span>
+            </p>
+          ) : (
+            <span />
+          )}
+          <StockNote product={active} dark={dark} />
         </div>
       </div>
     </Link>

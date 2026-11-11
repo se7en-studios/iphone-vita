@@ -22,17 +22,16 @@ export function ColorDots({
   const hit = size === "sm" ? "h-11 w-7" : "size-11";
   return (
     <div
-      className={`flex flex-wrap items-center ${onSelect ? (size === "sm" ? "-mx-2 -my-3.5" : "-m-2") : "gap-2"}`}
+      className={`flex flex-wrap items-center ${onSelect ? (size === "sm" ? "-mx-1.5 -my-3.5" : "-m-2") : "gap-2"}`}
       role={onSelect ? "radiogroup" : undefined}
       aria-label="Colores"
     >
       {variants.map((v) => {
-        const active = v.slug === activeSlug;
-        const cls = `${d} rounded-full border transition ${dark ? "border-fg/20" : "border-black/10"} ${
+        const active = onSelect != null && v.slug === activeSlug;
+        // Borde interno sutil para que los colores claros (blanco, plata) no se pierdan sobre la card.
+        const cls = `${d} rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.35)] transition duration-200 ${
           active
-            ? dark
-              ? "ring-2 ring-fg ring-offset-2 ring-offset-surface"
-              : "ring-2 ring-ink ring-offset-2"
+            ? `ring-[1.5px] ring-offset-2 ${dark ? "ring-fg/80 ring-offset-surface" : "ring-ink ring-offset-white"}`
             : ""
         }`;
         return onSelect ? (
@@ -48,7 +47,7 @@ export function ColorDots({
               e.stopPropagation();
               onSelect(v);
             }}
-            className={`group/dot grid ${hit} shrink-0 cursor-pointer place-items-center`}
+            className={`group/dot grid ${hit} shrink-0 cursor-pointer place-items-center rounded-full`}
           >
             <span
               className={`${cls} group-hover/dot:scale-110`}

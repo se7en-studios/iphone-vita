@@ -3,6 +3,7 @@ import type { Product } from "@/types";
 import { priceLabel } from "@/lib/format";
 import { Ars } from "../StoreSettings";
 import { ProductVisual } from "../ProductVisual";
+import { ArrowIcon } from "../ui/Icons";
 import { SectionHead } from "../ui/SectionHead";
 
 const MAX_ITEMS = 8;
@@ -54,50 +55,72 @@ function SemiCard({ product: p }: { product: Product }) {
   return (
     <Link
       href={`/producto/${p.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[20px] bg-surface ring-1 ring-fg/10 transition duration-500 hover:-translate-y-1 hover:ring-accent/40"
+      className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-fg/[0.08] transition duration-500 ease-[var(--ease-soft)] hover:-translate-y-1 hover:shadow-[var(--card-shadow)] hover:ring-champagne"
     >
       <ProductVisual
         product={p}
         className="aspect-square"
-        sizes="(max-width: 640px) 62vw, 25vw"
+        sizes="(max-width: 640px) 62vw, (max-width: 1024px) 33vw, 25vw"
       />
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <div>
-          <h3 className="text-base font-semibold leading-snug">{p.name}</h3>
-          <p className="mt-0.5 text-xs text-fg/55">
+      <div className="flex flex-1 flex-col gap-4 px-4 pb-4 pt-3.5 md:px-5 md:pb-5">
+        <div className="min-w-0">
+          <h3 className="text-[17px] font-semibold leading-tight tracking-[-0.01em]">
+            {p.name}
+          </h3>
+          <p className="mt-1 truncate text-[13px] text-fg/55">
             {[p.storage, p.color].filter(Boolean).join(" · ")}
           </p>
         </div>
         {p.batteryHealth != null && <Battery value={p.batteryHealth} />}
-        <p className="tabular mt-auto border-t border-fg/10 pt-3 text-[15px] font-semibold text-vita">
-          {priceLabel(p)}
-          {p.price != null && (
-            <span className="ml-1.5 text-xs font-normal text-fg/50">
-              ≈ <Ars usd={p.price} />
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-fg/[0.08] pt-3.5">
+          {p.priceType === "consultar" || p.price == null ? (
+            <span className="text-sm font-semibold text-vita">
+              {priceLabel(p)}
             </span>
+          ) : (
+            <p className="tabular leading-tight">
+              <span className="block text-base font-semibold text-fg">
+                {priceLabel(p)}
+              </span>
+              <span className="text-xs text-fg/50">
+                ≈ <Ars usd={p.price} />
+              </span>
+            </p>
           )}
-        </p>
+          <span
+            className="grid size-8 shrink-0 place-items-center rounded-full bg-fg/[0.06] text-fg transition duration-300 group-hover:translate-x-0.5 group-hover:bg-fg group-hover:text-bg"
+            aria-hidden="true"
+          >
+            <ArrowIcon className="size-3.5" />
+          </span>
+        </div>
       </div>
     </Link>
   );
 }
 
+/** Salud de batería: etiqueta y % arriba, barra fina abajo. Verde desde 80% (umbral de Apple), ámbar por debajo. */
 function Battery({ value }: { value: number }) {
+  const pct = Math.max(0, Math.min(100, value));
   return (
-    <div className="flex items-center gap-2 text-xs text-fg/70">
-      <span
-        className="relative h-2.5 w-6 rounded-[3px] ring-1 ring-fg/40"
-        aria-hidden="true"
+    <div>
+      <div className="flex items-baseline justify-between text-[13px]">
+        <span className="text-fg/60">Batería</span>
+        <span className="tabular font-semibold text-fg">{pct}%</span>
+      </div>
+      <div
+        className="mt-1.5 h-1 overflow-hidden rounded-full bg-fg/[0.08]"
+        role="meter"
+        aria-label="Salud de batería"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={pct}
       >
-        <span
-          className="absolute inset-y-0.5 left-0.5 rounded-[1px] bg-[#34c759]"
-          style={{ width: `calc(${value}% - 4px)` }}
+        <div
+          className={`h-full rounded-full ${pct >= 80 ? "bg-[#34c759]" : "bg-amber-400"}`}
+          style={{ width: `${pct}%` }}
         />
-      </span>
-      <span>
-        Batería{" "}
-        <span className="tabular font-semibold text-fg">{value}%</span>
-      </span>
+      </div>
     </div>
   );
 }
