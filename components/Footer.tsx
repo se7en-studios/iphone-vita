@@ -69,9 +69,10 @@ const cols: { title: string; links: FooterLink[] }[] = [
 type FooterLink = { label: string; href: string; external?: boolean };
 
 function FooterLinks({ links }: { links: FooterLink[] }) {
-  const cls = "block py-2.5 transition hover:text-fg hover:underline md:py-0";
+  const cls =
+    "block py-2.5 transition-colors duration-200 hover:text-white md:inline-block md:py-0";
   return (
-    <ul className="pb-3 text-sm text-fg/60 md:space-y-2 md:pb-0 md:text-xs">
+    <ul className="pb-3 text-sm text-white/55 md:space-y-2.5 md:pb-0 md:text-[13px]">
       {links.map((l) => (
         <li key={l.label}>
           {l.external ? (
@@ -165,24 +166,30 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[980px] px-4 pb-12 pt-16 md:px-8">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+      <div className="mx-auto max-w-[1080px] px-4 pb-10 pt-14 md:px-8 md:pb-12 md:pt-20">
+        <div className="grid gap-10 md:grid-cols-[1.5fr_repeat(4,1fr)] md:gap-8">
           <div className="space-y-4">
             <Wordmark dark className="text-2xl" />
-            <p className="max-w-xs text-xs leading-relaxed text-white/55">
+            <p className="max-w-[30ch] text-[13px] leading-relaxed text-white/55">
               Apple, accesorios y tecnología premium. Equipos sellados en caja y
               semi nuevos rigurosamente testeados.
             </p>
-            <p className="tabular font-mono text-xs text-champagne font-bold">
+            <a
+              href={waLink("Hola iPhone Vita!")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tabular inline-flex items-center gap-2 text-[13px] font-medium text-champagne transition-colors hover:text-champagne-light"
+            >
+              <ChatIcon className="size-4" />
               {pretty(WHATSAPP_NUMBER)}
-            </p>
+            </a>
           </div>
-          <div className="-mt-4 divide-y divide-white/10 border-y border-white/10 md:hidden">
+          <div className="divide-y divide-white/10 border-y border-white/10 md:hidden">
             {cols.map((c) => (
               <details key={c.title} className="group">
                 <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-sm font-semibold text-white/90 [&::-webkit-details-marker]:hidden">
                   {c.title}
-                  <ChevronIcon className="size-4 rotate-90 text-white/50 transition group-open:-rotate-90" />
+                  <ChevronIcon className="size-4 rotate-90 text-white/50 transition group-open:-rotate-90 motion-reduce:transition-none" />
                 </summary>
                 <FooterLinks links={c.links} />
               </details>
@@ -190,36 +197,42 @@ export function Footer() {
           </div>
           {cols.map((c) => (
             <div key={c.title} className="hidden md:block">
-              <p className="mb-3 text-xs font-bold text-white tracking-wider uppercase">
+              <p className="mb-4 text-[13px] font-semibold text-white">
                 {c.title}
               </p>
               <FooterLinks links={c.links} />
             </div>
           ))}
         </div>
-        <div className="mt-10 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 md:mt-16 text-xs text-white/55 sm:flex-row">
-          <p>
-            © {new Date().getFullYear()} iPhone Vita. Precios de referencia en
-            USD · Se aceptan Pesos (Dólar Blue del día), USDT y transferencias.
-          </p>
-          <p className="text-champagne/80 font-medium">
-            Funda y templado de regalo con tu iPhone nuevo.
-          </p>
-        </div>
-        <div className="mt-6 flex justify-center">
+        <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/50 md:mt-16 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1">
+            <p>
+              © {new Date().getFullYear()} iPhone Vita. Precios de referencia en
+              USD · Se aceptan Pesos (Dólar Blue del día), USDT y transferencias.
+            </p>
+            <p className="font-medium text-champagne/80">
+              Funda y templado de regalo con tu iPhone nuevo.
+            </p>
+          </div>
+          {/* La imagen era lazy y al fondo de la página a veces no llegaba a pedirse: el chip
+              quedaba vacío. Es un PNG de 6 KB, se carga directo. */}
           <a
             href="https://se7endev.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 transition hover:border-champagne/40 hover:bg-white/[0.08]"
+            className="group inline-flex shrink-0 items-center gap-2.5 self-start rounded-full border border-white/10 px-3.5 py-1.5 transition-colors hover:border-white/25 hover:bg-white/[0.04] md:self-auto"
           >
-            <span className="text-xs text-white/50">Creado por</span>
+            <span className="text-white/45 transition-colors group-hover:text-white/70">
+              Creado por
+            </span>
             <Image
               src="/se7en-logo.png"
               alt="Se7en"
               width={64}
               height={18}
-              className="h-4 w-auto object-contain opacity-90 transition-opacity group-hover:opacity-100"
+              loading="eager"
+              unoptimized
+              className="h-4 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100"
             />
           </a>
         </div>

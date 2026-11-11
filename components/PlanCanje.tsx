@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { waLink } from "@/lib/whatsapp";
 import { formatUSD } from "@/lib/format";
-import { ChatIcon } from "./ui/Icons";
+import { ChatIcon, CheckIcon, ChevronIcon } from "./ui/Icons";
 import { Ars } from "./StoreSettings";
 
 interface CurrentPhone {
@@ -56,32 +56,19 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
   return (
     <section
       id="plan-canje"
-      className="scroll-mt-28 border-t border-fg/10 bg-bg py-16 text-fg md:py-36 relative overflow-hidden"
+      className="relative scroll-mt-28 border-t border-fg/10 bg-bg py-20 text-fg md:py-32"
     >
-      {/* Background ambient light */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/3 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-10 blur-[140px]"
-        style={{
-          background: "radial-gradient(circle, #ebd7be 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
-
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
-        <div
-          data-reveal
-          className="mx-auto max-w-[980px] space-y-4 text-center"
-        >
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-vita/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-vita ring-1 ring-vita/30">
+        <div data-reveal className="mx-auto max-w-[980px] text-center">
+          <p className="text-[15px] font-semibold tracking-[-0.005em] text-vita md:text-[17px]">
             Plan Canje
-          </span>
-          <h2 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-            Entregá tu iPhone usado. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-vita via-fg to-vita">
-              Llevate el último modelo.
-            </span>
+          </p>
+          <h2 className="mt-2 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.04] tracking-[-0.035em]">
+            Entregá tu iPhone usado.{" "}
+            <br className="hidden sm:block" />
+            <span className="text-fg/40">Llevate el último modelo.</span>
           </h2>
-          <p className="mx-auto max-w-[55ch] text-base text-fg/60 md:text-lg">
+          <p className="mx-auto mt-5 max-w-[52ch] text-[17px] leading-relaxed text-fg/60 md:text-lg">
             Tomamos tu equipo actual en parte de pago con cotización inmediata al mejor valor de mercado.
           </p>
         </div>
@@ -89,27 +76,19 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
         {/* Card interactiva */}
         <div
           data-reveal
-          className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-[32px] bg-surface p-6 ring-1 ring-fg/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] md:p-10"
+          className="mx-auto mt-12 max-w-[1040px] rounded-[28px] bg-surface p-2 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_24px_48px_-28px_rgba(0,0,0,0.18)] ring-1 ring-fg/[0.06] md:mt-16 md:rounded-[36px] md:p-3"
         >
-          <div className="grid gap-8 md:grid-cols-2 md:gap-12">
-            {/* Columna Izquierda: Lo que entregás */}
-            <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between border-b border-fg/10 pb-3">
-                <span className="text-xs text-vita font-semibold tracking-wide uppercase">
-                  Paso 1 · Tu equipo actual
-                </span>
-                <span className="text-xs text-fg/40">Cotización estimada</span>
-              </div>
+          <div className="grid md:grid-cols-2">
+            {/* Paso 1: lo que entregás */}
+            <div className="flex flex-col gap-6 p-4 pb-8 md:p-8">
+              <StepHead n={1} title="Tu equipo actual" meta="Cotización estimada" />
 
-              <div className="space-y-2">
-                <label htmlFor="canje-actual" className="text-sm font-medium text-fg/80">
-                  Modelo que tenés:
-                </label>
+              <Field label="Modelo que tenés" htmlFor="canje-actual">
                 <select
                   id="canje-actual"
                   value={currentIdx}
                   onChange={(e) => setCurrentIdx(Number(e.target.value))}
-                  className="w-full rounded-2xl border border-fg/15 bg-bg/50 px-4 py-3.5 text-sm text-fg focus:border-vita focus:ring-1 focus:ring-vita/40 focus:outline-none transition"
+                  className={SELECT}
                 >
                   {CURRENT_MODELS.map((item, idx) => (
                     <option key={item.model} value={idx}>
@@ -117,119 +96,98 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                     </option>
                   ))}
                 </select>
-              </div>
+              </Field>
 
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-fg/80">
-                  Estado de batería y detalles:
+              <div className="space-y-2.5">
+                <p id="canje-estado" className="text-[13px] font-semibold text-fg/70">
+                  Estado de batería y detalles
                 </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
+                <div role="group" aria-labelledby="canje-estado" className="grid grid-cols-2 gap-2.5">
+                  <ConditionButton
+                    active={batteryState === "alta"}
                     onClick={() => setBatteryState("alta")}
-                    aria-pressed={batteryState === "alta"}
-                    className={`rounded-2xl border p-3.5 text-xs text-left transition duration-300 ${
-                      batteryState === "alta"
-                        ? "border-vita bg-vita/15 text-vita shadow-[0_0_20px_rgba(235,215,190,0.15)]"
-                        : "border-fg/10 bg-fg/[0.02] text-fg/60 hover:bg-fg/[0.05]"
-                    }`}
-                  >
-                    <span className="block font-semibold">
-                      Excelente
-                    </span>
-                    <span className="mt-0.5 block text-[11px] opacity-75">
-                      Batería 85%+, sin marcas
-                    </span>
-                  </button>
-                  <button
-                    type="button"
+                    title="Excelente"
+                    detail="Batería 85%+, sin marcas"
+                  />
+                  <ConditionButton
+                    active={batteryState === "media"}
                     onClick={() => setBatteryState("media")}
-                    aria-pressed={batteryState === "media"}
-                    className={`rounded-2xl border p-3.5 text-xs text-left transition duration-300 ${
-                      batteryState === "media"
-                        ? "border-vita bg-vita/15 text-vita shadow-[0_0_20px_rgba(235,215,190,0.15)]"
-                        : "border-fg/10 bg-fg/[0.02] text-fg/60 hover:bg-fg/[0.05]"
-                    }`}
-                  >
-                    <span className="block font-semibold">
-                      Uso normal
-                    </span>
-                    <span className="mt-0.5 block text-[11px] opacity-75">
-                      Batería &lt;85% o detalles leves
-                    </span>
-                  </button>
+                    title="Uso normal"
+                    detail="Batería <85% o detalles leves"
+                  />
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-fg/10 bg-fg/[0.03] p-5 text-center">
-                <span className="block text-xs font-medium text-fg/50">
-                  Tomamos tu equipo aproximadamente en:
+              <div className="mt-auto rounded-[20px] bg-bg p-5 md:p-6">
+                <span className="block text-[13px] font-semibold text-fg/55">
+                  Tomamos tu equipo aproximadamente en
                 </span>
-                <span className="mt-1 text-2xl font-bold tracking-tight text-vita">
-                  ~ {formatUSD(estimatedTradeIn)}
+                <span
+                  aria-live="polite"
+                  className="tabular mt-1 block text-[2rem] font-bold leading-tight tracking-[-0.03em] text-fg md:text-[2.5rem]"
+                >
+                  <span className="text-fg/35">~</span> {formatUSD(estimatedTradeIn)}
                 </span>
-                <span className="mt-2 block text-[11px] leading-relaxed text-fg/40">
+                <span className="mt-3 block border-t border-fg/[0.08] pt-3 text-xs leading-relaxed text-fg/50">
                   Valor orientativo. Lo confirmamos al revisar el equipo.
                 </span>
               </div>
             </div>
 
-            {/* Columna Derecha: Lo que te llevás */}
-            <div className="flex flex-col justify-between space-y-6">
-              <div>
-                <div className="flex items-center justify-between border-b border-fg/10 pb-3">
-                  <span className="text-xs text-vita font-semibold tracking-wide uppercase">
-                    Paso 2 · Tu nuevo iPhone
-                  </span>
-                  <span className="text-xs text-fg/40">
-                    Sellado · Garantía Oficial
-                  </span>
-                </div>
+            {/* Paso 2: lo que te llevás */}
+            <div className="flex flex-col gap-6 rounded-[22px] bg-bg/60 p-4 pt-6 ring-1 ring-fg/[0.04] md:rounded-[28px] md:p-8">
+              <StepHead n={2} title="Tu nuevo iPhone" meta="Sellado · Garantía Oficial" />
 
-                <div className="mt-6 space-y-2">
-                  <label htmlFor="canje-nuevo" className="text-sm font-medium text-fg/80">
-                    Modelo que querés llevarte:
-                  </label>
-                  <select
-                    id="canje-nuevo"
-                    value={targetIdx}
-                    onChange={(e) => setTargetIdx(Number(e.target.value))}
-                    className="w-full rounded-2xl border border-fg/15 bg-bg/50 px-4 py-3.5 text-sm text-fg focus:border-vita focus:ring-1 focus:ring-vita/40 focus:outline-none transition"
-                  >
-                    {targets.map((item, idx) => (
-                      <option key={item.model} value={idx}>
-                        {item.model} — {formatUSD(item.price)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <Field label="Modelo que querés llevarte" htmlFor="canje-nuevo">
+                <select
+                  id="canje-nuevo"
+                  value={targetIdx}
+                  onChange={(e) => setTargetIdx(Number(e.target.value))}
+                  className={`${SELECT} bg-surface`}
+                >
+                  {targets.map((item, idx) => (
+                    <option key={item.model} value={idx}>
+                      {item.model} — {formatUSD(item.price)}
+                    </option>
+                  ))}
+                </select>
+              </Field>
 
-                {/* Progress bar coverage */}
-                <div className="mt-5 space-y-2 rounded-2xl bg-fg/[0.02] p-3.5 ring-1 ring-fg/5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-fg/60">Cobertura del Plan Canje:</span>
-                    <span className="font-semibold text-vita">{coveragePercent}% cubierto</span>
-                  </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-fg/10">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-champagne/70 to-champagne transition-all duration-500"
-                      style={{ width: `${coveragePercent}%` }}
-                    />
-                  </div>
+              {/* Cobertura del canje */}
+              <div className="space-y-2.5">
+                <div className="flex items-baseline justify-between text-[13px]">
+                  <span id="canje-cobertura" className="font-semibold text-fg/70">
+                    Cobertura del Plan Canje
+                  </span>
+                  <span className="tabular font-semibold text-vita">{coveragePercent}% cubierto</span>
+                </div>
+                <div
+                  role="progressbar"
+                  aria-labelledby="canje-cobertura"
+                  aria-valuenow={coveragePercent}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  className="h-1.5 w-full overflow-hidden rounded-full bg-fg/[0.08]"
+                >
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-champagne to-vita transition-[width] duration-700 ease-[var(--ease-out-expo)] motion-reduce:transition-none"
+                    style={{ width: `${coveragePercent}%` }}
+                  />
                 </div>
               </div>
 
               {/* Resultado del cálculo */}
-              <div className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-fg/[0.07] to-fg/[0.02] p-6 text-center ring-1 ring-vita/30 shadow-[0_0_30px_rgba(235,215,190,0.06)]">
-                <span className="block text-xs font-medium uppercase tracking-wider text-fg/60">
+              <div className="mt-auto rounded-[20px] bg-surface px-4 py-6 text-center shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-fg/[0.06] md:p-7">
+                <span className="block text-[13px] font-semibold text-fg/55">
                   Diferencia estimada a pagar
                 </span>
-                <div className="mt-1 flex items-baseline justify-center gap-2">
-                  <span className="text-4xl font-bold tracking-tight text-vita md:text-5xl">
-                    {formatUSD(difference)}
-                  </span>
-                </div>
-                <span className="mt-1 block text-xs text-fg/50 font-medium">
+                <span
+                  aria-live="polite"
+                  className="tabular mt-1 block text-[clamp(2.5rem,7vw,3.25rem)] font-bold leading-none tracking-[-0.035em] text-fg"
+                >
+                  {formatUSD(difference)}
+                </span>
+                <span className="mt-2 block text-[13px] text-fg/50">
                   ≈ <Ars usd={difference} /> al cambio del día
                 </span>
 
@@ -237,22 +195,100 @@ export function PlanCanje({ targets }: { targets: CanjeTarget[] }) {
                   href={waLink(whatsappMessage)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="sheen mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-champagne px-5 py-4 text-sm font-bold text-black transition-all duration-300 hover:bg-champagne-light hover:shadow-[0_0_25px_rgba(235,215,190,0.5)] hover:scale-[1.02]"
+                  className="sheen mt-6 flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-champagne px-4 text-sm md:text-[15px] font-semibold text-black transition-colors duration-300 hover:bg-champagne-light"
                 >
                   <ChatIcon className="size-4 shrink-0" />
                   <span>Cotizar Canje por WhatsApp</span>
                 </a>
 
-                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-fg/50">
-                  <span>Revisión en 15 min</span>
-                  <span>Garantía oficial</span>
-                  <span>Funda y templado de regalo</span>
-                </div>
+                <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-fg/55">
+                  {["Revisión en 15 min", "Garantía oficial", "Funda y templado de regalo"].map((t) => (
+                    <li key={t} className="inline-flex items-center gap-1">
+                      <CheckIcon className="size-3.5 text-vita" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+const SELECT =
+  "h-12 w-full appearance-none rounded-xl bg-bg pl-4 pr-10 text-[15px] text-fg ring-1 ring-fg/10 transition hover:ring-fg/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-vita";
+
+function StepHead({ n, title, meta }: { n: number; title: string; meta: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span
+        aria-hidden="true"
+        className="tabular grid size-7 shrink-0 place-items-center rounded-full bg-fg text-[13px] font-semibold text-surface"
+      >
+        {n}
+      </span>
+      <div className="min-w-0">
+        <h3 className="text-[17px] font-semibold leading-tight tracking-[-0.01em]">
+          <span className="sr-only">Paso {n}: </span>
+          {title}
+        </h3>
+        <p className="text-xs text-fg/50">{meta}</p>
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  htmlFor,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="space-y-2.5">
+      <label htmlFor={htmlFor} className="block text-[13px] font-semibold text-fg/70">
+        {label}
+      </label>
+      <div className="relative">
+        {children}
+        <ChevronIcon className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 rotate-90 text-fg/45" />
+      </div>
+    </div>
+  );
+}
+
+function ConditionButton({
+  active,
+  onClick,
+  title,
+  detail,
+}: {
+  active: boolean;
+  onClick: () => void;
+  title: string;
+  detail: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-xl p-3.5 text-left transition duration-300 ${
+        active
+          ? "bg-vita-soft ring-2 ring-vita"
+          : "bg-surface ring-1 ring-fg/10 hover:ring-fg/25"
+      }`}
+    >
+      <span className={`block text-sm font-semibold ${active ? "text-vita" : "text-fg"}`}>
+        {title}
+      </span>
+      <span className="mt-0.5 block text-xs leading-snug text-fg/55">{detail}</span>
+    </button>
   );
 }

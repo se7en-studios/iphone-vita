@@ -19,7 +19,14 @@ export function BrandMarquee({ products }: { products: Product[] }) {
   return (
     <section
       aria-label="Marcas disponibles"
-      className="marquee border-y border-fg/10 bg-bg py-7 text-fg md:py-9"
+      className="marquee border-y border-fg/[0.08] bg-bg py-6 text-fg md:py-8"
+      /* Desvanecido más largo que el global: las marcas entran y salen sin corte visible. */
+      style={{
+        maskImage:
+          "linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent)",
+      }}
     >
       <ul
         className="marquee-track flex w-max items-center"
@@ -30,13 +37,10 @@ export function BrandMarquee({ products }: { products: Product[] }) {
             <Link
               href={`/productos?marca=${encodeURIComponent(b)}`}
               tabIndex={i >= brands.length ? -1 : undefined}
-              className="flex items-center gap-10 px-5 text-2xl font-bold tracking-[-0.03em] text-fg/55 transition-colors hover:text-vita md:gap-14 md:px-7 md:text-4xl"
+              className="flex items-center gap-8 rounded-full px-4 text-xl font-semibold tracking-[-0.025em] text-fg/35 transition-colors duration-300 hover:text-fg md:gap-12 md:px-6 md:text-[1.75rem]"
             >
               {b}
-              <span
-                aria-hidden
-                className="size-1.5 rounded-full bg-vita/50"
-              />
+              <span aria-hidden className="size-1 rounded-full bg-vita/40" />
             </Link>
           </li>
         ))}

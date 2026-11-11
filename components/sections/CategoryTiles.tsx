@@ -60,18 +60,9 @@ export function CategoryTiles({ products }: { products: Product[] }) {
   return (
     <section
       id="categorias"
-      className="scroll-mt-28 bg-bg py-16 text-fg md:py-28 relative overflow-hidden"
+      className="scroll-mt-28 bg-bg py-14 text-fg md:py-24"
     >
-      {/* Ambient background glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full opacity-15 blur-[120px]"
-        style={{
-          background: "radial-gradient(circle, #ebd7be 0%, rgba(235,215,190,0.1) 50%, transparent 80%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="relative mx-auto max-w-7xl space-y-10 px-4 md:space-y-12 md:px-8">
+      <div className="mx-auto max-w-7xl space-y-8 px-4 md:space-y-10 md:px-8">
         <SectionHead
           eyebrow="Ecosistema Apple"
           title="Comprá por categoría."
@@ -84,76 +75,85 @@ export function CategoryTiles({ products }: { products: Product[] }) {
         >
           {tiles.map((t, index) => {
             const isFeatured = index === 0; // iPhone
-            const isSecondary = index === 1; // Mac
+            const isLead = index < 2; // iPhone y Mac: fila principal, más alto
 
             return (
               <div key={t.label} className={spanOf(index)}>
                 <Link
                   href={t.href}
-                  className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] bg-surface ring-1 ring-fg/10 transition-all duration-500 hover:-translate-y-1 hover:ring-vita/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(235,215,190,0.1)] p-4 md:p-5"
+                  className="group relative isolate flex h-full flex-col overflow-hidden rounded-[22px] bg-surface p-4 ring-1 ring-fg/[0.07] shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-[box-shadow,transform] duration-500 ease-[var(--ease-soft)] hover:shadow-[0_1px_2px_rgba(0,0,0,0.04),0_18px_40px_-18px_rgba(0,0,0,0.18)] hover:ring-vita/25 motion-safe:hover:-translate-y-0.5 md:rounded-[26px] md:p-6"
                 >
-                  {/* Subtle card sheen */}
+                  {/* Luz champagne al pie: le da cuerpo a la tarjeta y se aviva al pasar el mouse. */}
                   <div
-                    className="pointer-events-none absolute -inset-px rounded-[24px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(235,215,190,0.08) 0%, transparent 60%)",
-                    }}
                     aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-[radial-gradient(ellipse_70%_60%_at_50%_100%,var(--vita-soft),transparent_75%)] opacity-60 transition-opacity duration-500 group-hover:opacity-100"
                   />
 
-                  {/* Header info inside card */}
-                  <div className="relative z-10 flex items-start justify-between gap-2">
-                    <div>
+                  {/* Encabezado */}
+                  <div className="relative">
+                    <div className="min-w-0">
                       {isFeatured && (
-                        <span className="inline-block mb-1.5 rounded-full bg-vita/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-vita ring-1 ring-vita/30">
+                        <span className="mb-2 inline-block rounded-full bg-vita-soft px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-vita ring-1 ring-inset ring-vita/20">
                           Más buscado
                         </span>
                       )}
                       <h3
-                        className={`font-bold tracking-tight text-fg transition group-hover:text-vita ${
-                          isFeatured ? "text-xl md:text-2xl" : "text-base md:text-lg"
+                        className={`font-semibold tracking-[-0.022em] text-fg transition-colors duration-300 group-hover:text-vita ${
+                          isLead
+                            ? "text-[1.375rem] leading-tight md:text-[1.75rem]"
+                            : "text-[1.0625rem] leading-snug md:text-xl"
                         }`}
                       >
                         {t.label}
                       </h3>
-                      <p className="tabular mt-0.5 text-xs text-fg/55 font-medium">
+                      <p className="tabular mt-1 text-[0.8125rem] text-fg/55">
                         {t.from != null
                           ? `Desde ${formatUSD(t.from)}`
                           : "Consultar precio"}
                       </p>
                     </div>
-
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-fg/5 text-fg/40 ring-1 ring-fg/10 transition-all duration-300 group-hover:bg-champagne group-hover:text-black group-hover:scale-105">
-                      <svg
-                        className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2.5}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
                   </div>
 
-                  {/* Product Visual */}
-                  <div className="relative z-10 mt-3 flex items-center justify-center overflow-hidden">
+                  {/* Producto: ocupa todo el alto libre, así ninguna tarjeta queda con aire muerto.
+                      multiply funde el fondo blanco de las fotos con la luz de la tarjeta; sin drop-shadow,
+                      que en fotos opacas dibujaba una caja. */}
+                  <div className="relative mt-3 flex flex-1 items-end justify-center">
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-[28%] bottom-[4%] h-4 rounded-[50%] bg-[radial-gradient(closest-side,rgba(0,0,0,0.09),transparent)]"
+                    />
                     <ProductVisual
                       product={t.cover}
-                      className={`w-full !bg-none transition-transform duration-500 group-hover:scale-105 ${
-                        isFeatured
-                          ? "aspect-[16/10] max-h-48"
-                          : isSecondary
-                            ? "aspect-[16/10] max-h-48"
-                            : "aspect-square max-h-36"
+                      className={`w-full !bg-none mix-blend-multiply [&_.stage-product]:[filter:none]! ${
+                        isLead ? "h-44 md:h-56 lg:h-60" : "h-32 md:h-40 lg:h-52"
                       }`}
                       sizes={
-                        isFeatured
-                          ? "(max-width: 768px) 100vw, 400px"
-                          : "(max-width: 640px) 50vw, 220px"
+                        isLead
+                          ? "(max-width: 1024px) 100vw, 420px"
+                          : "(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 420px"
                       }
                     />
                   </div>
+
+                  {/* Flecha en la esquina: el título usa todo el ancho, aun en las tarjetas angostas. */}
+                  <span
+                    aria-hidden
+                    className={`absolute bottom-4 right-4 ${isLead ? "flex" : "hidden md:flex"} size-8 shrink-0 items-center justify-center rounded-full bg-fg/[0.04] text-fg/45 ring-1 ring-inset ring-fg/[0.08] transition-colors duration-300 group-hover:bg-champagne group-hover:text-black group-hover:ring-transparent md:bottom-5 md:right-5`}
+                  >
+                    <svg
+                      className="size-3.5 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </span>
                 </Link>
               </div>
             );

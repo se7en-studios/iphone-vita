@@ -51,35 +51,48 @@ export function Hero({
   return (
     <section
       id="hero"
-      className={`relative scroll-mt-14 overflow-hidden bg-bg pb-14 pt-14 text-center text-fg ${
+      className={`relative isolate scroll-mt-14 overflow-hidden bg-bg pb-14 pt-12 text-center text-fg ${
         fitsScreen
-          ? "md:flex md:h-[max(40rem,calc(100svh-3.5rem))] md:flex-col md:justify-center md:pb-8 md:pt-10"
+          ? "md:flex md:h-[max(40rem,calc(100svh-3.5rem))] md:flex-col md:justify-center md:pb-6 md:pt-12"
           : "md:pb-24 md:pt-16"
       }`}
     >
-      {/* ── Luz volumétrica ambiental de Titanio Natural ── */}
+      {/* ── Luz ambiental de Titanio Natural ──
+          Gradiente con muchas paradas y sin blur: el blur sobre un alfa tan bajo dejaba anillos (banding). */}
       <div
         aria-hidden="true"
-        className="hero-glow pointer-events-none absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] md:w-[1100px] md:h-[650px] rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(235,215,190,0.14),transparent_70%)] blur-3xl opacity-80"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_62%,rgba(235,215,190,0.24)_0%,rgba(235,215,190,0.18)_18%,rgba(235,215,190,0.11)_36%,rgba(235,215,190,0.05)_54%,rgba(235,215,190,0.015)_70%,transparent_85%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-surface/70 to-transparent"
       />
 
       <div className="intro relative z-10 mx-auto w-full max-w-[980px] px-4 md:px-8">
-        {/* Floating Luxury Badge */}
-        <div style={d(0)} className="mb-5 md:mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(235,215,190,0.25)] bg-[rgba(235,215,190,0.06)] px-4 py-1.5 text-xs font-semibold text-vita backdrop-blur-xl shadow-[0_0_20px_rgba(235,215,190,0.12)]">
-          <span className="size-1.5 rounded-full bg-champagne animate-pulse" />
-          <span>Garantía Oficial Apple · Equipos Nuevos Sellados & Semi-nuevos</span>
+        {/* Sello de confianza */}
+        <div
+          style={d(0)}
+          className="mb-4 inline-flex max-w-full items-center gap-2 text-balance text-[0.75rem] font-medium leading-snug text-vita sm:mb-5 sm:rounded-full sm:border sm:border-vita/20 sm:bg-surface/70 sm:px-3.5 sm:py-1.5 sm:leading-tight sm:shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:backdrop-blur-md md:mb-6"
+        >
+          <span
+            aria-hidden
+            className="size-1.5 shrink-0 rounded-full bg-vita/70 max-sm:hidden"
+          />
+          <span>
+            Garantía Oficial Apple · Equipos Nuevos Sellados & Semi-nuevos
+          </span>
         </div>
 
         <h1
           style={d(1)}
-          className="mt-2 text-[clamp(3.2rem,9.5vw,7.8rem)] md:text-[clamp(4rem,6.4vw,5.75rem)] font-bold leading-[0.95] tracking-[-0.04em] bg-gradient-to-b from-fg via-fg/95 to-fg/70 bg-clip-text text-transparent"
+          className="text-[clamp(2.9rem,13vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-fg md:text-[clamp(4rem,6.4vw,5.75rem)]"
         >
           {group ? group.name : "Tu próxima tecnología."}
         </h1>
 
         <p
           style={d(2)}
-          className="mx-auto mt-5 max-w-[46ch] text-lg leading-relaxed text-fg/65 md:mt-4 md:max-w-[60ch] md:text-xl font-normal"
+          className="mx-auto mt-4 max-w-[34ch] text-[1.0625rem] leading-[1.5] text-fg/60 md:mt-5 md:max-w-[52ch] md:text-xl md:leading-[1.45]"
         >
           {group
             ? pitch(group)
@@ -87,9 +100,17 @@ export function Hero({
         </p>
 
         {group?.fromPrice != null && (
-          <p style={d(3)} className="tabular mt-5 text-xl font-medium text-fg md:mt-4">
-            Desde <span className="text-vita font-bold">{formatUSD(group.fromPrice)}</span>
-            <span className="ml-2 text-sm text-fg/50">
+          <p
+            style={d(3)}
+            className="tabular mt-5 flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 text-lg text-fg/80 md:mt-6 md:text-xl"
+          >
+            <span>
+              Desde{" "}
+              <span className="font-semibold tracking-[-0.01em] text-fg">
+                {formatUSD(group.fromPrice)}
+              </span>
+            </span>
+            <span className="text-sm text-fg/45">
               ≈ <Ars usd={group.fromPrice} />
             </span>
           </p>
@@ -97,26 +118,33 @@ export function Hero({
 
         <div
           style={d(4)}
-          className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3.5 md:mt-6"
+          className="mt-7 flex flex-col items-center justify-center gap-x-7 gap-y-2 sm:flex-row md:mt-8"
         >
           <Link
             href={lead ? `/producto/${lead.slug}` : "/productos"}
-            className="sheen rounded-full bg-champagne px-8 py-3.5 text-base font-bold text-black transition duration-300 hover:bg-champagne-light hover:scale-105 shadow-[0_0_25px_rgba(235,215,190,0.3)] hover:shadow-[0_0_35px_rgba(235,215,190,0.5)]"
+            className="sheen inline-flex min-h-12 items-center rounded-full bg-champagne px-8 text-base font-semibold text-black ring-1 ring-inset ring-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.06),0_10px_24px_-10px_rgba(134,103,58,0.45)] transition duration-300 ease-[var(--ease-soft)] hover:bg-champagne-light hover:shadow-[0_1px_2px_rgba(0,0,0,0.06),0_14px_30px_-10px_rgba(134,103,58,0.5)] motion-safe:hover:-translate-y-px"
           >
             {lead ? "Comprar ahora" : "Ver productos"}
           </Link>
           <Link
             href="/productos"
-            className="py-2 text-base font-medium text-vita transition hover:text-fg hover:underline flex items-center gap-1.5"
+            className="group/cat inline-flex min-h-11 items-center gap-1 text-base font-medium text-vita transition-colors hover:text-fg"
           >
-            <span>Ver todo el catálogo</span>
-            <span aria-hidden>›</span>
+            <span className="underline-offset-4 group-hover/cat:underline">
+              Ver todo el catálogo
+            </span>
+            <span
+              aria-hidden
+              className="transition-transform duration-300 motion-safe:group-hover/cat:translate-x-0.5"
+            >
+              ›
+            </span>
           </Link>
         </div>
       </div>
 
       {lead && art?.video && (
-        <div className="hero-stage theme-dark relative mx-auto mt-12 aspect-[4/3] w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[32px] border border-white/10 bg-black md:mt-16 md:aspect-video md:w-[calc(100%-4rem)] shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
+        <div className="hero-stage theme-dark relative mx-auto mt-10 aspect-[4/3] w-[calc(100%-2rem)] max-w-[980px] overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] md:mt-14 md:aspect-video md:w-[calc(100%-4rem)]">
           <HeroVideo
             src={art.video.src}
             poster={art.video.poster}
@@ -127,7 +155,7 @@ export function Hero({
       )}
 
       {showMobileVideo && (
-        <div className="hero-stage theme-dark relative mx-auto mt-12 aspect-[4/3] w-[calc(100%-2rem)] overflow-hidden rounded-[32px] border border-white/10 bg-black shadow-[0_30px_90px_rgba(0,0,0,0.85)] md:hidden">
+        <div className="hero-stage theme-dark relative mx-auto mt-10 aspect-[4/3] w-[calc(100%-2rem)] overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] md:hidden">
           <HeroVideo
             src={mobileVideo.src}
             poster={mobileVideo.poster}
@@ -140,10 +168,15 @@ export function Hero({
 
       {lead && !art?.video && (
         <div
-          className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative z-10 mx-auto mt-10 w-full max-w-[705px] px-4 md:mt-6 md:max-h-[34rem] md:min-h-0 md:flex-1 md:px-8`}
+          className={`${showMobileVideo ? "max-md:hidden " : ""}hero-stage relative z-10 mx-auto mt-6 w-full max-w-[705px] px-4 md:mt-2 md:max-h-[36rem] md:min-h-0 md:flex-1 md:px-8`}
         >
           {/* En compu llena el alto que deja el texto: el equipo entra entero y centrado bajo los botones. */}
           <div className="intro-media relative mx-auto aspect-[705/656] w-full md:aspect-auto md:h-full">
+            {/* Piso: sombra elíptica muy suave que apoya el equipo sobre el fondo. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-[22%] bottom-[2%] h-[7%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(0,0,0,0.10),transparent)]"
+            />
             {art ? (
               <Image
                 src={art.src}
