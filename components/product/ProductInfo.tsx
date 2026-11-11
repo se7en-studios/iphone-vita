@@ -39,37 +39,43 @@ export function ProductInfo({ product: p }: { product: Product }) {
     "Confirmamos stock, número de serie, medio de pago (efectivo, transferencia o USDT) y entrega antes de cobrar.",
   ];
   return (
-    <div className="grid gap-8 sm:grid-cols-2">
-      <div>
-        <h2 className="text-lg font-semibold tracking-tight">Qué incluye</h2>
+    <div className="grid gap-3 sm:grid-cols-2">
+      <section className="rounded-[24px] bg-surface p-5 ring-1 ring-fg/[0.08] md:p-6">
+        <h2 className="text-[17px] font-semibold tracking-[-0.015em]">Qué incluye</h2>
         <ul className="mt-4 space-y-3">
           {includedItems(p).map((item) => (
-            <li key={item} className="flex gap-3 text-sm text-fg/70">
-              <CheckIcon className="mt-0.5 size-4 shrink-0 text-accent" />
+            <li key={item} className="flex gap-3 text-sm leading-snug text-fg/70">
+              <CheckIcon className="mt-px size-4 shrink-0 text-vita" />
               {item}
             </li>
           ))}
         </ul>
         <Link
           href="/#plan-canje"
-          className="mt-4 inline-block py-1 text-sm text-link hover:underline"
+          className="group/canje mt-5 inline-block rounded py-1 text-sm font-medium text-vita underline-offset-4 hover:underline"
         >
-          Entregá tu iPhone usado como parte de pago ›
+          Entregá tu iPhone usado como parte de pago
+          <span
+            aria-hidden="true"
+            className="ml-1 inline-block transition-transform duration-300 group-hover/canje:translate-x-0.5"
+          >
+            ›
+          </span>
         </Link>
-      </div>
-      <div>
-        <h2 className="text-lg font-semibold tracking-tight">Cómo comprás</h2>
-        <ol className="mt-4 space-y-3">
+      </section>
+      <section className="rounded-[24px] bg-surface p-5 ring-1 ring-fg/[0.08] md:p-6">
+        <h2 className="text-[17px] font-semibold tracking-[-0.015em]">Cómo comprás</h2>
+        <ol className="mt-4 space-y-3.5">
           {steps.map((s, i) => (
-            <li key={s} className="flex gap-3 text-sm text-fg/70">
-              <span className="tabular grid size-5 shrink-0 place-items-center rounded-full bg-fg/10 text-[11px] font-semibold text-fg">
+            <li key={s} className="flex gap-3 text-sm leading-snug text-fg/70">
+              <span className="tabular grid size-5 shrink-0 place-items-center rounded-full bg-vita-soft text-[11px] font-semibold text-vita">
                 {i + 1}
               </span>
               {s}
             </li>
           ))}
         </ol>
-      </div>
+      </section>
     </div>
   );
 }
