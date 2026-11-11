@@ -43,22 +43,38 @@ const ROWS = [
 /** Modelos con specs cargadas: la home solo compara los que siguen en el catálogo. */
 export const COMPARABLE_MODELS = Object.keys(SPECS);
 
-/** Comparador minimalista blanco sobre negro, como el de apple.com. Con menos de 2 modelos no se muestra. */
+/**
+ * Escenario de las miniaturas del comparador: gris claro en vez del blanco del escenario común,
+ * para que los equipos plateados no se pierdan sobre la sección blanca.
+ */
+const COMPARE_THUMB =
+  "aspect-[4/5] w-full rounded-[22px] bg-none! bg-bg! ring-1 ring-fg/[0.05] ring-inset";
+
+/** True si el valor de esa fila cambia entre los modelos: lo distinto se lee más fuerte. */
+function rowDiffers(
+  models: Product[],
+  specs: Record<string, Record<string, string>>,
+  row: string,
+) {
+  return new Set(models.map((m) => specs[m.model]?.[row] ?? "—")).size > 1;
+}
+
+/** Comparador minimalista, como el de apple.com. Con menos de 2 modelos no se muestra. */
 export function CompareSection({ models }: { models: Product[] }) {
   if (models.length < 2) return null;
   return (
     <section
       id="comparar"
-      className="scroll-mt-28 border-t border-fg/10 bg-surface py-16 text-fg md:py-40"
+      className="scroll-mt-28 border-t border-fg/10 bg-surface py-20 text-fg md:py-32"
     >
       <div
         data-reveal
         className="mx-auto max-w-[980px] px-4 text-center md:px-8"
       >
-        <p className="text-lg font-semibold text-vita md:text-xl">
+        <p className="text-[15px] font-semibold tracking-[-0.005em] text-vita md:text-[17px]">
           Comparar
         </p>
-        <h2 className="mt-3 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+        <h2 className="mt-2 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.04] tracking-[-0.035em]">
           ¿Cuál es para vos?
         </h2>
       </div>
@@ -67,36 +83,49 @@ export function CompareSection({ models }: { models: Product[] }) {
         <CompareMobile models={models} specs={SPECS} rows={ROWS} />
       </div>
 
-      <div className="no-scrollbar mt-16 hidden overflow-x-auto px-8 md:block">
-        <table className="mx-auto w-full min-w-[720px] max-w-5xl table-fixed border-collapse text-center">
+      <div
+        data-reveal
+        className="no-scrollbar mt-16 hidden overflow-x-auto px-8 md:block"
+      >
+        <table className="mx-auto w-full min-w-[760px] max-w-5xl table-fixed border-collapse text-center">
           <caption className="sr-only">
             Comparación de {models.map((m) => m.name).join(", ")}
           </caption>
           <thead>
             <tr>
-              <th scope="col" className="w-36 md:w-44">
+              <th scope="col" className="w-36 lg:w-44">
                 <span className="sr-only">Característica</span>
               </th>
               {models.map((m) => (
                 <th
                   key={m.model}
                   scope="col"
-                  className="px-4 pb-10 align-bottom font-normal"
+                  className="px-3 pb-12 align-bottom font-normal lg:px-5"
                 >
-                  <ProductVisual
-                    product={m}
-                    className="mx-auto aspect-square w-full max-w-[180px] rounded-[20px]"
-                    sizes="180px"
-                  />
-                  <p className="mt-6 text-xl font-semibold">{m.name}</p>
+                  <Link
+                    href={`/producto/${m.slug}`}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="group mx-auto block max-w-[220px]"
+                  >
+                    <ProductVisual
+                      product={m}
+                      className={COMPARE_THUMB}
+                      sizes="220px"
+                    />
+                  </Link>
+                  <p className="mt-6 text-[22px] font-semibold leading-tight tracking-[-0.02em]">
+                    {m.name}
+                  </p>
                   {m.price != null && (
-                    <p className="tabular mt-1 text-sm text-fg/50">
+                    <p className="tabular mt-1.5 text-[15px] text-fg/55">
                       Desde {formatUSD(m.price)}
                     </p>
                   )}
                   <Link
                     href={`/producto/${m.slug}`}
-                    className="mt-5 inline-block rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-black transition hover:bg-champagne-light"
+                    aria-label={`Comprar ${m.name}`}
+                    className="mt-5 inline-flex h-10 items-center rounded-full bg-champagne px-5 text-sm font-semibold text-black transition-colors duration-300 hover:bg-champagne-light"
                   >
                     Comprar
                   </Link>
@@ -105,24 +134,32 @@ export function CompareSection({ models }: { models: Product[] }) {
             </tr>
           </thead>
           <tbody>
-            {ROWS.map((row) => (
-              <tr key={row} className="border-t border-fg/10">
-                <th
-                  scope="row"
-                  className="py-6 pr-4 text-left text-sm font-normal text-fg/50"
+            {ROWS.map((row) => {
+              const differs = rowDiffers(models, SPECS, row);
+              return (
+                <tr
+                  key={row}
+                  className="border-t border-fg/[0.08] transition-colors duration-300 hover:bg-fg/[0.02]"
                 >
-                  {row}
-                </th>
-                {models.map((m) => (
-                  <td
-                    key={m.model}
-                    className="px-4 py-6 text-[15px] leading-snug"
+                  <th
+                    scope="row"
+                    className="py-6 pl-1 pr-4 text-left align-middle text-[13px] font-semibold tracking-[-0.005em] text-fg/50"
                   >
-                    {SPECS[m.model]?.[row] ?? "—"}
-                  </td>
-                ))}
-              </tr>
-            ))}
+                    {row}
+                  </th>
+                  {models.map((m) => (
+                    <td
+                      key={m.model}
+                      className={`px-4 py-6 align-middle text-[15px] leading-snug lg:px-6 ${
+                        differs ? "font-medium text-fg" : "text-fg/65"
+                      }`}
+                    >
+                      {SPECS[m.model]?.[row] ?? "—"}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChatIcon, PlusIcon } from "../ui/Icons";
 import { waLink } from "@/lib/whatsapp";
 
 interface FaqItem {
@@ -54,74 +54,96 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="scroll-mt-24 border-t border-fg/10 bg-bg py-20 text-fg md:py-32"
+      className="scroll-mt-24 border-t border-fg/10 bg-surface py-20 text-fg md:py-32"
     >
-      <div className="mx-auto max-w-4xl px-4 md:px-8">
+      <div className="mx-auto max-w-[860px] px-4 md:px-8">
         {/* Header */}
         <div data-reveal className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-fg/10 bg-fg/5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-vita">
-            <HelpCircle size={14} className="text-vita" />
-            Respuestas Claras
-          </div>
-          <h2 className="mt-4 text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-[1.1] tracking-[-0.03em]">
+          <p className="text-[15px] font-semibold tracking-[-0.005em] text-vita md:text-[17px]">
+            Respuestas claras
+          </p>
+          <h2 className="mt-2 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.04] tracking-[-0.035em]">
             Preguntas frecuentes.
           </h2>
-          <p className="mx-auto mt-4 max-w-[50ch] text-base text-fg/60 md:text-lg">
+          <p className="mx-auto mt-5 max-w-[48ch] text-[17px] leading-relaxed text-fg/60 md:text-lg">
             Todo lo que necesitás saber sobre envíos, métodos de pago, garantías y el Plan Canje.
           </p>
         </div>
 
-        {/* Acordeón de preguntas */}
-        <div data-reveal className="mt-12 space-y-3.5">
+        {/* Acordeón de preguntas: separadores finos, sin cajas */}
+        <ul data-reveal className="mt-12 border-b border-fg/10 md:mt-16">
           {FAQS.map((faq) => {
             const isOpen = openId === faq.id;
+            const panelId = `faq-panel-${faq.id}`;
+            const buttonId = `faq-button-${faq.id}`;
             return (
-              <div
-                key={faq.id}
-                className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
-                  isOpen
-                    ? "border-vita/40 bg-fg/[0.04] shadow-lg shadow-black/40"
-                    : "border-fg/10 bg-fg/[0.02] hover:border-fg/20 hover:bg-fg/[0.03]"
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => toggle(faq.id)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 p-5 text-left md:p-6"
-                >
-                  <span className="text-base font-semibold text-fg md:text-lg">
-                    {faq.question}
-                  </span>
-                  <div
-                    className={`flex size-8 shrink-0 items-center justify-center rounded-full border border-fg/10 bg-fg/5 transition-transform duration-300 ${
-                      isOpen ? "rotate-180 border-vita/50 text-vita" : "text-fg/60"
-                    }`}
+              <li key={faq.id} className="border-t border-fg/10">
+                <h3>
+                  <button
+                    id={buttonId}
+                    type="button"
+                    onClick={() => toggle(faq.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    className="group flex w-full items-center justify-between gap-6 rounded-none py-5 text-left md:py-6"
                   >
-                    <ChevronDown size={18} />
-                  </div>
-                </button>
+                    <span className="text-[17px] font-semibold leading-snug tracking-[-0.01em] text-pretty text-fg transition-colors duration-300 group-hover:text-vita md:text-xl">
+                      {faq.question}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className={`grid size-8 shrink-0 place-items-center rounded-full transition duration-300 ${
+                        isOpen
+                          ? "bg-fg text-surface"
+                          : "bg-fg/[0.06] text-fg/70 group-hover:bg-fg/10"
+                      }`}
+                    >
+                      <PlusIcon
+                        className={`size-4 transition-transform duration-500 ease-[var(--ease-out-expo)] ${
+                          isOpen ? "rotate-45" : ""
+                        }`}
+                      />
+                    </span>
+                  </button>
+                </h3>
 
-                {isOpen && (
-                  <div className="border-t border-fg/5 px-5 pb-6 pt-3 text-sm leading-relaxed text-fg/70 md:px-6 md:text-base">
-                    {faq.answer}
+                {/* Alto animado con grid 0fr → 1fr; cerrado queda inerte para teclado y lectores. */}
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  inert={!isOpen}
+                  className={`grid transition-[grid-template-rows,opacity] duration-500 ease-[var(--ease-out-expo)] motion-reduce:transition-none ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="max-w-[68ch] pb-7 md:pr-12 text-[15px] leading-relaxed text-fg/65 md:text-[17px]">
+                      {faq.answer}
+                    </p>
                   </div>
-                )}
-              </div>
+                </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
 
         {/* Banner soporte adicional */}
         <div
           data-reveal
-          className="mt-12 rounded-2xl border border-fg/10 bg-gradient-to-r from-fg/[0.04] to-transparent p-6 text-center md:flex md:items-center md:justify-between md:text-left"
+          className="mt-12 flex flex-col items-center gap-5 rounded-[24px] bg-bg p-6 text-center md:mt-16 md:flex-row md:gap-6 md:p-8 md:text-left"
         >
-          <div>
-            <h3 className="text-base font-semibold text-fg">
+          <span
+            aria-hidden="true"
+            className="grid size-12 shrink-0 place-items-center rounded-full bg-surface text-vita shadow-[0_1px_2px_rgba(0,0,0,0.05)] ring-1 ring-fg/[0.06]"
+          >
+            <ChatIcon className="size-5" />
+          </span>
+          <div className="flex-1">
+            <h3 className="text-[17px] font-semibold tracking-[-0.01em] text-fg">
               ¿Tenés otra consulta específica?
             </h3>
-            <p className="mt-1 text-sm text-fg/60">
+            <p className="mt-1 text-sm leading-relaxed text-fg/60">
               Escribinos por WhatsApp y te asesoramos al instante con fotos reales del stock.
             </p>
           </div>
@@ -129,7 +151,7 @@ export function FaqSection() {
             href={waLink("Hola iPhone Vita! Tengo una consulta antes de comprar:")}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-fg/10 px-6 py-2.5 text-sm font-semibold text-fg ring-1 ring-fg/20 transition hover:bg-fg/20 hover:text-fg md:mt-0"
+            className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-fg px-6 text-sm font-semibold text-surface transition-colors duration-300 hover:bg-fg/85"
           >
             Hablar con un asesor
           </a>
