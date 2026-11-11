@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useCart } from "./cart/CartProvider";
-import { SearchDialog } from "./SearchDialog";
+import { SearchDialog, useModal } from "./SearchDialog";
 import { Wordmark } from "./Wordmark";
 import {
   ArrowIcon,
   BagIcon,
+  ChevronIcon,
   CloseIcon,
   MenuIcon,
   SearchIcon,
@@ -25,6 +26,10 @@ export const NAV = [
 ];
 
 const MORPH = "duration-500 ease-[var(--ease-out-expo)]";
+
+/** Botón de ícono de la barra: círculo neutro al pasar el mouse, anillo de foco del sitio. */
+const ICON_BTN =
+  "grid size-10 place-items-center rounded-full text-fg/80 transition-colors duration-200 hover:bg-fg/[0.06] hover:text-fg";
 
 /**
  * Mientras la navbar está en su lugar (arriba de todo, con la barra del dólar a la vista) es
@@ -64,6 +69,13 @@ export function Navbar() {
   const [menu, setMenu] = useState(false);
   const [island, setIsland] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
+  const menuPanel = useRef<HTMLDivElement>(null);
+  const closeMenu = useRef<HTMLButtonElement>(null);
+
+  useModal(menu, () => setMenu(false), menuPanel);
+  useEffect(() => {
+    if (menu) closeMenu.current?.focus({ preventScroll: true });
+  }, [menu]);
 
   /*
    * Isla solo con la navbar pegada arriba: el centinela marca su lugar en el flujo y, cuando
@@ -116,48 +128,52 @@ export function Navbar() {
             <Wordmark dark />
           </Link>
           <nav
-            className="hidden flex-1 justify-center items-center gap-1 text-xs text-fg/70 lg:flex"
+            className="hidden flex-1 items-center justify-center gap-0.5 text-[12.5px] tracking-[-0.005em] text-fg/70 lg:flex"
             aria-label="Principal"
           >
             {NAV.map((n) => (
               <Link
                 key={n.label}
                 href={n.href}
-                className="rounded-full px-3 py-1.5 transition-all duration-200 hover:bg-fg/10 hover:text-fg"
+                className="rounded-full px-3 py-1.5 transition-colors duration-200 hover:bg-fg/[0.05] hover:text-fg"
               >
                 {n.label}
               </Link>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-1.5 lg:ml-0">
+          <div className="ml-auto flex items-center gap-0.5 lg:ml-0">
             <Link
               href="/encontra-tu-iphone"
-              className="mr-2 hidden items-center gap-1.5 rounded-full border border-vita/30 bg-vita-soft px-3 py-1 text-xs font-medium text-vita transition-all duration-200 hover:border-vita/60 xl:flex"
+              className="group mr-2.5 hidden items-center gap-1.5 rounded-full border border-vita/25 bg-vita-soft px-3.5 py-1.5 text-[12px] font-medium tracking-[-0.005em] text-vita transition-colors duration-200 hover:border-vita/50 xl:flex"
             >
               <span>Encontrá tu iPhone</span>
-              <ArrowIcon className="size-3" />
+              <ArrowIcon className="size-3 transition-transform duration-300 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
             </Link>
             <button
               type="button"
               onClick={() => setSearch(true)}
               aria-label="Buscar"
-              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+K Meta+K"
+              className={ICON_BTN}
             >
-              <SearchIcon />
+              <SearchIcon className="size-[19px]" />
             </button>
             <button
               type="button"
               onClick={() => setOpen(true)}
               aria-label={`Carrito, ${count} productos`}
-              className="relative grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors"
+              aria-haspopup="dialog"
+              className={`relative ${ICON_BTN}`}
             >
-              <BagIcon />
+              <BagIcon className="size-[19px]" />
               {count > 0 && (
                 <span
                   key={count}
-                  className="pop tabular absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-champagne px-1 text-[10px] font-bold leading-4 text-black shadow-[0_0_8px_rgba(235,215,190,0.5)]"
+                  aria-hidden="true"
+                  className="pop tabular absolute right-0.5 top-0.5 grid h-[17px] min-w-[17px] place-items-center rounded-full bg-vita px-1 text-[10px] font-semibold leading-none text-white ring-2 ring-bg"
                 >
-                  {count}
+                  {count > 99 ? "99+" : count}
                 </span>
               )}
             </button>
@@ -165,7 +181,10 @@ export function Navbar() {
               type="button"
               onClick={() => setMenu(true)}
               aria-label="Abrir menú"
-              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg transition-colors lg:hidden"
+              aria-haspopup="dialog"
+              aria-expanded={menu}
+              aria-controls="menu-mobile"
+              className={`${ICON_BTN} lg:hidden`}
             >
               <MenuIcon />
             </button>
@@ -175,7 +194,12 @@ export function Navbar() {
 
       {/* Menú mobile */}
       <div
-        className={`fixed inset-0 z-[65] bg-bg/85 text-fg backdrop-blur-2xl backdrop-saturate-150 transition-opacity duration-300 lg:hidden overflow-y-auto ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        ref={menuPanel}
+        id="menu-mobile"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menú"
+        className={`fixed inset-0 z-[65] overflow-y-auto overscroll-contain bg-bg/90 text-fg backdrop-blur-2xl backdrop-saturate-150 transition-opacity duration-300 lg:hidden ${menu ? "opacity-100" : "pointer-events-none opacity-0"}`}
         aria-hidden={!menu}
         inert={!menu}
       >
@@ -185,45 +209,71 @@ export function Navbar() {
           style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
         >
           <Bar island={island} className="justify-between">
-            <Wordmark dark />
+            <Link href="/" onClick={() => setMenu(false)} className="shrink-0">
+              <Wordmark dark />
+            </Link>
             <button
+              ref={closeMenu}
               type="button"
               onClick={() => setMenu(false)}
               aria-label="Cerrar menú"
-              className="grid size-10 place-items-center rounded-full hover:bg-fg/10 text-fg"
+              className={ICON_BTN}
             >
               <CloseIcon />
             </button>
           </Bar>
         </div>
-        <nav className="flex flex-col px-6 py-6" aria-label="Menú">
-          {NAV.map((n, i) => (
-            <Link
-              key={n.label}
-              href={n.href}
-              onClick={() => setMenu(false)}
-              className={`border-b border-fg/10 py-3.5 text-2xl font-bold transition-all duration-300 hover:text-highlight ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
-              style={{ transitionDelay: menu ? `${i * 30}ms` : "0ms" }}
-            >
-              {n.label}
-            </Link>
-          ))}
+        <div
+          className={`px-6 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] ${island ? "pt-8" : "pt-5"}`}
+        >
+          {/* Buscar a mano: en el celular es la forma más rápida de llegar a un modelo. */}
+          <button
+            type="button"
+            onClick={() => {
+              setMenu(false);
+              setSearch(true);
+            }}
+            className={`flex h-11 w-full items-center gap-2.5 rounded-xl bg-fg/[0.05] px-3.5 text-left text-[15px] text-fg/50 transition-[opacity,translate,background-color] duration-300 ease-[var(--ease-out-expo)] hover:bg-fg/[0.08] ${menu ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+          >
+            <SearchIcon className="size-[17px]" />
+            Buscar productos
+          </button>
+          <nav className="mt-4 flex flex-col" aria-label="Menú">
+            {NAV.map((n, i) => (
+              <Link
+                key={n.label}
+                href={n.href}
+                onClick={() => setMenu(false)}
+                className={`group flex items-center justify-between border-b border-fg/[0.08] py-3 text-[26px] font-semibold leading-tight tracking-[-0.025em] transition-[opacity,translate,color] duration-500 ease-[var(--ease-out-expo)] hover:text-fg/70 ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+                style={{ transitionDelay: menu ? `${40 + i * 25}ms` : "0ms" }}
+              >
+                {n.label}
+                <ChevronIcon className="size-5 text-fg/25 transition-[translate,color] duration-300 group-hover:translate-x-0.5 group-hover:text-fg/50" />
+              </Link>
+            ))}
+          </nav>
           <Link
             href="/encontra-tu-iphone"
             onClick={() => setMenu(false)}
-            className="mt-6 flex items-center justify-between rounded-2xl border border-fg/10 bg-surface p-5 text-fg transition hover:border-accent"
+            className={`group mt-7 flex items-center justify-between gap-4 rounded-2xl border border-vita/20 bg-surface p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_18px_40px_-18px_rgba(0,0,0,0.18)] transition-[opacity,translate,border-color] duration-500 ease-[var(--ease-out-expo)] hover:border-vita/40 ${menu ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+            style={{ transitionDelay: menu ? `${40 + NAV.length * 25}ms` : "0ms" }}
           >
             <span>
-              <span className="block text-sm font-semibold text-highlight">
-                Recomendador inteligente
+              <span className="block text-[12px] font-semibold uppercase tracking-[0.08em] text-vita">
+                Recomendador
               </span>
-              <span className="text-lg font-bold">
+              <span className="mt-1 block text-[19px] font-semibold tracking-[-0.02em] text-fg">
                 Encontrá tu iPhone ideal
               </span>
+              <span className="mt-0.5 block text-[13px] text-fg/55">
+                Cinco preguntas y te mostramos cuál te conviene.
+              </span>
             </span>
-            <ArrowIcon className="size-5 text-highlight" />
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-vita-soft text-vita transition-transform duration-300 group-hover:translate-x-0.5">
+              <ArrowIcon className="size-4" />
+            </span>
           </Link>
-        </nav>
+        </div>
       </div>
 
       <SearchDialog
