@@ -4,6 +4,7 @@ import { categories, products as staticProducts } from "@/data/products";
 import type { Category, CategorySlug, Product } from "@/types";
 import { isSupabaseConfigured, supabasePublic } from "@/lib/supabase";
 import { PRODUCT_COLUMNS, rowToProduct, type ProductRow } from "@/lib/product-row";
+import { fillMissingImages } from "@/lib/product-images";
 
 /*
  * Capa de acceso a datos de la tienda.
@@ -24,14 +25,14 @@ const fetchActiveProducts = unstable_cache(
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true });
     if (error) throw new Error(`No se pudieron leer los productos: ${error.message}`);
-    return (data as ProductRow[]).map(rowToProduct);
+    return fillMissingImages((data as ProductRow[]).map(rowToProduct), staticProducts);
   },
   ["products-active"],
   { tags: [PRODUCTS_TAG], revalidate: 300 },
 );
 
 export async function getProducts(): Promise<Product[]> {
-  return isSupabaseConfigured ? fetchActiveProducts() : staticProducts;
+  return isSupabaseConfigured ? fetchActiveProducts() : fillMissingImages(staticProducts, []);
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
